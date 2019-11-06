@@ -15,4 +15,7 @@ public class RequestAlterarGastoDTO {
     @NotNull
     private LocalDate dataEntrada;
 
+    @NotNull
+    private String descricao;
+
 }

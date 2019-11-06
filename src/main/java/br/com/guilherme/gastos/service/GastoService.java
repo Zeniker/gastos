@@ -6,7 +6,6 @@ import br.com.guilherme.gastos.dto.gasto.GastoDTO;
 import br.com.guilherme.gastos.dto.gasto.request.RequestAlterarGastoDTO;
 import br.com.guilherme.gastos.dto.gasto.request.RequestInserirGastoDTO;
 import br.com.guilherme.gastos.dto.gasto.response.ResponseConsultarGastoAnoMesDTO;
-import br.com.guilherme.gastos.dto.gasto.response.ResponseInserirGastoDTO;
 import br.com.guilherme.gastos.exception.GastoNaoEncontradoException;
 import br.com.guilherme.gastos.repository.GastoRepository;
 import br.com.guilherme.gastos.utils.IterableToCollection;
@@ -37,6 +36,7 @@ public class GastoService {
         Gasto gasto = new Gasto();
         gasto.setDataEntrada(requestInserirGastoDTO.getDataEntrada());
         gasto.setValor(requestInserirGastoDTO.getValor());
+        gasto.setDescricao(requestInserirGastoDTO.getDescricao());
 
         return gastoRepository.save(gasto);
     }
@@ -74,6 +74,7 @@ public class GastoService {
 
         gasto.setValor(requestAlterarGastoDTO.getValor());
         gasto.setDataEntrada(requestAlterarGastoDTO.getDataEntrada());
+        gasto.setDescricao(requestAlterarGastoDTO.getDescricao());
 
         return gastoRepository.save(gasto);
     }

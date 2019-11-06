@@ -14,9 +14,10 @@ public class GanhoDTO {
     private Integer id;
     private BigDecimal valor;
     private LocalDate dataEntrada;
+    private String descricao;
 
     public GanhoDTO(Ganho ganho){
-        this(ganho.getId(), ganho.getValor(), ganho.getDataEntrada());
+        this(ganho.getId(), ganho.getValor(), ganho.getDataEntrada(), ganho.getDescricao());
     }
 
 }

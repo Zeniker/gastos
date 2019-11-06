@@ -27,4 +27,6 @@ public class Gasto {
     @NotNull
     private LocalDate dataEntrada;
 
+    private String descricao;
+
 }

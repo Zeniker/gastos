@@ -39,6 +39,7 @@ public class GanhoService {
         Ganho ganho = new Ganho();
         ganho.setDataEntrada(requestInserirGanhoDTO.getDataEntrada());
         ganho.setValor(requestInserirGanhoDTO.getValor());
+        ganho.setDescricao(requestInserirGanhoDTO.getDescricao());
 
         return ganhoRepository.save(ganho);
     }
@@ -74,6 +75,7 @@ public class GanhoService {
 
         ganho.setValor(requestAlterarGanhoDTO.getValor());
         ganho.setDataEntrada(requestAlterarGanhoDTO.getDataEntrada());
+        ganho.setDescricao(requestAlterarGanhoDTO.getDescricao());
 
         return ganhoRepository.save(ganho);
     }

@@ -17,4 +17,7 @@ public class RequestInserirGanhoDTO {
     @NotNull
     private LocalDate dataEntrada;
 
+    @NotNull
+    private String descricao;
+
 }
