@@ -27,6 +27,7 @@ public class Ganho {
     @NotNull
     private LocalDate dataEntrada;
 
+    @NotNull
     private String descricao;
 
 }
