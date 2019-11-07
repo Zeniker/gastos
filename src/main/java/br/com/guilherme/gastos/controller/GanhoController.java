@@ -1,20 +1,14 @@
 package br.com.guilherme.gastos.controller;
 
 import br.com.guilherme.gastos.dto.ResponseDTO;
-import br.com.guilherme.gastos.dto.ganho.GanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.request.RequestAlterarGanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.request.RequestInserirGanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.response.ResponseAlterarGanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.response.ResponseConsultarGanhoAnoMesDTO;
 import br.com.guilherme.gastos.dto.ganho.response.ResponseConsultarGanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.response.ResponseInserirGanhoDTO;
-import br.com.guilherme.gastos.exception.GanhoNaoEncontradoException;
-import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.GanhoService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,9 +53,9 @@ public class GanhoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseConsultarGanhoDTO> consultarGanho(@PathVariable Integer id){
+    public ResponseEntity<ResponseConsultarGanhoDTO> buscarGanho(@PathVariable Integer id){
         try{
-            ResponseConsultarGanhoDTO responseDTO = new ResponseConsultarGanhoDTO(ganhoService.consultarGanho(id));
+            ResponseConsultarGanhoDTO responseDTO = new ResponseConsultarGanhoDTO(ganhoService.buscarGanho(id));
             return ResponseEntity.ok().body(responseDTO);
         } catch (Exception e){
             log.error("Erro ao consultar ganho", e);

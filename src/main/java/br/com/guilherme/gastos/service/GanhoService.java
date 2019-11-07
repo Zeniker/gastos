@@ -4,9 +4,7 @@ import br.com.guilherme.gastos.domain.Ganho;
 import br.com.guilherme.gastos.dto.ganho.GanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.request.RequestAlterarGanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.request.RequestInserirGanhoDTO;
-import br.com.guilherme.gastos.dto.ganho.response.ResponseAlterarGanhoDTO;
 import br.com.guilherme.gastos.dto.ganho.response.ResponseConsultarGanhoAnoMesDTO;
-import br.com.guilherme.gastos.dto.ganho.response.ResponseInserirGanhoDTO;
 import br.com.guilherme.gastos.exception.GanhoNaoEncontradoException;
 import br.com.guilherme.gastos.repository.GanhoRepository;
 import br.com.guilherme.gastos.utils.IterableToCollection;
@@ -61,7 +59,7 @@ public class GanhoService {
         return new ResponseConsultarGanhoAnoMesDTO(ganhoDTO);
     }
 
-    public Ganho consultarGanho(Integer id){
+    public Ganho buscarGanho(Integer id){
 
         Optional<Ganho> ganhoOptional = ganhoRepository.findById(id);
 
@@ -71,7 +69,7 @@ public class GanhoService {
     @Transactional
     public Ganho alterarGanho(Integer id, RequestAlterarGanhoDTO requestAlterarGanhoDTO){
 
-        Ganho ganho = consultarGanho(id);
+        Ganho ganho = buscarGanho(id);
 
         ganho.setValor(requestAlterarGanhoDTO.getValor());
         ganho.setDataEntrada(requestAlterarGanhoDTO.getDataEntrada());
@@ -83,7 +81,7 @@ public class GanhoService {
     @Transactional
     public void deletarGanho(Integer id){
 
-        Ganho ganho = consultarGanho(id);
+        Ganho ganho = buscarGanho(id);
 
         ganhoRepository.delete(ganho);
     }
