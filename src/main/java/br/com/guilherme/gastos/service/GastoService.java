@@ -60,7 +60,7 @@ public class GastoService {
         return new ResponseConsultarGastoAnoMesDTO(ganhoDTO);
     }
 
-    public Gasto consultarGasto(Integer id){
+    public Gasto buscarGasto(Integer id){
 
         Optional<Gasto> gasto = gastoRepository.findById(id);
 
@@ -70,7 +70,7 @@ public class GastoService {
     @Transactional
     public Gasto alterarGasto(Integer id, RequestAlterarGastoDTO requestAlterarGastoDTO){
 
-        Gasto gasto = consultarGasto(id);
+        Gasto gasto = buscarGasto(id);
 
         gasto.setValor(requestAlterarGastoDTO.getValor());
         gasto.setDataEntrada(requestAlterarGastoDTO.getDataEntrada());
@@ -82,7 +82,7 @@ public class GastoService {
     @Transactional
     public void deletarGasto(Integer id){
 
-        Gasto gasto = consultarGasto(id);
+        Gasto gasto = buscarGasto(id);
 
         gastoRepository.delete(gasto);
     }

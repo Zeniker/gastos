@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -127,13 +128,13 @@ class GanhoServiceTest {
         ganho.setId(1);
         ganho.setDescricao("Teste");
 
-        given(ganhoRepository.findById(any(Integer.class))).willReturn(Optional.of(ganho));
+        given(ganhoRepository.findById(anyInt())).willReturn(Optional.of(ganho));
 
         //when
         Ganho ganhoEncontrado = ganhoService.buscarGanho(1);
 
         //then
-        then(ganhoRepository).should().findById(any(Integer.class));
+        then(ganhoRepository).should().findById(anyInt());
         assertNotNull(ganhoEncontrado, "Ganho encontrado não pode ser nulo");
         assertEquals(Integer.valueOf(1), ganhoEncontrado.getId(), "Id diferente do esperado");
         assertEquals("Teste", ganhoEncontrado.getDescricao(), "Descrição diferente do esperado");
@@ -144,13 +145,13 @@ class GanhoServiceTest {
     @DisplayName("Buscar ganho - Excecao ganho não encontrado")
     void buscarGanho_excecaoGanhoNaoEncontrado() {
         //given
-        given(ganhoRepository.findById(any(Integer.class))).willReturn(Optional.empty());
+        given(ganhoRepository.findById(anyInt())).willReturn(Optional.empty());
 
         //when
         assertThrows(GanhoNaoEncontradoException.class, () -> ganhoService.buscarGanho(1));
 
         //then
-        then(ganhoRepository).should().findById(any(Integer.class));
+        then(ganhoRepository).should().findById(anyInt());
 
     }
 
@@ -158,7 +159,7 @@ class GanhoServiceTest {
     @DisplayName("Alterar ganho")
     void alterarGanho() {
         //given
-        given(ganhoRepository.findById(any(Integer.class))).willReturn(Optional.of(ganho));
+        given(ganhoRepository.findById(anyInt())).willReturn(Optional.of(ganho));
         given(ganhoRepository.save(captor.capture())).willReturn(ganho);
 
         //when
@@ -171,7 +172,7 @@ class GanhoServiceTest {
         Ganho ganhoAlterado = ganhoService.alterarGanho(1, request);
 
         //then
-        then(ganhoRepository).should().findById(any(Integer.class));
+        then(ganhoRepository).should().findById(anyInt());
         then(ganhoRepository).should().save(any(Ganho.class));
         assertNotNull(ganhoAlterado, "Ganho alterado não deveria ser nulo");
         assertEquals("Alterada", captor.getValue().getDescricao(), "Descrição diferente do esperado");
@@ -184,13 +185,13 @@ class GanhoServiceTest {
     @DisplayName("Deletar ganho")
     void deletarGanho() {
         //given
-        given(ganhoRepository.findById(any(Integer.class))).willReturn(Optional.of(ganho));
+        given(ganhoRepository.findById(anyInt())).willReturn(Optional.of(ganho));
 
         //when
         ganhoService.deletarGanho(1);
 
         //then
-        then(ganhoRepository).should().findById(any(Integer.class));
+        then(ganhoRepository).should().findById(anyInt());
         then(ganhoRepository).should().delete(ganho);
 
     }

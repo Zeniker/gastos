@@ -7,11 +7,9 @@ import br.com.guilherme.gastos.dto.gasto.response.ResponseAlterarGastoDTO;
 import br.com.guilherme.gastos.dto.gasto.response.ResponseConsultarGastoDTO;
 import br.com.guilherme.gastos.dto.gasto.response.ResponseConsultarGastoAnoMesDTO;
 import br.com.guilherme.gastos.dto.gasto.response.ResponseInserirGastoDTO;
-import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.GastoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,10 +49,10 @@ public class GastoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseConsultarGastoDTO> consultarGasto(@PathVariable Integer id){
+    public ResponseEntity<ResponseConsultarGastoDTO> buscarGasto(@PathVariable Integer id){
         try{
             ResponseConsultarGastoDTO responseDTO = new ResponseConsultarGastoDTO(
-                            gastoService.consultarGasto(id)
+                            gastoService.buscarGasto(id)
             );
 
             return ResponseEntity.ok().body(responseDTO);
