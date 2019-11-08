@@ -2,7 +2,9 @@ package br.com.guilherme.gastos.service;
 
 import br.com.guilherme.gastos.domain.Ganho;
 import br.com.guilherme.gastos.domain.Gasto;
+import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
+import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,10 +28,7 @@ import static org.mockito.BDDMockito.then;
 class SaldoServiceTest {
 
     @Mock
-    private GastoService gastoService;
-
-    @Mock
-    private GanhoService ganhoService;
+    private MovimentacaoService movimentacaoService;
 
     @InjectMocks
     private SaldoService saldoService;
@@ -43,23 +42,23 @@ class SaldoServiceTest {
     @Test
     void consultarSaldoAnoMesSaldoPositivo() {
         //given
-        Ganho ganho = new Ganho();
+        Movimentacao ganho = new Movimentacao();
         ganho.setValor(new BigDecimal("400"));
-        List<Ganho> ganhos = Arrays.asList(ganho, ganho);
+        ganho.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
-        Gasto gasto = new Gasto();
+        Movimentacao gasto = new Movimentacao();
         gasto.setValor(new BigDecimal("100"));
-        List<Gasto> gastos = Arrays.asList(gasto, gasto, gasto);
+        gasto.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
-        given(ganhoService.consultarGanhoAnoMes(any(LocalDate.class))).willReturn(ganhos);
-        given(gastoService.consultarGastoAnoMes(any(LocalDate.class))).willReturn(gastos);
+        List<Movimentacao> movimentacoes = Arrays.asList(gasto, gasto, gasto, ganho, ganho);
+
+        given(movimentacaoService.consultarMovimentacaoAnoMes(any(LocalDate.class))).willReturn(movimentacoes);
 
         //when
         ResponseConsultarSaldoAnoMes response = saldoService.consultarSaldoAnoMes(2019, 11);
 
         //then
-        then(ganhoService).should().consultarGanhoAnoMes(any(LocalDate.class));
-        then(gastoService).should().consultarGastoAnoMes(any(LocalDate.class));
+        then(movimentacaoService).should().consultarMovimentacaoAnoMes(any(LocalDate.class));
         assertNotNull(response, "Response não deveria ser nulo");
         assertEquals(new BigDecimal("800"), response.getTotalGanhos(), "Total de ganhos diferente do esperado");
         assertEquals(new BigDecimal("300"), response.getTotalGastos(), "Total de gastos diferente do esperado");
@@ -70,23 +69,23 @@ class SaldoServiceTest {
     @Test
     void consultarSaldoAnoMesSaldoNegativo() {
         //given
-        Ganho ganho = new Ganho();
-        ganho.setValor(new BigDecimal("100"));
-        List<Ganho> ganhos = Arrays.asList(ganho, ganho);
-
-        Gasto gasto = new Gasto();
+        Movimentacao gasto = new Movimentacao();
         gasto.setValor(new BigDecimal("400"));
-        List<Gasto> gastos = Arrays.asList(gasto, gasto, gasto);
+        gasto.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
-        given(ganhoService.consultarGanhoAnoMes(any(LocalDate.class))).willReturn(ganhos);
-        given(gastoService.consultarGastoAnoMes(any(LocalDate.class))).willReturn(gastos);
+        Movimentacao ganho = new Movimentacao();
+        ganho.setValor(new BigDecimal("100"));
+        ganho.setTipoMovimentacao(TipoMovimentacao.GANHO);
+
+        List<Movimentacao> movimentacoes = Arrays.asList(ganho, ganho, gasto, gasto, gasto);
+
+        given(movimentacaoService.consultarMovimentacaoAnoMes(any(LocalDate.class))).willReturn(movimentacoes);
 
         //when
         ResponseConsultarSaldoAnoMes response = saldoService.consultarSaldoAnoMes(2019, 11);
 
         //then
-        then(ganhoService).should().consultarGanhoAnoMes(any(LocalDate.class));
-        then(gastoService).should().consultarGastoAnoMes(any(LocalDate.class));
+        then(movimentacaoService).should().consultarMovimentacaoAnoMes(any(LocalDate.class));
         assertNotNull(response, "Response não deveria ser nulo");
         assertEquals(new BigDecimal("200"), response.getTotalGanhos(), "Total de ganhos diferente do esperado");
         assertEquals(new BigDecimal("1200"), response.getTotalGastos(), "Total de gastos diferente do esperado");
