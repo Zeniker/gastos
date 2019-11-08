@@ -48,11 +48,8 @@ public class MovimentacaoService {
     public List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)
-                        .and(byDataEntradaAno(localDate));
-
-        if(tipoMovimentacao != null){
-            booleanExpression.and(byTipoMovimentacao(tipoMovimentacao));
-        }
+                        .and(byDataEntradaAno(localDate))
+                        .and(byTipoMovimentacao(tipoMovimentacao));
 
         return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
     }
