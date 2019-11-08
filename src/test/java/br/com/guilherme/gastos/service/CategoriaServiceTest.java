@@ -1,7 +1,8 @@
 package br.com.guilherme.gastos.service;
 
 import br.com.guilherme.gastos.domain.Categoria;
-import br.com.guilherme.gastos.dto.categoria.RequestInserirCategoriaDTO;
+import br.com.guilherme.gastos.dto.categoria.request.RequestAlterarCategoriaDTO;
+import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
@@ -94,6 +95,41 @@ class CategoriaServiceTest {
 
         //when
         assertThrows(CategoriaNaoEncontradaException.class, () -> service.buscar(1));
+    }
 
+    @DisplayName("Alterar Categoria")
+    @Test
+    void alterar() {
+
+        //given
+        given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
+        given(repository.save(any(Categoria.class))).willReturn(categoria);
+
+        //when
+        RequestAlterarCategoriaDTO request = new RequestAlterarCategoriaDTO();
+        request.setDescricao("Teste");
+
+        Categoria categoriaAlterada = service.alterar(1, request);
+
+        //then
+        then(repository).should().findById(anyInt());
+        then(repository).should().save(categoria);
+        assertNotNull(categoriaAlterada, "Categoria não deveria ser nula");
+        assertEquals("Teste", categoriaAlterada.getDescricao(), "Descrição diferente do esperado");
+    }
+
+    @DisplayName("Deletar Categoria")
+    @Test
+    void deletar() {
+
+        //given
+        given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
+
+        //when
+        service.deletar(1);
+
+        //then
+        then(repository).should().findById(anyInt());
+        then(repository).should().delete(categoria);
     }
 }

@@ -1,4 +1,4 @@
-package br.com.guilherme.gastos.dto.categoria;
+package br.com.guilherme.gastos.dto.categoria.request;
 
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.Data;
