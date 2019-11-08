@@ -1,9 +1,7 @@
 package br.com.guilherme.gastos.dto.movimentacao.response;
 
-import br.com.guilherme.gastos.domain.Gasto;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.ResponseDTO;
-import br.com.guilherme.gastos.dto.gasto.GastoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

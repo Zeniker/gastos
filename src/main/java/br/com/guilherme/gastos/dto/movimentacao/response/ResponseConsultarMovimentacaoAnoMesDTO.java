@@ -1,7 +1,6 @@
 package br.com.guilherme.gastos.dto.movimentacao.response;
 
 import br.com.guilherme.gastos.dto.ResponseDTO;
-import br.com.guilherme.gastos.dto.gasto.GastoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;

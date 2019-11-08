@@ -1,7 +1,5 @@
 package br.com.guilherme.gastos.service;
 
-import br.com.guilherme.gastos.domain.Ganho;
-import br.com.guilherme.gastos.domain.Gasto;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;

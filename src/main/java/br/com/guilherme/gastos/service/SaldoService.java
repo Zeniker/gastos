@@ -1,13 +1,8 @@
 package br.com.guilherme.gastos.service;
 
-import br.com.guilherme.gastos.domain.Ganho;
-import br.com.guilherme.gastos.domain.Gasto;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
-import br.com.guilherme.gastos.service.GanhoService;
-import br.com.guilherme.gastos.service.GastoService;
-import br.com.guilherme.gastos.service.MovimentacaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
