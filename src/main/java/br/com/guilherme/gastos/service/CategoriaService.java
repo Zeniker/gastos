@@ -2,8 +2,11 @@ package br.com.guilherme.gastos.service;
 
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.categoria.RequestInserirCategoriaDTO;
+import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -21,5 +24,11 @@ public class CategoriaService {
         categoria.setTipoMovimentacao(request.getTipoMovimentacao());
 
         return categoriaRepository.save(categoria);
+    }
+
+    public Categoria buscar(Integer id) {
+
+        Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
+        return optionalCategoria.orElseThrow(CategoriaNaoEncontradaException::new);
     }
 }

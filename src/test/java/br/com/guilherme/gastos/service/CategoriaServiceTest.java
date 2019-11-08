@@ -3,8 +3,10 @@ package br.com.guilherme.gastos.service;
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.categoria.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,8 +15,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -38,8 +43,10 @@ class CategoriaServiceTest {
         categoria = new Categoria();
     }
 
+    @DisplayName("Inserir Categoria")
     @Test
     void inserir() {
+
         //given
         given(repository.save(captor.capture())).willReturn(categoria);
 
@@ -56,5 +63,37 @@ class CategoriaServiceTest {
         assertEquals("Teste", captor.getValue().getDescricao(), "Descrição está diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, captor.getValue().getTipoMovimentacao(),
                         "Tipo de movimentação diferente do esperado");
+    }
+
+    @DisplayName("Buscar Categoria")
+    @Test
+    void buscar() {
+        categoria.setTipoMovimentacao(TipoMovimentacao.GANHO);
+        categoria.setDescricao("Teste");
+
+        //given
+        given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
+
+        //when
+        Categoria categoriaEncontrada = service.buscar(1);
+
+        //then
+        then(repository).should().findById(anyInt());
+        assertNotNull(categoriaEncontrada, "Categoria não deveria ser nula");
+        assertEquals("Teste", categoriaEncontrada.getDescricao(), "Descrição diferente do esperado");
+        assertEquals(TipoMovimentacao.GANHO, categoriaEncontrada.getTipoMovimentacao(),
+                        "Tipo de movimentação diferente do esperado");
+    }
+
+    @DisplayName("Buscar Categoria - Excecao Categoria Nao Encontrada")
+    @Test
+    void buscar_excecaoCategoriaNaoEncontrada() {
+
+        //given
+        given(repository.findById(anyInt())).willReturn(Optional.empty());
+
+        //when
+        assertThrows(CategoriaNaoEncontradaException.class, () -> service.buscar(1));
+
     }
 }
