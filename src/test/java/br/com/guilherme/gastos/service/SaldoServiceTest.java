@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.domain.Ganho;
 import br.com.guilherme.gastos.domain.Gasto;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +39,9 @@ class SaldoServiceTest {
 
     }
 
+    @DisplayName("Consultar Saldo no ano/mes - Saldo positivo")
     @Test
-    void consultarSaldoAnoMes() {
+    void consultarSaldoAnoMesSaldoPositivo() {
         //given
         Ganho ganho = new Ganho();
         ganho.setValor(new BigDecimal("400"));
@@ -61,5 +64,46 @@ class SaldoServiceTest {
         assertEquals(new BigDecimal("800"), response.getTotalGanhos(), "Total de ganhos diferente do esperado");
         assertEquals(new BigDecimal("300"), response.getTotalGastos(), "Total de gastos diferente do esperado");
         assertEquals(new BigDecimal("500"), response.getSaldo(), "Saldo diferente do esperado");
+    }
+
+    @DisplayName("Consultar Saldo no ano/mes - Saldo negativo")
+    @Test
+    void consultarSaldoAnoMesSaldoNegativo() {
+        //given
+        Ganho ganho = new Ganho();
+        ganho.setValor(new BigDecimal("100"));
+        List<Ganho> ganhos = Arrays.asList(ganho, ganho);
+
+        Gasto gasto = new Gasto();
+        gasto.setValor(new BigDecimal("400"));
+        List<Gasto> gastos = Arrays.asList(gasto, gasto, gasto);
+
+        given(ganhoService.consultarGanhoAnoMes(any(LocalDate.class))).willReturn(ganhos);
+        given(gastoService.consultarGastoAnoMes(any(LocalDate.class))).willReturn(gastos);
+
+        //when
+        ResponseConsultarSaldoAnoMes response = saldoService.consultarSaldoAnoMes(2019, 11);
+
+        //then
+        then(ganhoService).should().consultarGanhoAnoMes(any(LocalDate.class));
+        then(gastoService).should().consultarGastoAnoMes(any(LocalDate.class));
+        assertNotNull(response, "Response não deveria ser nulo");
+        assertEquals(new BigDecimal("200"), response.getTotalGanhos(), "Total de ganhos diferente do esperado");
+        assertEquals(new BigDecimal("1200"), response.getTotalGastos(), "Total de gastos diferente do esperado");
+        assertEquals(new BigDecimal("-1000"), response.getSaldo(), "Saldo diferente do esperado");
+    }
+
+    @DisplayName("Consultar Saldo no ano/mes - Excecao Conversao Ano")
+    @Test
+    void consultarSaldoAnoMesExcecaoConversaoAno() {
+
+        assertThrows(DateTimeException.class, () -> saldoService.consultarSaldoAnoMes(1203812931, 11));
+    }
+
+    @DisplayName("Consultar Saldo no ano/mes - Excecao Conversao Mes")
+    @Test
+    void consultarSaldoAnoMesExcecaoConversaoMes() {
+
+        assertThrows(DateTimeException.class, () -> saldoService.consultarSaldoAnoMes(2019, 13));
     }
 }
