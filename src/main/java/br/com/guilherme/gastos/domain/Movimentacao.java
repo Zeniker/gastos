@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.domain;
 
+import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,10 +14,10 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-public class Gasto {
+public class Movimentacao {
 
-    @GenericGenerator(name="gasto_gen" , strategy="increment")
-    @GeneratedValue(generator="gasto_gen")
+    @GenericGenerator(name="movimentacao_gen" , strategy="increment")
+    @GeneratedValue(generator="movimentacao_gen")
     @Id
     private Integer id;
 
@@ -29,5 +30,8 @@ public class Gasto {
 
     @NotNull
     private String descricao;
+
+    @NotNull
+    private TipoMovimentacao tipoMovimentacao;
 
 }

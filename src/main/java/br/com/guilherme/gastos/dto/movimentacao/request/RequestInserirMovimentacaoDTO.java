@@ -1,5 +1,6 @@
-package br.com.guilherme.gastos.dto.ganho.request;
+package br.com.guilherme.gastos.dto.movimentacao.request;
 
+import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class RequestInserirGanhoDTO {
+public class RequestInserirMovimentacaoDTO {
 
     @NotNull
     private BigDecimal valor;
@@ -19,5 +20,8 @@ public class RequestInserirGanhoDTO {
 
     @NotNull
     private String descricao;
+
+    @NotNull
+    private TipoMovimentacao tipoMovimentacao;
 
 }

@@ -1,4 +1,4 @@
-package br.com.guilherme.gastos.dto.gasto.request;
+package br.com.guilherme.gastos.dto.movimentacao.request;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class RequestAlterarGastoDTO {
+public class RequestAlterarMovimentacaoDTO {
 
     @NotNull
     private BigDecimal valor;

@@ -3,7 +3,6 @@ package br.com.guilherme.gastos.controller;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.service.SaldoService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
