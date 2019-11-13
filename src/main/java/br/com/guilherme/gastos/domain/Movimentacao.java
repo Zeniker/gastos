@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -33,5 +34,9 @@ public class Movimentacao {
 
     @NotNull
     private TipoMovimentacao tipoMovimentacao;
+
+    @NotNull
+    @ManyToOne
+    private Categoria categoria;
 
 }

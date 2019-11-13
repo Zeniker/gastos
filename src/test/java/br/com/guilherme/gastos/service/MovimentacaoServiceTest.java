@@ -1,10 +1,12 @@
 package br.com.guilherme.gastos.service;
 
+import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import com.querydsl.core.types.Predicate;
@@ -37,6 +39,9 @@ class MovimentacaoServiceTest {
     @Mock
     private MovimentacaoRepository repository;
 
+    @Mock
+    private CategoriaService categoriaService;
+
     @InjectMocks
     private MovimentacaoService service;
 
@@ -45,16 +50,23 @@ class MovimentacaoServiceTest {
 
     private Movimentacao movimentacao;
 
+    private Categoria categoria;
+
     @BeforeEach
     void setUp() {
         movimentacao = new Movimentacao();
+        categoria = new Categoria();
+        movimentacao.setCategoria(categoria);
     }
 
     @DisplayName("Inserir movimentação")
     @Test
     void inserirMovimentacao() {
         //given
+        categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
+
         given(repository.save(captor.capture())).willReturn(movimentacao);
+        given(categoriaService.buscar(anyInt())).willReturn(categoria);
 
         //when
         LocalDate data = LocalDate.now();
@@ -62,18 +74,40 @@ class MovimentacaoServiceTest {
         request.setDescricao("Teste");
         request.setDataEntrada(data);
         request.setValor(new BigDecimal("150"));
+        request.setCategoria(1);
         request.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
         Movimentacao movimentacaoSalva = service.inserirMovimentacao(request);
 
         //then
         then(repository).should().save(any(Movimentacao.class));
+        then(categoriaService).should().buscar(anyInt());
         assertNotNull(movimentacaoSalva, "Movimentação salva não deveria ser nulo");
         assertEquals("Teste", captor.getValue().getDescricao(), "Descrição diferente do esperado");
         assertEquals(data, captor.getValue().getDataEntrada(), "Data de entrada diferente do esperado");
         assertEquals(new BigDecimal("150"), captor.getValue().getValor(), "Valor diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, captor.getValue().getTipoMovimentacao(),
                         "Tipo de movimentação diferente do esperado");
+
+    }
+
+    @DisplayName("Inserir movimentação - Categoria Não Compatível")
+    @Test
+    void inserirMovimentacao_erroCategoriaNaoCompativel() {
+        //given
+        categoria.setTipoMovimentacao(TipoMovimentacao.GANHO);
+
+        given(categoriaService.buscar(anyInt())).willReturn(categoria);
+
+        //when
+        RequestInserirMovimentacaoDTO request = new RequestInserirMovimentacaoDTO();
+        request.setCategoria(1);
+        request.setTipoMovimentacao(TipoMovimentacao.GASTO);
+
+        assertThrows(CategoriaNaoCompativelException.class, () -> service.inserirMovimentacao(request));
+
+        //then
+        then(categoriaService).should().buscar(anyInt());
 
     }
 
@@ -155,12 +189,19 @@ class MovimentacaoServiceTest {
 
         //when
         assertThrows(MovimentacaoNaoEncontradaException.class, () -> service.buscarMovimentacao(1));
+
+        //then
+        then(repository).should().findById(anyInt());
     }
 
     @DisplayName("Alterar movimentação")
     @Test
     void alterarMovimentacao() {
         //given
+        categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
+        movimentacao.setTipoMovimentacao(TipoMovimentacao.GASTO);
+
+        given(categoriaService.buscar(anyInt())).willReturn(categoria);
         given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
         given(repository.save(captor.capture())).willReturn(movimentacao);
 
@@ -170,16 +211,39 @@ class MovimentacaoServiceTest {
         request.setDataEntrada(data);
         request.setDescricao("Alterada");
         request.setValor(new BigDecimal("200"));
+        request.setCategoria(1);
 
         Movimentacao movimentacaoAlterada = service.alterarMovimentacao(1, request);
 
         //then
         then(repository).should().findById(anyInt());
+        then(categoriaService).should().buscar(anyInt());
         then(repository).should().save(any(Movimentacao.class));
         assertNotNull(movimentacaoAlterada, "Movimentação alterado não deveria ser nulo");
         assertEquals("Alterada", captor.getValue().getDescricao(), "Descrição diferente do esperado");
         assertEquals(new BigDecimal("200"), captor.getValue().getValor(), "Valor diferente do esperado");
         assertEquals(data, captor.getValue().getDataEntrada(), "Data diferente do esperado");
+    }
+
+    @DisplayName("Alterar movimentação - Categoria Não Compatível")
+    @Test
+    void alterarMovimentacao_erroCategoriaNaoCompativel() {
+        //given
+        categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
+        movimentacao.setTipoMovimentacao(TipoMovimentacao.GANHO);
+
+        given(categoriaService.buscar(anyInt())).willReturn(categoria);
+        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+
+        //when
+        RequestAlterarMovimentacaoDTO request = new RequestAlterarMovimentacaoDTO();
+        request.setCategoria(1);
+
+        assertThrows(CategoriaNaoCompativelException.class, () -> service.alterarMovimentacao(1, request));
+
+        //then
+        then(repository).should().findById(anyInt());
+        then(categoriaService).should().buscar(anyInt());
     }
 
     @DisplayName("Deletar movimentação")

@@ -15,8 +15,10 @@ public class MovimentacaoDTO {
     private BigDecimal valor;
     private LocalDate dataEntrada;
     private String descricao;
+    private Integer categoria;
 
     public MovimentacaoDTO(Movimentacao movimentacao) {
-        this(movimentacao.getId(), movimentacao.getValor(), movimentacao.getDataEntrada(), movimentacao.getDescricao());
+        this(movimentacao.getId(), movimentacao.getValor(), movimentacao.getDataEntrada(), movimentacao.getDescricao(),
+                        movimentacao.getCategoria().getId());
     }
 }

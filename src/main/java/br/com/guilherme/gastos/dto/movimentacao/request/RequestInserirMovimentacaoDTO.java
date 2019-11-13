@@ -24,4 +24,7 @@ public class RequestInserirMovimentacaoDTO {
     @NotNull
     private TipoMovimentacao tipoMovimentacao;
 
+    @NotNull
+    private Integer categoria;
+
 }

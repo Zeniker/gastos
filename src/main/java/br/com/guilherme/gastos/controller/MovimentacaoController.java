@@ -27,7 +27,7 @@ public class MovimentacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirGanho(
+    public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
                     @RequestBody @Valid RequestInserirMovimentacaoDTO requestInserirMovimentacaoDTO){
         try{
             ResponseInserirMovimentacaoDTO responseDTO = new ResponseInserirMovimentacaoDTO(
@@ -42,7 +42,7 @@ public class MovimentacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseConsultarMovimentacaoAnoMesDTO> consultarGanhoAnoMes(@RequestParam Integer ano,
+    public ResponseEntity<ResponseConsultarMovimentacaoAnoMesDTO> consultarMovimentacaoAnoMes(@RequestParam Integer ano,
                     @RequestParam Integer mes){
         try{
             ResponseConsultarMovimentacaoAnoMesDTO responseDTO = movimentacaoService.consultarMovimentacaoAnoMes(ano, mes);
@@ -54,7 +54,7 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseBuscarMovimentacaoDTO> buscarGanho(@PathVariable Integer id){
+    public ResponseEntity<ResponseBuscarMovimentacaoDTO> buscarMovimentacao(@PathVariable Integer id){
         try{
             ResponseBuscarMovimentacaoDTO responseDTO = new ResponseBuscarMovimentacaoDTO(
                             movimentacaoService.buscarMovimentacao(id)
@@ -67,7 +67,7 @@ public class MovimentacaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseAlterarMovimentacaoDTO> alterarGanho(@PathVariable Integer id,
+    public ResponseEntity<ResponseAlterarMovimentacaoDTO> alterarMovimentacao(@PathVariable Integer id,
                     @RequestBody @Valid RequestAlterarMovimentacaoDTO requestAlterarMovimentacaoDTO){
         try{
             ResponseAlterarMovimentacaoDTO responseDTO = new ResponseAlterarMovimentacaoDTO(
@@ -82,7 +82,7 @@ public class MovimentacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletarGanho(@PathVariable Integer id){
+    public ResponseEntity deletarMovimentacao(@PathVariable Integer id){
         try{
             movimentacaoService.deletarMovimentacao(id);
 

@@ -65,6 +65,7 @@ public class CategoriaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deletarCategoria(@PathVariable Integer id){
         try{
+            categoriaService.deletar(id);
             return ResponseEntity.ok(new ResponseDTO());
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
