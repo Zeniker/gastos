@@ -19,6 +19,9 @@ public class MovimentacaoSpecification {
     }
 
     public static BooleanExpression byTipoMovimentacao(TipoMovimentacao tipoMovimentacao){
+
+        if(tipoMovimentacao == null) return null;
+
         QMovimentacao movimentacao = QMovimentacao.movimentacao;
         return movimentacao.tipoMovimentacao.eq(tipoMovimentacao);
     }

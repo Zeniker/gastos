@@ -18,4 +18,7 @@ public class RequestAlterarMovimentacaoDTO {
     @NotNull
     private String descricao;
 
+    @NotNull
+    private Integer categoria;
+
 }

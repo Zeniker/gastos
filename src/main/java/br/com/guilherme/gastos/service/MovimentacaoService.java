@@ -1,15 +1,16 @@
 package br.com.guilherme.gastos.service;
 
+import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.utils.IterableToCollection;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +27,24 @@ public class MovimentacaoService {
 
     private MovimentacaoRepository movimentacaoRepository;
 
+    private CategoriaService categoriaService;
+
     private IterableToCollection<Movimentacao> iterableToCollection;
 
-    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository) {
+    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository, CategoriaService categoriaService) {
 
         this.movimentacaoRepository = movimentacaoRepository;
+        this.categoriaService = categoriaService;
         this.iterableToCollection = new IterableToCollection<>();
+    }
+
+    private Categoria getCategoriaMovimentacao(Integer idCategoria, TipoMovimentacao tipoMovimentacao){
+        Categoria categoria = categoriaService.buscar(idCategoria);
+
+        if(categoria.getTipoMovimentacao() != tipoMovimentacao)
+            throw new CategoriaNaoCompativelException();
+
+        return categoria;
     }
 
     public Movimentacao inserirMovimentacao(RequestInserirMovimentacaoDTO request){
@@ -41,6 +54,7 @@ public class MovimentacaoService {
         movimentacao.setValor(request.getValor());
         movimentacao.setDescricao(request.getDescricao());
         movimentacao.setTipoMovimentacao(request.getTipoMovimentacao());
+        movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), request.getTipoMovimentacao()));
 
         return movimentacaoRepository.save(movimentacao);
     }
@@ -48,11 +62,8 @@ public class MovimentacaoService {
     public List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)
-                        .and(byDataEntradaAno(localDate));
-
-        if(tipoMovimentacao != null){
-            booleanExpression.and(byTipoMovimentacao(tipoMovimentacao));
-        }
+                        .and(byDataEntradaAno(localDate))
+                        .and(byTipoMovimentacao(tipoMovimentacao));
 
         return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
     }
@@ -94,6 +105,7 @@ public class MovimentacaoService {
         movimentacao.setValor(request.getValor());
         movimentacao.setDataEntrada(request.getDataEntrada());
         movimentacao.setDescricao(request.getDescricao());
+        movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), movimentacao.getTipoMovimentacao()));
 
         return movimentacaoRepository.save(movimentacao);
     }
