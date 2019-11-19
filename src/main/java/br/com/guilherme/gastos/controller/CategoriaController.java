@@ -18,6 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("categoria")
 @AllArgsConstructor
 @Slf4j
+@CrossOrigin
 public class CategoriaController {
 
     private CategoriaService categoriaService;
