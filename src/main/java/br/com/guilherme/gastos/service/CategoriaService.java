@@ -7,6 +7,7 @@ import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +26,11 @@ public class CategoriaService {
         categoria.setTipoMovimentacao(request.getTipoMovimentacao());
 
         return categoriaRepository.save(categoria);
+    }
+
+    public List<Categoria> listar() {
+
+        return categoriaRepository.findAll();
     }
 
     public Categoria buscar(Integer id) {
