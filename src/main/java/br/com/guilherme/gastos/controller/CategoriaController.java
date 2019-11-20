@@ -6,6 +6,7 @@ import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseAlterarCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
+import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
 import br.com.guilherme.gastos.service.CategoriaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,16 @@ public class CategoriaController {
             return ResponseEntity.badRequest().body(new ResponseInserirCategoriaDTO(e.getMessage()));
         }
 
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseListarCategoriaDTO> listarCategoria(){
+
+        try{
+            return ResponseEntity.ok(new ResponseListarCategoriaDTO(categoriaService.listar()));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(new ResponseListarCategoriaDTO(e.getMessage()));
+        }
     }
 
     @GetMapping("/{id}")

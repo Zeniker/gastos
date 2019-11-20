@@ -16,6 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,6 +66,22 @@ class CategoriaServiceTest {
         assertEquals("Teste", captor.getValue().getDescricao(), "Descrição está diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, captor.getValue().getTipoMovimentacao(),
                         "Tipo de movimentação diferente do esperado");
+    }
+
+    @DisplayName("Listar Categorias")
+    @Test
+    void listar() {
+
+        //given
+        given(repository.findAll()).willReturn(Arrays.asList(categoria, categoria));
+
+        //when
+        List<Categoria> categorias = service.listar();
+
+        //then
+        then(repository).should().findAll();
+        assertNotNull(categorias);
+        assertEquals(2, categorias.size(), "Tamanho da lista diferente do esperado");
     }
 
     @DisplayName("Buscar Categoria")
