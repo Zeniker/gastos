@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ControllerTestUtils<T extends ResponseDTO> {
 
-    public void testaResponseEntityOk(ResponseEntity<T> responseEntity){
+    void testaResponseEntityOk(ResponseEntity<T> responseEntity){
         assertNotNull(responseEntity, "ResponseEntity não deveria ser nulo");
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "HttpStatus diferente do esperado");
         assertNotNull(responseEntity.getBody(), "Corpo da resposta não deve ser nulo");
     }
 
-    public void testaResponseEntityBadRequest(ResponseEntity<T> responseEntity, String mensagemErro){
+    void testaResponseEntityBadRequest(ResponseEntity<T> responseEntity, String mensagemErro){
         assertNotNull(responseEntity, "ResponseEntity não deveria ser nulo");
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode(), "HttpStatus diferente do esperado");
         assertNotNull(responseEntity.getBody(), "Corpo da resposta não deve ser nulo");

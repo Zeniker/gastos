@@ -1,6 +1,5 @@
 package br.com.guilherme.gastos.dto.movimentacao.response;
 
-import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import lombok.Data;
@@ -18,8 +17,8 @@ public class ResponseAlterarMovimentacaoDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseAlterarMovimentacaoDTO(Movimentacao movimentacao) {
+    public ResponseAlterarMovimentacaoDTO(MovimentacaoDTO movimentacao) {
 
-        this.movimentacao = new MovimentacaoDTO(movimentacao);
+        this.movimentacao = movimentacao;
     }
 }
