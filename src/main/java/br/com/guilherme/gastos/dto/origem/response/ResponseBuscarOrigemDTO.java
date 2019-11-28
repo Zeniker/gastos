@@ -17,7 +17,7 @@ public class ResponseBuscarOrigemDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseBuscarOrigemDTO(Origem origem) {
-        this.origem = new OrigemDTO(origem);
+    public ResponseBuscarOrigemDTO(OrigemDTO origem) {
+        this.origem = origem;
     }
 }

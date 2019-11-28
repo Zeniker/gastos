@@ -63,40 +63,6 @@ class OrigemServiceTest {
 
     }
 
-    @DisplayName("Buscar Origem")
-    @Test
-    void buscar() {
-
-        //given
-        origem.setNome("Teste");
-
-        given(repository.findById(anyInt())).willReturn(Optional.of(origem));
-
-        //when
-        Origem origemEncontrada = service.buscar(1);
-
-        //then
-        then(repository).should().findById(anyInt());
-        assertNotNull(origemEncontrada, "Objeto não deveria ser nulo");
-        assertEquals("Teste", origemEncontrada.getNome(), "Nome diferente do esperado");
-
-    }
-
-    @DisplayName("Buscar Origem - Excecao Origem Nao Encontrada")
-    @Test
-    void buscar_excecaoOrigemNaoEncontrada() {
-
-        //given
-        given(repository.findById(anyInt())).willReturn(Optional.empty());
-
-        //when
-        assertThrows(OrigemNaoEncontradaException.class, () -> service.buscar(1));
-
-        //then
-        then(repository).should().findById(anyInt());
-
-    }
-
     @DisplayName("Alterar Origem")
     @Test
     void alterar() {

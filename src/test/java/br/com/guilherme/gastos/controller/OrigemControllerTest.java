@@ -10,6 +10,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
+import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.service.origem.InserirOrigemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,6 +37,9 @@ class OrigemControllerTest {
 
     @Mock
     private InserirOrigemService inserirOrigemService;
+
+    @Mock
+    private BuscarOrigemService buscarOrigemService;
 
     @InjectMocks
     private OrigemController controller;
@@ -124,13 +128,13 @@ class OrigemControllerTest {
     void buscarOrigem() {
 
         //given
-        given(service.buscar(anyInt())).willReturn(new Origem());
+        given(buscarOrigemService.buscar(anyInt())).willReturn(new Origem());
 
         //when
         ResponseEntity<ResponseBuscarOrigemDTO> responseEntity = controller.buscarOrigem(1);
 
         //then
-        then(service).should().buscar(anyInt());
+        then(buscarOrigemService).should().buscar(anyInt());
         ControllerTestUtils<ResponseBuscarOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityOk(responseEntity);
 
@@ -141,13 +145,13 @@ class OrigemControllerTest {
     void buscarOrigem_badRequest() {
 
         //given
-        given(service.buscar(anyInt())).willThrow(new RuntimeException("Mensagem erro"));
+        given(buscarOrigemService.buscar(anyInt())).willThrow(new RuntimeException("Mensagem erro"));
 
         //when
         ResponseEntity<ResponseBuscarOrigemDTO> responseEntity = controller.buscarOrigem(1);
 
         //then
-        then(service).should().buscar(anyInt());
+        then(buscarOrigemService).should().buscar(anyInt());
         ControllerTestUtils<ResponseBuscarOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
 

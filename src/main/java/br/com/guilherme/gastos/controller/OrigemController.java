@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
+import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.service.origem.InserirOrigemService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,10 @@ import javax.validation.Valid;
 public class OrigemController {
 
     private OrigemService origemService;
+
     private InserirOrigemService inserirOrigemService;
+
+    private BuscarOrigemService buscarOrigemService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
@@ -55,7 +59,7 @@ public class OrigemController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseBuscarOrigemDTO(origemService.buscar(id))
+                            new ResponseBuscarOrigemDTO(buscarOrigemService.buscarDTO(id))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseBuscarOrigemDTO(e.getMessage()));
