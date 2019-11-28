@@ -1,6 +1,7 @@
 package br.com.guilherme.gastos.service;
 
 import br.com.guilherme.gastos.domain.Categoria;
+import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.categoria.request.RequestAlterarCategoriaDTO;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
@@ -17,12 +18,5 @@ public class CategoriaService {
 
         this.categoriaRepository = categoriaRepository;
         this.buscarCategoriaService = buscarCategoriaService;
-    }
-
-    public void deletar(Integer id) {
-
-        Categoria categoria = buscarCategoriaService.buscar(id);
-
-        categoriaRepository.delete(categoria);
     }
 }

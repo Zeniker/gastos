@@ -8,10 +8,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
 import br.com.guilherme.gastos.service.CategoriaService;
-import br.com.guilherme.gastos.service.categoria.AlterarCategoriaService;
-import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
-import br.com.guilherme.gastos.service.categoria.InserirCategoriaService;
-import br.com.guilherme.gastos.service.categoria.ListarCategoriaService;
+import br.com.guilherme.gastos.service.categoria.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +27,7 @@ public class CategoriaController {
     private ListarCategoriaService listarCategoriaService;
     private BuscarCategoriaService buscarCategoriaService;
     private AlterarCategoriaService alterarCategoriaService;
+    private DeletarCategoriaService deletarCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
@@ -84,8 +82,7 @@ public class CategoriaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deletarCategoria(@PathVariable Integer id){
         try{
-            categoriaService.deletar(id);
-            return ResponseEntity.ok(new ResponseDTO());
+            return ResponseEntity.ok(deletarCategoriaService.deletarDTO(id));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
         }

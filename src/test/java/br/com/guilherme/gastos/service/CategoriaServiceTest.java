@@ -49,19 +49,4 @@ class CategoriaServiceTest {
 
         categoria = new Categoria();
     }
-
-    @DisplayName("Deletar Categoria")
-    @Test
-    void deletar() {
-
-        //given
-        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
-
-        //when
-        service.deletar(1);
-
-        //then
-        then(buscarCategoriaService).should().buscar(anyInt());
-        then(repository).should().delete(categoria);
-    }
 }
