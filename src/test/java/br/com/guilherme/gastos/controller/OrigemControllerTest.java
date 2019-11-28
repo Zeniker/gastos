@@ -10,10 +10,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
-import br.com.guilherme.gastos.service.origem.AlterarOrigemService;
-import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
-import br.com.guilherme.gastos.service.origem.InserirOrigemService;
-import br.com.guilherme.gastos.service.origem.ListarOrigemService;
+import br.com.guilherme.gastos.service.origem.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,9 +32,6 @@ import static org.mockito.Mockito.doThrow;
 class OrigemControllerTest {
 
     @Mock
-    private OrigemService service;
-
-    @Mock
     private InserirOrigemService inserirOrigemService;
 
     @Mock
@@ -48,6 +42,9 @@ class OrigemControllerTest {
 
     @Mock
     private AlterarOrigemService alterarOrigemService;
+
+    @Mock
+    private DeletarOrigemService deletarOrigemService;
 
     @InjectMocks
     private OrigemController controller;
@@ -206,11 +203,14 @@ class OrigemControllerTest {
     @Test
     void deletarOrigem() {
 
+        //given
+        given(deletarOrigemService.deletarDTO(anyInt())).willReturn(new ResponseDTO());
+
         //when
         ResponseEntity<ResponseDTO> responseEntity = controller.deletarOrigem(1);
 
         //then
-        then(service).should().deletar(anyInt());
+        then(deletarOrigemService).should().deletarDTO(anyInt());
         ControllerTestUtils<ResponseDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityOk(responseEntity);
 
@@ -221,13 +221,13 @@ class OrigemControllerTest {
     void deletarOrigem_badRequest() {
 
         //given
-        doThrow(new RuntimeException("Mensagem erro")).when(service).deletar(anyInt());
+        doThrow(new RuntimeException("Mensagem erro")).when(deletarOrigemService).deletarDTO(anyInt());
 
         //when
         ResponseEntity<ResponseDTO> responseEntity = controller.deletarOrigem(1);
 
         //then
-        then(service).should().deletar(anyInt());
+        then(deletarOrigemService).should().deletarDTO(anyInt());
         ControllerTestUtils<ResponseDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
 

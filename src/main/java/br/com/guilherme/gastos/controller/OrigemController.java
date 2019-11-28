@@ -8,10 +8,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
-import br.com.guilherme.gastos.service.origem.AlterarOrigemService;
-import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
-import br.com.guilherme.gastos.service.origem.InserirOrigemService;
-import br.com.guilherme.gastos.service.origem.ListarOrigemService;
+import br.com.guilherme.gastos.service.origem.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +22,11 @@ import javax.validation.Valid;
 @Slf4j
 public class OrigemController {
 
-    private OrigemService origemService;
-
     private InserirOrigemService inserirOrigemService;
-
     private BuscarOrigemService buscarOrigemService;
-
     private ListarOrigemService listarOrigemService;
-
     private AlterarOrigemService alterarOrigemService;
+    private DeletarOrigemService deletarOrigemService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
@@ -90,8 +83,7 @@ public class OrigemController {
     public ResponseEntity<ResponseDTO> deletarOrigem(@PathVariable Integer id) {
 
         try{
-            origemService.deletar(id);
-            return ResponseEntity.ok(new ResponseDTO());
+            return ResponseEntity.ok(deletarOrigemService.deletarDTO(id));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
         }

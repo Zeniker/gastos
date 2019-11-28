@@ -30,9 +30,9 @@ class AlterarOrigemServiceTest {
     @InjectMocks
     private AlterarOrigemService service;
 
-    @DisplayName("Alterar Origem")
+    @DisplayName("Alterar Origem DTO")
     @Test
-    void alterar() {
+    void alterarDTO() {
 
         //given
         Origem origem = new Origem();

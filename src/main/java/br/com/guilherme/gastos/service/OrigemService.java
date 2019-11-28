@@ -21,13 +21,4 @@ public class OrigemService {
         this.origemRepository = origemRepository;
         this.buscarOrigemService = buscarOrigemService;
     }
-
-    @Transactional
-    public void deletar(Integer id) {
-
-        Origem origem = buscarOrigemService.buscar(id);
-
-        origemRepository.delete(origem);
-
-    }
 }

@@ -49,22 +49,4 @@ class OrigemServiceTest {
         origem = new Origem();
 
     }
-
-
-
-    @DisplayName("Deletar Origem")
-    @Test
-    void deletar() {
-
-        //given
-        given(buscarOrigemService.buscar(anyInt())).willReturn(origem);
-
-        //when
-        service.deletar(1);
-
-        //then
-        then(buscarOrigemService).should().buscar(anyInt());
-        then(repository).should().delete(any(Origem.class));
-
-    }
 }
