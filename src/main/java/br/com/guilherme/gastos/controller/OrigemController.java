@@ -7,7 +7,6 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseAlterarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
-import br.com.guilherme.gastos.service.OrigemService;
 import br.com.guilherme.gastos.service.origem.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,11 +21,11 @@ import javax.validation.Valid;
 @Slf4j
 public class OrigemController {
 
-    private InserirOrigemService inserirOrigemService;
-    private BuscarOrigemService buscarOrigemService;
-    private ListarOrigemService listarOrigemService;
-    private AlterarOrigemService alterarOrigemService;
-    private DeletarOrigemService deletarOrigemService;
+    private final InserirOrigemService inserirOrigemService;
+    private final BuscarOrigemService buscarOrigemService;
+    private final ListarOrigemService listarOrigemService;
+    private final AlterarOrigemService alterarOrigemService;
+    private final DeletarOrigemService deletarOrigemService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(

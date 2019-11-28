@@ -1,8 +1,8 @@
 package br.com.guilherme.gastos.exception;
 
-public class ServiceException extends RuntimeException {
+class ServiceException extends RuntimeException {
 
-    public ServiceException(String message) {
+    ServiceException(String message) {
 
         super(message);
     }

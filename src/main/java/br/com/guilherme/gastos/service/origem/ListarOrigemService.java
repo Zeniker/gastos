@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ListarOrigemService {
 
-    private OrigemRepository origemRepository;
+    private final OrigemRepository origemRepository;
 
     private List<Origem> listar() {
 

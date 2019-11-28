@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ControllerTestUtils<T extends ResponseDTO> {
+class ControllerTestUtils<T extends ResponseDTO> {
 
     public void testaResponseEntityOk(ResponseEntity<T> responseEntity){
         assertNotNull(responseEntity, "ResponseEntity não deveria ser nulo");

@@ -3,7 +3,6 @@ package br.com.guilherme.gastos.service;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,11 +29,6 @@ class SaldoServiceTest {
 
     @InjectMocks
     private SaldoService saldoService;
-
-    @BeforeEach
-    void setUp() {
-
-    }
 
     @DisplayName("Consultar Saldo no ano/mes - Saldo positivo")
     @Test

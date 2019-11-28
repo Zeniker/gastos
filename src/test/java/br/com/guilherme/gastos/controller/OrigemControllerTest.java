@@ -9,7 +9,6 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseAlterarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
-import br.com.guilherme.gastos.service.OrigemService;
 import br.com.guilherme.gastos.service.origem.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

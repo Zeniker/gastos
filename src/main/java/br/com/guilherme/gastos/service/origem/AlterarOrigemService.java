@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AlterarOrigemService {
 
-    private OrigemRepository origemRepository;
+    private final OrigemRepository origemRepository;
 
     private BuscarOrigemService buscarOrigemService;
 

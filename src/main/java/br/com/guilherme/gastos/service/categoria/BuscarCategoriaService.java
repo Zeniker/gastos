@@ -13,7 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BuscarCategoriaService {
 
-    private CategoriaRepository categoriaRepository;
+    private final CategoriaRepository categoriaRepository;
 
     public Categoria buscar(Integer id) {
 

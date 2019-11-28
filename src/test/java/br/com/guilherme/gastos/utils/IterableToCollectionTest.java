@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IterableToCollectionTest {
 
+    @SuppressWarnings("unchecked")
     @Test
     void toList() {
         Iterable iterable = Arrays.asList("Teste1", "Teste2");

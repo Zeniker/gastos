@@ -6,6 +6,7 @@ import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@SuppressWarnings("DefaultAnnotationParam")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ResponseAlterarMovimentacaoDTO extends ResponseDTO {

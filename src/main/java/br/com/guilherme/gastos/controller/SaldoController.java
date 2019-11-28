@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SaldoController {
 
-    private SaldoService saldoService;
+    private final SaldoService saldoService;
 
     @GetMapping
     public ResponseEntity<ResponseConsultarSaldoAnoMes> consultarSaldoAnoMes(@RequestParam Integer ano,

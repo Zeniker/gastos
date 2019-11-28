@@ -21,11 +21,11 @@ import javax.validation.Valid;
 @Slf4j
 public class CategoriaController {
 
-    private InserirCategoriaService inserirCategoriaService;
-    private ListarCategoriaService listarCategoriaService;
-    private BuscarCategoriaService buscarCategoriaService;
-    private AlterarCategoriaService alterarCategoriaService;
-    private DeletarCategoriaService deletarCategoriaService;
+    private final InserirCategoriaService inserirCategoriaService;
+    private final ListarCategoriaService listarCategoriaService;
+    private final BuscarCategoriaService buscarCategoriaService;
+    private final AlterarCategoriaService alterarCategoriaService;
+    private final DeletarCategoriaService deletarCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(

@@ -29,13 +29,13 @@ import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.*;
 @Service
 public class MovimentacaoService {
 
-    private MovimentacaoRepository movimentacaoRepository;
+    private final MovimentacaoRepository movimentacaoRepository;
 
-    private BuscarCategoriaService buscarCategoriaService;
+    private final BuscarCategoriaService buscarCategoriaService;
 
-    private BuscarOrigemService buscarOrigemService;
+    private final BuscarOrigemService buscarOrigemService;
 
-    private IterableToCollection<Movimentacao> iterableToCollection;
+    private final IterableToCollection<Movimentacao> iterableToCollection;
 
     public MovimentacaoService(MovimentacaoRepository movimentacaoRepository,
                                BuscarCategoriaService buscarCategoriaService,
@@ -79,6 +79,7 @@ public class MovimentacaoService {
         return movimentacaoRepository.save(movimentacao);
     }
 
+    @SuppressWarnings("unchecked")
     List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class InserirCategoriaService {
 
-    private CategoriaRepository categoriaRepository;
+    private final CategoriaRepository categoriaRepository;
 
     private Categoria inserir(Categoria categoria) {
         categoria.setId(null);

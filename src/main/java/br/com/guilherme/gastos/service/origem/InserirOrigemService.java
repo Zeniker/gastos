@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class InserirOrigemService {
 
-    private OrigemRepository origemRepository;
+    private final OrigemRepository origemRepository;
 
     private Origem inserir(Origem origem) {
         origem.setId(null);

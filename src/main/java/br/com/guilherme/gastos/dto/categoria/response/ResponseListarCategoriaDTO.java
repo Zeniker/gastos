@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+@SuppressWarnings("DefaultAnnotationParam")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ResponseListarCategoriaDTO extends ResponseDTO {

@@ -13,7 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BuscarOrigemService {
 
-    private OrigemRepository origemRepository;
+    private final OrigemRepository origemRepository;
 
     public Origem buscar(Integer id) {
 

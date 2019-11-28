@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @Slf4j
 public class MovimentacaoController {
 
-    private MovimentacaoService movimentacaoService;
+    private final MovimentacaoService movimentacaoService;
 
     public MovimentacaoController(MovimentacaoService movimentacaoService) {
 
