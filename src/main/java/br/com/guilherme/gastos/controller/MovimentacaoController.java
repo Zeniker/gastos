@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseBuscarMovimenta
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.service.MovimentacaoService;
+import br.com.guilherme.gastos.service.movimentacao.AlterarMovimentacaoService;
 import br.com.guilherme.gastos.service.movimentacao.BuscarMovimentacaoService;
 import br.com.guilherme.gastos.service.movimentacao.ConsultarMovimentacaoService;
 import br.com.guilherme.gastos.service.movimentacao.InserirMovimentacaoService;
@@ -28,6 +29,7 @@ public class MovimentacaoController {
     private final InserirMovimentacaoService inserirMovimentacaoService;
     private final ConsultarMovimentacaoService consultarMovimentacaoService;
     private final BuscarMovimentacaoService buscarMovimentacaoService;
+    private final AlterarMovimentacaoService alterarMovimentacaoService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
@@ -73,7 +75,7 @@ public class MovimentacaoController {
                     @RequestBody @Valid RequestAlterarMovimentacaoDTO requestAlterarMovimentacaoDTO){
         try{
             ResponseAlterarMovimentacaoDTO responseDTO = new ResponseAlterarMovimentacaoDTO(
-                            movimentacaoService.alterarMovimentacao(id, requestAlterarMovimentacaoDTO)
+                    alterarMovimentacaoService.alterarMovimentacaoDTO(id, requestAlterarMovimentacaoDTO)
             );
 
             return ResponseEntity.ok().body(responseDTO);

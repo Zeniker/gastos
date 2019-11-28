@@ -34,44 +34,7 @@ public class MovimentacaoService {
 
     private final MovimentacaoRepository movimentacaoRepository;
 
-    private final BuscarCategoriaService buscarCategoriaService;
-
-    private final BuscarOrigemService buscarOrigemService;
-
     private final BuscarMovimentacaoService buscarMovimentacaoService;
-
-    private Categoria getCategoriaMovimentacao(Integer idCategoria, TipoMovimentacao tipoMovimentacao){
-        Categoria categoria = buscarCategoriaService.buscar(idCategoria);
-
-        if(categoria.getTipoMovimentacao() != tipoMovimentacao)
-            throw new CategoriaNaoCompativelException();
-
-        return categoria;
-    }
-
-    private Origem getOrigemMovimentacao(Integer idOrigem, TipoMovimentacao tipoMovimentacao){
-        Origem origem = buscarOrigemService.buscar(idOrigem);
-
-        if(origem.getTipoMovimentacao() != tipoMovimentacao)
-            throw new OrigemNaoCompativelException();
-
-        return origem;
-    }
-
-    @Transactional
-    public Movimentacao alterarMovimentacao(Integer id, RequestAlterarMovimentacaoDTO request){
-
-        Movimentacao movimentacao = buscarMovimentacaoService.buscarMovimentacao(id);
-
-        movimentacao.setValor(request.getValor());
-        movimentacao.setDataEntrada(request.getDataEntrada());
-        movimentacao.setDescricao(request.getDescricao());
-        movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), movimentacao.getTipoMovimentacao()));
-        movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), movimentacao.getTipoMovimentacao()));
-
-
-        return movimentacaoRepository.save(movimentacao);
-    }
 
     @Transactional
     public void deletarMovimentacao(Integer id){
