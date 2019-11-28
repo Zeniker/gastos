@@ -36,12 +36,6 @@ public class MovimentacaoService {
 
     private final BuscarMovimentacaoService buscarMovimentacaoService;
 
-    @Transactional
-    public void deletarMovimentacao(Integer id){
 
-        Movimentacao movimentacao = buscarMovimentacaoService.buscarMovimentacao(id);
-
-        movimentacaoRepository.delete(movimentacao);
-    }
 
 }

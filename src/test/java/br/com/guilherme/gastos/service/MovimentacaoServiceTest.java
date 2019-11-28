@@ -76,17 +76,5 @@ class MovimentacaoServiceTest {
         movimentacao.setCategoria(categoria);
     }
 
-    @DisplayName("Deletar movimentação")
-    @Test
-    void deletarMovimentacao() {
-        //given
-        given(buscarMovimentacaoService.buscarMovimentacao(anyInt())).willReturn(movimentacao);
 
-        //when
-        service.deletarMovimentacao(1);
-
-        //then
-        then(buscarMovimentacaoService).should().buscarMovimentacao(anyInt());
-        then(repository).should().delete(movimentacao);
-    }
 }
