@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseBuscarMovimenta
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.service.MovimentacaoService;
+import br.com.guilherme.gastos.service.movimentacao.BuscarMovimentacaoService;
 import br.com.guilherme.gastos.service.movimentacao.ConsultarMovimentacaoService;
 import br.com.guilherme.gastos.service.movimentacao.InserirMovimentacaoService;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class MovimentacaoController {
     private final MovimentacaoService movimentacaoService;
     private final InserirMovimentacaoService inserirMovimentacaoService;
     private final ConsultarMovimentacaoService consultarMovimentacaoService;
+    private final BuscarMovimentacaoService buscarMovimentacaoService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
@@ -57,7 +59,7 @@ public class MovimentacaoController {
     public ResponseEntity<ResponseBuscarMovimentacaoDTO> buscarMovimentacao(@PathVariable Integer id){
         try{
             ResponseBuscarMovimentacaoDTO responseDTO = new ResponseBuscarMovimentacaoDTO(
-                            movimentacaoService.buscarMovimentacao(id)
+                    buscarMovimentacaoService.buscarMovimentacaoDTO(id)
             );
             return ResponseEntity.ok().body(responseDTO);
         } catch (Exception e){

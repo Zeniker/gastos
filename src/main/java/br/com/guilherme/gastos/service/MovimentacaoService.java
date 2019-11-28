@@ -13,9 +13,11 @@ import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
+import br.com.guilherme.gastos.service.movimentacao.BuscarMovimentacaoService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.*;
 
 @Service
+@AllArgsConstructor
 public class MovimentacaoService {
 
     private final MovimentacaoRepository movimentacaoRepository;
@@ -35,17 +38,7 @@ public class MovimentacaoService {
 
     private final BuscarOrigemService buscarOrigemService;
 
-    private final IterableToCollection<Movimentacao> iterableToCollection;
-
-    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository,
-                               BuscarCategoriaService buscarCategoriaService,
-                               BuscarOrigemService buscarOrigemService) {
-
-        this.movimentacaoRepository = movimentacaoRepository;
-        this.buscarCategoriaService = buscarCategoriaService;
-        this.buscarOrigemService = buscarOrigemService;
-        this.iterableToCollection = new IterableToCollection<>();
-    }
+    private final BuscarMovimentacaoService buscarMovimentacaoService;
 
     private Categoria getCategoriaMovimentacao(Integer idCategoria, TipoMovimentacao tipoMovimentacao){
         Categoria categoria = buscarCategoriaService.buscar(idCategoria);
@@ -65,17 +58,10 @@ public class MovimentacaoService {
         return origem;
     }
 
-    public Movimentacao buscarMovimentacao(Integer id){
-
-        Optional<Movimentacao> gasto = movimentacaoRepository.findById(id);
-
-        return gasto.orElseThrow(MovimentacaoNaoEncontradaException::new);
-    }
-
     @Transactional
     public Movimentacao alterarMovimentacao(Integer id, RequestAlterarMovimentacaoDTO request){
 
-        Movimentacao movimentacao = buscarMovimentacao(id);
+        Movimentacao movimentacao = buscarMovimentacaoService.buscarMovimentacao(id);
 
         movimentacao.setValor(request.getValor());
         movimentacao.setDataEntrada(request.getDataEntrada());
@@ -90,7 +76,7 @@ public class MovimentacaoService {
     @Transactional
     public void deletarMovimentacao(Integer id){
 
-        Movimentacao movimentacao = buscarMovimentacao(id);
+        Movimentacao movimentacao = buscarMovimentacaoService.buscarMovimentacao(id);
 
         movimentacaoRepository.delete(movimentacao);
     }

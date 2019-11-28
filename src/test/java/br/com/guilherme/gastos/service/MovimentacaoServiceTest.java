@@ -12,6 +12,7 @@ import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
+import br.com.guilherme.gastos.service.movimentacao.BuscarMovimentacaoService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,6 +50,9 @@ class MovimentacaoServiceTest {
     @Mock
     private BuscarOrigemService buscarOrigemService;
 
+    @Mock
+    private BuscarMovimentacaoService buscarMovimentacaoService;
+
     @InjectMocks
     private MovimentacaoService service;
 
@@ -72,38 +76,6 @@ class MovimentacaoServiceTest {
         movimentacao.setCategoria(categoria);
     }
 
-    @DisplayName("Buscar Movimentação")
-    @Test
-    void buscarMovimentacao() {
-        //given
-        movimentacao.setId(1);
-        movimentacao.setDescricao("Teste");
-
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
-
-        //when
-        Movimentacao movimentacaoEncontrada = service.buscarMovimentacao(1);
-
-        //then
-        then(repository).should().findById(anyInt());
-        assertNotNull(movimentacaoEncontrada, "Movimentação não deveria ser nulo");
-        assertEquals(Integer.valueOf(1), movimentacaoEncontrada.getId(), "ID diferente do esperado");
-        assertEquals("Teste", movimentacaoEncontrada.getDescricao(), "Descrição diferente do esperado");
-    }
-
-    @DisplayName("Buscar Movimentação - Excecao movimentação não encontrada")
-    @Test
-    void buscarMovimentacao_ExcecaoMovimentacaoNaoEncontrada() {
-        //given
-        given(repository.findById(anyInt())).willReturn(Optional.empty());
-
-        //when
-        assertThrows(MovimentacaoNaoEncontradaException.class, () -> service.buscarMovimentacao(1));
-
-        //then
-        then(repository).should().findById(anyInt());
-    }
-
     @DisplayName("Alterar movimentação")
     @Test
     void alterarMovimentacao() {
@@ -114,7 +86,7 @@ class MovimentacaoServiceTest {
 
         given(buscarCategoriaService.buscar(1)).willReturn(categoria);
         given(buscarOrigemService.buscar(2)).willReturn(origem);
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+        given(buscarMovimentacaoService.buscarMovimentacao(anyInt())).willReturn(movimentacao);
         given(repository.save(captor.capture())).willReturn(movimentacao);
 
         //when
@@ -131,7 +103,7 @@ class MovimentacaoServiceTest {
         //then
         then(buscarCategoriaService).should().buscar(1);
         then(buscarOrigemService).should().buscar(2);
-        then(repository).should().findById(anyInt());
+        then(buscarMovimentacaoService).should().buscarMovimentacao(anyInt());
         then(repository).should().save(any(Movimentacao.class));
         assertNotNull(movimentacaoAlterada, "Movimentação alterado não deveria ser nulo");
         assertEquals("Alterada", captor.getValue().getDescricao(), "Descrição diferente do esperado");
@@ -147,7 +119,7 @@ class MovimentacaoServiceTest {
         movimentacao.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
         given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+        given(buscarMovimentacaoService.buscarMovimentacao(anyInt())).willReturn(movimentacao);
 
         //when
         RequestAlterarMovimentacaoDTO request = new RequestAlterarMovimentacaoDTO();
@@ -156,7 +128,7 @@ class MovimentacaoServiceTest {
         assertThrows(CategoriaNaoCompativelException.class, () -> service.alterarMovimentacao(1, request));
 
         //then
-        then(repository).should().findById(anyInt());
+        then(buscarMovimentacaoService).should().buscarMovimentacao(anyInt());
         then(buscarCategoriaService).should().buscar(anyInt());
     }
 
@@ -170,7 +142,7 @@ class MovimentacaoServiceTest {
 
         given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
         given(buscarOrigemService.buscar(anyInt())).willReturn(origem);
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+        given(buscarMovimentacaoService.buscarMovimentacao(anyInt())).willReturn(movimentacao);
 
         //when
         RequestAlterarMovimentacaoDTO request = new RequestAlterarMovimentacaoDTO();
@@ -180,7 +152,7 @@ class MovimentacaoServiceTest {
         assertThrows(OrigemNaoCompativelException.class, () -> service.alterarMovimentacao(1, request));
 
         //then
-        then(repository).should().findById(anyInt());
+        then(buscarMovimentacaoService).should().buscarMovimentacao(anyInt());
         then(buscarCategoriaService).should().buscar(anyInt());
     }
 
@@ -188,13 +160,13 @@ class MovimentacaoServiceTest {
     @Test
     void deletarMovimentacao() {
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+        given(buscarMovimentacaoService.buscarMovimentacao(anyInt())).willReturn(movimentacao);
 
         //when
         service.deletarMovimentacao(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(buscarMovimentacaoService).should().buscarMovimentacao(anyInt());
         then(repository).should().delete(movimentacao);
     }
 }
