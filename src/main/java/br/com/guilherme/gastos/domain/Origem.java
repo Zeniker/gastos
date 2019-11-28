@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.domain;
 
+import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,5 +20,8 @@ public class Origem {
 
     @NotNull
     private String nome;
+
+    @NotNull
+    private TipoMovimentacao tipoMovimentacao;
 
 }

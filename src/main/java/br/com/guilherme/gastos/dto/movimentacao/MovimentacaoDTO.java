@@ -16,9 +16,14 @@ public class MovimentacaoDTO {
     private LocalDate dataEntrada;
     private String descricao;
     private Integer categoria;
+    private Integer origem;
 
     public MovimentacaoDTO(Movimentacao movimentacao) {
-        this(movimentacao.getId(), movimentacao.getValor(), movimentacao.getDataEntrada(), movimentacao.getDescricao(),
-                        movimentacao.getCategoria().getId());
+        this(movimentacao.getId(),
+                movimentacao.getValor(),
+                movimentacao.getDataEntrada(),
+                movimentacao.getDescricao(),
+                movimentacao.getCategoria().getId(),
+                movimentacao.getOrigem() != null ? movimentacao.getOrigem().getId() : null);
     }
 }

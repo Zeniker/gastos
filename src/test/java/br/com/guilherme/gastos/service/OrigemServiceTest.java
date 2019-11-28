@@ -3,6 +3,7 @@ package br.com.guilherme.gastos.service;
 import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.origem.request.RequestAlterarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.request.RequestInserirOrigemDTO;
+import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,7 @@ class OrigemServiceTest {
         //when
         RequestInserirOrigemDTO request = new RequestInserirOrigemDTO();
         request.setNome("Teste");
+        request.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
         Origem origem = service.inserir(request);
 
@@ -62,10 +64,12 @@ class OrigemServiceTest {
         then(repository).should().save(any(Origem.class));
         assertNotNull(origem, "Objeto não deveria ser nulo");
         assertEquals("Teste", captor.getValue().getNome(), "Nome diferente do esperado");
+        assertEquals(TipoMovimentacao.GASTO, captor.getValue().getTipoMovimentacao(), "Tipo de movimentação " +
+                "diferente do esperado");
 
     }
 
-    @DisplayName("Consultar Origem")
+    @DisplayName("Listar Origem")
     @Test
     void listar() {
 

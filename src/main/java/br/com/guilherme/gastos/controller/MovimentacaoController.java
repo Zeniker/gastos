@@ -36,7 +36,7 @@ public class MovimentacaoController {
 
             return ResponseEntity.ok().body(responseDTO);
         }catch (Exception e){
-            log.error("Erro ao inserir ganho", e);
+            log.error("Erro ao inserir movimentacao", e);
             return ResponseEntity.badRequest().body(new ResponseInserirMovimentacaoDTO(e.getMessage()));
         }
     }
@@ -48,7 +48,7 @@ public class MovimentacaoController {
             ResponseConsultarMovimentacaoAnoMesDTO responseDTO = movimentacaoService.consultarMovimentacaoAnoMes(ano, mes);
             return ResponseEntity.ok().body(responseDTO);
         }catch (Exception e){
-            log.error("Erro ao consultar ganhos no ano/mês", e);
+            log.error("Erro ao consultar movimentacao no ano/mês", e);
             return ResponseEntity.badRequest().body(new ResponseConsultarMovimentacaoAnoMesDTO(e.getMessage()));
         }
     }
@@ -61,7 +61,7 @@ public class MovimentacaoController {
             );
             return ResponseEntity.ok().body(responseDTO);
         } catch (Exception e){
-            log.error("Erro ao consultar ganho", e);
+            log.error("Erro ao consultar movimentacao", e);
             return ResponseEntity.badRequest().body(new ResponseBuscarMovimentacaoDTO(e.getMessage()));
         }
     }
@@ -76,7 +76,7 @@ public class MovimentacaoController {
 
             return ResponseEntity.ok().body(responseDTO);
         } catch (Exception e){
-            log.error("Erro ao alterar ganho", e);
+            log.error("Erro ao alterar movimentacao", e);
             return ResponseEntity.badRequest().body(new ResponseAlterarMovimentacaoDTO(e.getMessage()));
         }
     }
@@ -88,7 +88,7 @@ public class MovimentacaoController {
 
             return ResponseEntity.ok().body(new ResponseDTO());
         } catch (Exception e){
-            log.error("Erro ao deletar ganho", e);
+            log.error("Erro ao deletar movimentacao", e);
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

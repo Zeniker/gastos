@@ -2,6 +2,7 @@ package br.com.guilherme.gastos.service;
 
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.Movimentacao;
+import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
@@ -9,6 +10,7 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovime
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
+import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.utils.IterableToCollection;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -29,12 +31,16 @@ public class MovimentacaoService {
 
     private CategoriaService categoriaService;
 
+    private OrigemService origemService;
+
     private IterableToCollection<Movimentacao> iterableToCollection;
 
-    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository, CategoriaService categoriaService) {
+    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository, CategoriaService categoriaService,
+                    OrigemService origemService) {
 
         this.movimentacaoRepository = movimentacaoRepository;
         this.categoriaService = categoriaService;
+        this.origemService = origemService;
         this.iterableToCollection = new IterableToCollection<>();
     }
 
@@ -47,6 +53,16 @@ public class MovimentacaoService {
         return categoria;
     }
 
+    private Origem getOrigemMovimentacao(Integer idOrigem, TipoMovimentacao tipoMovimentacao){
+        Origem origem = origemService.buscar(idOrigem);
+
+        if(origem.getTipoMovimentacao() != tipoMovimentacao)
+            throw new OrigemNaoCompativelException();
+
+        return origem;
+    }
+
+    @Transactional
     public Movimentacao inserirMovimentacao(RequestInserirMovimentacaoDTO request){
 
         Movimentacao movimentacao = new Movimentacao();
@@ -55,11 +71,12 @@ public class MovimentacaoService {
         movimentacao.setDescricao(request.getDescricao());
         movimentacao.setTipoMovimentacao(request.getTipoMovimentacao());
         movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), request.getTipoMovimentacao()));
+        movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), request.getTipoMovimentacao()));
 
         return movimentacaoRepository.save(movimentacao);
     }
 
-    public List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
+    List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)
                         .and(byDataEntradaAno(localDate))
@@ -68,12 +85,12 @@ public class MovimentacaoService {
         return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
     }
 
-    public List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate){
+    List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate){
 
         return this.consultarMovimentacaoAnoMes(localDate, null);
     }
 
-    public ResponseConsultarMovimentacaoAnoMesDTO consultarMovimentacaoAnoMes(Integer ano, Integer mes,
+    ResponseConsultarMovimentacaoAnoMesDTO consultarMovimentacaoAnoMes(Integer ano, Integer mes,
                     TipoMovimentacao tipoMovimentacao){
 
         LocalDate dataConsulta = LocalDate.of(ano, mes, 1);
@@ -106,6 +123,8 @@ public class MovimentacaoService {
         movimentacao.setDataEntrada(request.getDataEntrada());
         movimentacao.setDescricao(request.getDescricao());
         movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), movimentacao.getTipoMovimentacao()));
+        movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), movimentacao.getTipoMovimentacao()));
+
 
         return movimentacaoRepository.save(movimentacao);
     }

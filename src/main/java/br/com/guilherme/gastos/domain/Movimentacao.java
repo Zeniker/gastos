@@ -39,4 +39,7 @@ public class Movimentacao {
     @ManyToOne
     private Categoria categoria;
 
+    @ManyToOne
+    private Origem origem;
+
 }
