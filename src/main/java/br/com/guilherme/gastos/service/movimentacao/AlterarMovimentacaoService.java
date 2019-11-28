@@ -27,7 +27,7 @@ public class AlterarMovimentacaoService extends ManutencaoMovimentacao {
         this.movimentacaoRepository = movimentacaoRepository;
     }
 
-    public Movimentacao alterarMovimentacao(Movimentacao movimentacao){
+    private Movimentacao alterarMovimentacao(Movimentacao movimentacao){
         if(movimentacao.getId() == null){
             throw new IllegalArgumentException("Id não pode ser nulo ao alterar categoria");
         }

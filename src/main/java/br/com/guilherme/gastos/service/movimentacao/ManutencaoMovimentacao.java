@@ -15,7 +15,7 @@ public abstract class ManutencaoMovimentacao {
     protected BuscarOrigemService buscarOrigemService;
     protected BuscarCategoriaService buscarCategoriaService;
 
-    protected Categoria getCategoriaMovimentacao(Integer idCategoria, TipoMovimentacao tipoMovimentacao){
+    Categoria getCategoriaMovimentacao(Integer idCategoria, TipoMovimentacao tipoMovimentacao){
         Categoria categoria = buscarCategoriaService.buscar(idCategoria);
 
         if(categoria.getTipoMovimentacao() != tipoMovimentacao)
