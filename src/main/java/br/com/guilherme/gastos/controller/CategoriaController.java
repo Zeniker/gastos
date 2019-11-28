@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
 import br.com.guilherme.gastos.service.CategoriaService;
+import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.categoria.InserirCategoriaService;
 import br.com.guilherme.gastos.service.categoria.ListarCategoriaService;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
     private InserirCategoriaService inserirCategoriaService;
     private ListarCategoriaService listarCategoriaService;
+    private BuscarCategoriaService buscarCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
@@ -56,7 +58,7 @@ public class CategoriaController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseBuscarCategoriaDTO(categoriaService.buscar(id))
+                            new ResponseBuscarCategoriaDTO(buscarCategoriaService.buscarDTO(id))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseBuscarCategoriaDTO(e.getMessage()));

@@ -11,6 +11,7 @@ import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
+import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +43,7 @@ class MovimentacaoServiceTest {
     private MovimentacaoRepository repository;
 
     @Mock
-    private CategoriaService categoriaService;
+    private BuscarCategoriaService buscarCategoriaService;
 
     @Mock
     private OrigemService origemService;
@@ -78,7 +79,7 @@ class MovimentacaoServiceTest {
         origem.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
         given(repository.save(captor.capture())).willReturn(movimentacao);
-        given(categoriaService.buscar(1)).willReturn(categoria);
+        given(buscarCategoriaService.buscar(1)).willReturn(categoria);
         given(origemService.buscar(2)).willReturn(origem);
 
         //when
@@ -95,7 +96,7 @@ class MovimentacaoServiceTest {
 
         //then
         then(repository).should().save(any(Movimentacao.class));
-        then(categoriaService).should().buscar(1);
+        then(buscarCategoriaService).should().buscar(1);
         then(origemService).should().buscar(2);
         assertNotNull(movimentacaoSalva, "Movimentação salva não deveria ser nulo");
         assertEquals("Teste", captor.getValue().getDescricao(), "Descrição diferente do esperado");
@@ -114,7 +115,7 @@ class MovimentacaoServiceTest {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
-        given(categoriaService.buscar(anyInt())).willReturn(categoria);
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
 
         //when
         RequestInserirMovimentacaoDTO request = new RequestInserirMovimentacaoDTO();
@@ -124,7 +125,7 @@ class MovimentacaoServiceTest {
         assertThrows(CategoriaNaoCompativelException.class, () -> service.inserirMovimentacao(request));
 
         //then
-        then(categoriaService).should().buscar(anyInt());
+        then(buscarCategoriaService).should().buscar(anyInt());
 
     }
 
@@ -135,7 +136,7 @@ class MovimentacaoServiceTest {
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
         origem.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
-        given(categoriaService.buscar(anyInt())).willReturn(categoria);
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
         given(origemService.buscar(anyInt())).willReturn(origem);
 
         //when
@@ -147,7 +148,7 @@ class MovimentacaoServiceTest {
         assertThrows(OrigemNaoCompativelException.class, () -> service.inserirMovimentacao(request));
 
         //then
-        then(categoriaService).should().buscar(anyInt());
+        then(buscarCategoriaService).should().buscar(anyInt());
         then(origemService).should().buscar(anyInt());
 
     }
@@ -243,7 +244,7 @@ class MovimentacaoServiceTest {
         origem.setTipoMovimentacao(TipoMovimentacao.GASTO);
         movimentacao.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
-        given(categoriaService.buscar(1)).willReturn(categoria);
+        given(buscarCategoriaService.buscar(1)).willReturn(categoria);
         given(origemService.buscar(2)).willReturn(origem);
         given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
         given(repository.save(captor.capture())).willReturn(movimentacao);
@@ -260,7 +261,7 @@ class MovimentacaoServiceTest {
         Movimentacao movimentacaoAlterada = service.alterarMovimentacao(1, request);
 
         //then
-        then(categoriaService).should().buscar(1);
+        then(buscarCategoriaService).should().buscar(1);
         then(origemService).should().buscar(2);
         then(repository).should().findById(anyInt());
         then(repository).should().save(any(Movimentacao.class));
@@ -277,7 +278,7 @@ class MovimentacaoServiceTest {
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
         movimentacao.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
-        given(categoriaService.buscar(anyInt())).willReturn(categoria);
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
         given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
 
         //when
@@ -288,7 +289,7 @@ class MovimentacaoServiceTest {
 
         //then
         then(repository).should().findById(anyInt());
-        then(categoriaService).should().buscar(anyInt());
+        then(buscarCategoriaService).should().buscar(anyInt());
     }
 
     @DisplayName("Alterar movimentação - Origem Não Compatível")
@@ -299,7 +300,7 @@ class MovimentacaoServiceTest {
         origem.setTipoMovimentacao(TipoMovimentacao.GASTO);
         movimentacao.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
-        given(categoriaService.buscar(anyInt())).willReturn(categoria);
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
         given(origemService.buscar(anyInt())).willReturn(origem);
         given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
 
@@ -312,7 +313,7 @@ class MovimentacaoServiceTest {
 
         //then
         then(repository).should().findById(anyInt());
-        then(categoriaService).should().buscar(anyInt());
+        then(buscarCategoriaService).should().buscar(anyInt());
     }
 
     @DisplayName("Deletar movimentação")

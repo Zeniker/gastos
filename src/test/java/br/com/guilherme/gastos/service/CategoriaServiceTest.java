@@ -6,6 +6,7 @@ import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
+import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,9 @@ class CategoriaServiceTest {
     @Mock
     private CategoriaRepository repository;
 
+    @Mock
+    private BuscarCategoriaService buscarCategoriaService;
+
     @InjectMocks
     private CategoriaService service;
 
@@ -46,43 +50,12 @@ class CategoriaServiceTest {
         categoria = new Categoria();
     }
 
-    @DisplayName("Buscar Categoria")
-    @Test
-    void buscar() {
-        categoria.setTipoMovimentacao(TipoMovimentacao.GANHO);
-        categoria.setDescricao("Teste");
-
-        //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
-
-        //when
-        Categoria categoriaEncontrada = service.buscar(1);
-
-        //then
-        then(repository).should().findById(anyInt());
-        assertNotNull(categoriaEncontrada, "Categoria não deveria ser nula");
-        assertEquals("Teste", categoriaEncontrada.getDescricao(), "Descrição diferente do esperado");
-        assertEquals(TipoMovimentacao.GANHO, categoriaEncontrada.getTipoMovimentacao(),
-                        "Tipo de movimentação diferente do esperado");
-    }
-
-    @DisplayName("Buscar Categoria - Excecao Categoria Nao Encontrada")
-    @Test
-    void buscar_excecaoCategoriaNaoEncontrada() {
-
-        //given
-        given(repository.findById(anyInt())).willReturn(Optional.empty());
-
-        //when
-        assertThrows(CategoriaNaoEncontradaException.class, () -> service.buscar(1));
-    }
-
     @DisplayName("Alterar Categoria")
     @Test
     void alterar() {
 
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
         given(repository.save(any(Categoria.class))).willReturn(categoria);
 
         //when
@@ -92,7 +65,7 @@ class CategoriaServiceTest {
         Categoria categoriaAlterada = service.alterar(1, request);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(buscarCategoriaService).should().buscar(anyInt());
         then(repository).should().save(categoria);
         assertNotNull(categoriaAlterada, "Categoria não deveria ser nula");
         assertEquals("Teste", categoriaAlterada.getDescricao(), "Descrição diferente do esperado");
@@ -103,13 +76,13 @@ class CategoriaServiceTest {
     void deletar() {
 
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
 
         //when
         service.deletar(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(buscarCategoriaService).should().buscar(anyInt());
         then(repository).should().delete(categoria);
     }
 }

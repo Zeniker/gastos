@@ -2,33 +2,26 @@ package br.com.guilherme.gastos.service;
 
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.categoria.request.RequestAlterarCategoriaDTO;
-import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
-import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
+import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoriaService {
 
     private CategoriaRepository categoriaRepository;
 
-    public CategoriaService(CategoriaRepository categoriaRepository) {
+    private BuscarCategoriaService buscarCategoriaService;
+
+    public CategoriaService(CategoriaRepository categoriaRepository, BuscarCategoriaService buscarCategoriaService) {
 
         this.categoriaRepository = categoriaRepository;
-    }
-
-    public Categoria buscar(Integer id) {
-
-        Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
-        return optionalCategoria.orElseThrow(CategoriaNaoEncontradaException::new);
+        this.buscarCategoriaService = buscarCategoriaService;
     }
 
     public Categoria alterar(Integer id, RequestAlterarCategoriaDTO request) {
 
-        Categoria categoria = this.buscar(id);
+        Categoria categoria = buscarCategoriaService.buscar(id);
         categoria.setDescricao(request.getDescricao());
 
         return categoriaRepository.save(categoria);
@@ -36,7 +29,7 @@ public class CategoriaService {
 
     public void deletar(Integer id) {
 
-        Categoria categoria = this.buscar(id);
+        Categoria categoria = buscarCategoriaService.buscar(id);
 
         categoriaRepository.delete(categoria);
     }
