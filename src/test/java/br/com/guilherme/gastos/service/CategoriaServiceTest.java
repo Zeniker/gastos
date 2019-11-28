@@ -46,22 +46,6 @@ class CategoriaServiceTest {
         categoria = new Categoria();
     }
 
-    @DisplayName("Listar Categorias")
-    @Test
-    void listar() {
-
-        //given
-        given(repository.findAll()).willReturn(Arrays.asList(categoria, categoria));
-
-        //when
-        List<Categoria> categorias = service.listar();
-
-        //then
-        then(repository).should().findAll();
-        assertNotNull(categorias);
-        assertEquals(2, categorias.size(), "Tamanho da lista diferente do esperado");
-    }
-
     @DisplayName("Buscar Categoria")
     @Test
     void buscar() {

@@ -20,11 +20,6 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<Categoria> listar() {
-
-        return categoriaRepository.findAll();
-    }
-
     public Categoria buscar(Integer id) {
 
         Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);

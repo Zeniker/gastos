@@ -9,6 +9,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDT
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
 import br.com.guilherme.gastos.service.CategoriaService;
 import br.com.guilherme.gastos.service.categoria.InserirCategoriaService;
+import br.com.guilherme.gastos.service.categoria.ListarCategoriaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class CategoriaController {
 
     private CategoriaService categoriaService;
     private InserirCategoriaService inserirCategoriaService;
+    private ListarCategoriaService listarCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
@@ -43,7 +45,7 @@ public class CategoriaController {
     public ResponseEntity<ResponseListarCategoriaDTO> listarCategoria(){
 
         try{
-            return ResponseEntity.ok(new ResponseListarCategoriaDTO(categoriaService.listar()));
+            return ResponseEntity.ok(new ResponseListarCategoriaDTO(listarCategoriaService.listarDTO()));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseListarCategoriaDTO(e.getMessage()));
         }

@@ -32,19 +32,12 @@ class InserirCategoriaServiceTest {
     @Captor
     private ArgumentCaptor<Categoria> captor;
 
-    private Categoria categoria;
-
-    @BeforeEach
-    void setUp() {
-
-        categoria = new Categoria();
-    }
-
     @DisplayName("Inserir Categoria a partir de DTO")
     @Test
     void inserirDTO() {
 
         //given
+        Categoria categoria = new Categoria();
         given(repository.save(captor.capture())).willReturn(categoria);
 
         //when
