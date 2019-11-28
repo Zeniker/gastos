@@ -9,7 +9,6 @@ import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
-import br.com.guilherme.gastos.service.MovimentacaoService;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +86,7 @@ class InserirMovimentacaoServiceTest {
         request.setOrigem(2);
         request.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
-        MovimentacaoDTO movimentacaoSalva = service.inserirMovimentacaoDTO(request);
+        MovimentacaoDTO movimentacaoSalva = service.inserirDTO(request);
 
         //then
         then(repository).should().save(any(Movimentacao.class));
@@ -117,7 +116,7 @@ class InserirMovimentacaoServiceTest {
         request.setCategoria(1);
         request.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
-        assertThrows(CategoriaNaoCompativelException.class, () -> service.inserirMovimentacaoDTO(request));
+        assertThrows(CategoriaNaoCompativelException.class, () -> service.inserirDTO(request));
 
         //then
         then(buscarCategoriaService).should().buscar(anyInt());
@@ -140,7 +139,7 @@ class InserirMovimentacaoServiceTest {
         request.setOrigem(1);
         request.setTipoMovimentacao(TipoMovimentacao.GASTO);
 
-        assertThrows(OrigemNaoCompativelException.class, () -> service.inserirMovimentacaoDTO(request));
+        assertThrows(OrigemNaoCompativelException.class, () -> service.inserirDTO(request));
 
         //then
         then(buscarCategoriaService).should().buscar(anyInt());

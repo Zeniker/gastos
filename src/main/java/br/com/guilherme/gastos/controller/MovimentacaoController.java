@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.controller;
 
+import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseAlterarMovimentacaoDTO;
@@ -31,7 +32,7 @@ public class MovimentacaoController {
                     @RequestBody @Valid RequestInserirMovimentacaoDTO requestInserirMovimentacaoDTO){
         try{
             ResponseInserirMovimentacaoDTO responseDTO = new ResponseInserirMovimentacaoDTO(
-                    inserirMovimentacaoService.inserirMovimentacaoDTO(requestInserirMovimentacaoDTO)
+                    inserirMovimentacaoService.inserirDTO(requestInserirMovimentacaoDTO)
             );
 
             return ResponseEntity.ok(responseDTO);
@@ -81,12 +82,12 @@ public class MovimentacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletarMovimentacao(@PathVariable Integer id){
+    public ResponseEntity<ResponseDTO> deletarMovimentacao(@PathVariable Integer id){
         try{
             return ResponseEntity.ok(deletarMovimentacaoService.deletarMovimentacaoDTO(id));
         } catch (Exception e){
             log.error("Erro ao deletar movimentacao", e);
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
         }
     }
 

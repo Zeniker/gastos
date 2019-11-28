@@ -23,14 +23,14 @@ public class InserirMovimentacaoService extends ManutencaoMovimentacao {
         this.movimentacaoRepository = movimentacaoRepository;
     }
 
-    private Movimentacao inserirMovimentacao(Movimentacao movimentacao){
+    private Movimentacao inserir(Movimentacao movimentacao){
 
         movimentacao.setId(null);
 
         return movimentacaoRepository.save(movimentacao);
     }
 
-    public MovimentacaoDTO inserirMovimentacaoDTO(RequestInserirMovimentacaoDTO request){
+    public MovimentacaoDTO inserirDTO(RequestInserirMovimentacaoDTO request){
 
         Movimentacao movimentacao = new Movimentacao();
         movimentacao.setDataEntrada(request.getDataEntrada());
@@ -40,6 +40,6 @@ public class InserirMovimentacaoService extends ManutencaoMovimentacao {
         movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), request.getTipoMovimentacao()));
         movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), request.getTipoMovimentacao()));
 
-        return new MovimentacaoDTO(this.inserirMovimentacao(movimentacao));
+        return new MovimentacaoDTO(this.inserir(movimentacao));
     }
 }

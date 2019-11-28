@@ -78,7 +78,8 @@ class OrigemControllerTest {
     void inserirOrigem_badRequest() {
 
         //given
-        given(inserirOrigemService.inserirDTO(any(RequestInserirOrigemDTO.class))).willThrow(new RuntimeException("Mensagem erro"));
+        given(inserirOrigemService.inserirDTO(any(RequestInserirOrigemDTO.class)))
+                .willThrow(new RuntimeException("Mensagem erro"));
 
         //when
         ResponseEntity<ResponseInserirOrigemDTO> responseEntity =
