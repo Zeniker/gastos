@@ -58,4 +58,20 @@ class AlterarCategoriaServiceTest {
                 "deveria ter sido alterado");
     }
 
+    @DisplayName("Alterar Categoria DTO - Erro id nulo")
+    @Test
+    void alterarDTO_erroIdNulo() {
+        Categoria categoria = new Categoria();
+        categoria.setId(null);
+
+        //given
+        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
+
+        //when
+        assertThrows(IllegalArgumentException.class, () -> service.alterarDTO(1, new RequestAlterarCategoriaDTO()));
+
+        //then
+        then(buscarCategoriaService).should().buscar(anyInt());
+    }
+
 }

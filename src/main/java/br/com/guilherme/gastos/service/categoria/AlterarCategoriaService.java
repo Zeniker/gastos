@@ -17,6 +17,9 @@ public class AlterarCategoriaService {
     private CategoriaRepository categoriaRepository;
 
     private Categoria alterar(Categoria categoria) {
+        if(categoria.getId() == null){
+            throw new IllegalArgumentException("Id não pode ser nulo ao alterar categoria");
+        }
 
         return categoriaRepository.save(categoria);
     }
