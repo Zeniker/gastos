@@ -18,8 +18,8 @@ public class ResponseInserirMovimentacaoDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseInserirMovimentacaoDTO(Movimentacao movimentacao) {
+    public ResponseInserirMovimentacaoDTO(MovimentacaoDTO movimentacao) {
 
-        this.movimentacao = new MovimentacaoDTO(movimentacao);
+        this.movimentacao = movimentacao;
     }
 }

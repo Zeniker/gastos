@@ -8,6 +8,8 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseBuscarMovimenta
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.service.MovimentacaoService;
+import br.com.guilherme.gastos.service.movimentacao.InserirMovimentacaoService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,21 +19,19 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("movimentacao")
 @Slf4j
+@AllArgsConstructor
 public class MovimentacaoController {
 
     private final MovimentacaoService movimentacaoService;
 
-    public MovimentacaoController(MovimentacaoService movimentacaoService) {
-
-        this.movimentacaoService = movimentacaoService;
-    }
+    private final InserirMovimentacaoService inserirMovimentacaoService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
                     @RequestBody @Valid RequestInserirMovimentacaoDTO requestInserirMovimentacaoDTO){
         try{
             ResponseInserirMovimentacaoDTO responseDTO = new ResponseInserirMovimentacaoDTO(
-                            movimentacaoService.inserirMovimentacao(requestInserirMovimentacaoDTO)
+                    inserirMovimentacaoService.inserirMovimentacaoDTO(requestInserirMovimentacaoDTO)
             );
 
             return ResponseEntity.ok().body(responseDTO);

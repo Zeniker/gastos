@@ -65,20 +65,6 @@ public class MovimentacaoService {
         return origem;
     }
 
-    @Transactional
-    public Movimentacao inserirMovimentacao(RequestInserirMovimentacaoDTO request){
-
-        Movimentacao movimentacao = new Movimentacao();
-        movimentacao.setDataEntrada(request.getDataEntrada());
-        movimentacao.setValor(request.getValor());
-        movimentacao.setDescricao(request.getDescricao());
-        movimentacao.setTipoMovimentacao(request.getTipoMovimentacao());
-        movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), request.getTipoMovimentacao()));
-        movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), request.getTipoMovimentacao()));
-
-        return movimentacaoRepository.save(movimentacao);
-    }
-
     @SuppressWarnings("unchecked")
     List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
