@@ -19,14 +19,6 @@ public class CategoriaService {
         this.buscarCategoriaService = buscarCategoriaService;
     }
 
-    public Categoria alterar(Integer id, RequestAlterarCategoriaDTO request) {
-
-        Categoria categoria = buscarCategoriaService.buscar(id);
-        categoria.setDescricao(request.getDescricao());
-
-        return categoriaRepository.save(categoria);
-    }
-
     public void deletar(Integer id) {
 
         Categoria categoria = buscarCategoriaService.buscar(id);

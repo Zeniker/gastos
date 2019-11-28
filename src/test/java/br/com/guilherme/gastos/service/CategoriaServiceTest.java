@@ -50,27 +50,6 @@ class CategoriaServiceTest {
         categoria = new Categoria();
     }
 
-    @DisplayName("Alterar Categoria")
-    @Test
-    void alterar() {
-
-        //given
-        given(buscarCategoriaService.buscar(anyInt())).willReturn(categoria);
-        given(repository.save(any(Categoria.class))).willReturn(categoria);
-
-        //when
-        RequestAlterarCategoriaDTO request = new RequestAlterarCategoriaDTO();
-        request.setDescricao("Teste");
-
-        Categoria categoriaAlterada = service.alterar(1, request);
-
-        //then
-        then(buscarCategoriaService).should().buscar(anyInt());
-        then(repository).should().save(categoria);
-        assertNotNull(categoriaAlterada, "Categoria não deveria ser nula");
-        assertEquals("Teste", categoriaAlterada.getDescricao(), "Descrição diferente do esperado");
-    }
-
     @DisplayName("Deletar Categoria")
     @Test
     void deletar() {

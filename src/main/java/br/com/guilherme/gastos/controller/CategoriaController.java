@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
 import br.com.guilherme.gastos.service.CategoriaService;
+import br.com.guilherme.gastos.service.categoria.AlterarCategoriaService;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.categoria.InserirCategoriaService;
 import br.com.guilherme.gastos.service.categoria.ListarCategoriaService;
@@ -28,6 +29,7 @@ public class CategoriaController {
     private InserirCategoriaService inserirCategoriaService;
     private ListarCategoriaService listarCategoriaService;
     private BuscarCategoriaService buscarCategoriaService;
+    private AlterarCategoriaService alterarCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
@@ -72,7 +74,7 @@ public class CategoriaController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseAlterarCategoriaDTO(categoriaService.alterar(id, request))
+                            new ResponseAlterarCategoriaDTO(alterarCategoriaService.alterarDTO(id, request))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseAlterarCategoriaDTO(e.getMessage()));
