@@ -22,13 +22,6 @@ public class OrigemService {
         this.buscarOrigemService = buscarOrigemService;
     }
 
-
-
-    public List<Origem> listar() {
-
-        return origemRepository.findAll();
-    }
-
     @Transactional
     public Origem alterar(Integer id, RequestAlterarOrigemDTO request) {
 

@@ -12,6 +12,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.service.origem.InserirOrigemService;
+import br.com.guilherme.gastos.service.origem.ListarOrigemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,9 @@ class OrigemControllerTest {
 
     @Mock
     private BuscarOrigemService buscarOrigemService;
+
+    @Mock
+    private ListarOrigemService listarOrigemService;
 
     @InjectMocks
     private OrigemController controller;
@@ -92,14 +96,14 @@ class OrigemControllerTest {
     void listarOrigens() {
 
         //given
-        given(service.listar()).willReturn(Collections.singletonList(new Origem()));
+        given(listarOrigemService.listarDTO()).willReturn(Collections.singletonList(origemDTO));
 
         //when
         ResponseEntity<ResponseListarOrigemDTO> responseEntity =
                         controller.listarOrigens();
 
         //then
-        then(service).should().listar();
+        then(listarOrigemService).should().listarDTO();
         ControllerTestUtils<ResponseListarOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityOk(responseEntity);
 
@@ -110,14 +114,14 @@ class OrigemControllerTest {
     void listarOrigens_badRequest() {
 
         //given
-        given(service.listar()).willThrow(new RuntimeException("Mensagem erro"));
+        given(listarOrigemService.listarDTO()).willThrow(new RuntimeException("Mensagem erro"));
 
         //when
         ResponseEntity<ResponseListarOrigemDTO> responseEntity =
                         controller.listarOrigens();
 
         //then
-        then(service).should().listar();
+        then(listarOrigemService).should().listarDTO();
         ControllerTestUtils<ResponseListarOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
 
@@ -128,13 +132,13 @@ class OrigemControllerTest {
     void buscarOrigem() {
 
         //given
-        given(buscarOrigemService.buscar(anyInt())).willReturn(new Origem());
+        given(buscarOrigemService.buscarDTO(anyInt())).willReturn(origemDTO);
 
         //when
         ResponseEntity<ResponseBuscarOrigemDTO> responseEntity = controller.buscarOrigem(1);
 
         //then
-        then(buscarOrigemService).should().buscar(anyInt());
+        then(buscarOrigemService).should().buscarDTO(anyInt());
         ControllerTestUtils<ResponseBuscarOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityOk(responseEntity);
 
@@ -145,13 +149,13 @@ class OrigemControllerTest {
     void buscarOrigem_badRequest() {
 
         //given
-        given(buscarOrigemService.buscar(anyInt())).willThrow(new RuntimeException("Mensagem erro"));
+        given(buscarOrigemService.buscarDTO(anyInt())).willThrow(new RuntimeException("Mensagem erro"));
 
         //when
         ResponseEntity<ResponseBuscarOrigemDTO> responseEntity = controller.buscarOrigem(1);
 
         //then
-        then(buscarOrigemService).should().buscar(anyInt());
+        then(buscarOrigemService).should().buscarDTO(anyInt());
         ControllerTestUtils<ResponseBuscarOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
 

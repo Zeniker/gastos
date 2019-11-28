@@ -20,11 +20,9 @@ public class ResponseListarOrigemDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseListarOrigemDTO(List<Origem> origens) {
+    public ResponseListarOrigemDTO(List<OrigemDTO> origens) {
 
-        this.origens = new ArrayList<>();
-
-        origens.forEach(o -> this.origens.add(new OrigemDTO(o)));
+        this.origens = origens;
 
     }
 }

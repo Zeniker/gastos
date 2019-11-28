@@ -6,6 +6,7 @@ import br.com.guilherme.gastos.dto.origem.request.RequestInserirOrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
 import br.com.guilherme.gastos.repository.OrigemRepository;
+import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,9 @@ class OrigemServiceTest {
     @Mock
     private OrigemRepository repository;
 
+    @Mock
+    private BuscarOrigemService buscarOrigemService;
+
     @InjectMocks
     private OrigemService service;
 
@@ -46,30 +50,13 @@ class OrigemServiceTest {
 
     }
 
-    @DisplayName("Listar Origem")
-    @Test
-    void listar() {
-
-        //given
-        given(repository.findAll()).willReturn(Arrays.asList(origem, origem));
-
-        //when
-        List<Origem> origensEncontradas = service.listar();
-
-        //then
-        then(repository).should().findAll();
-        assertNotNull(origensEncontradas, "Lista não deveria ser nula");
-        assertEquals(2, origensEncontradas.size(), "Tamanho da lista diferente do esperado");
-
-    }
-
     @DisplayName("Alterar Origem")
     @Test
     void alterar() {
 
         //given
         given(repository.save(captor.capture())).willReturn(origem);
-        given(repository.findById(anyInt())).willReturn(Optional.of(origem));
+        given(buscarOrigemService.buscar(anyInt())).willReturn(origem);
 
         //when
         RequestAlterarOrigemDTO request = new RequestAlterarOrigemDTO();
@@ -79,6 +66,7 @@ class OrigemServiceTest {
 
         //then
         then(repository).should().save(any(Origem.class));
+        then(buscarOrigemService).should().buscar(anyInt());
         assertNotNull(origem, "Objeto não deveria ser nulo");
         assertEquals("TesteAlterado", origem.getNome(), "Nome diferente do esperado");
 
@@ -89,13 +77,13 @@ class OrigemServiceTest {
     void deletar() {
 
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(origem));
+        given(buscarOrigemService.buscar(anyInt())).willReturn(origem);
 
         //when
         service.deletar(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(buscarOrigemService).should().buscar(anyInt());
         then(repository).should().delete(any(Origem.class));
 
     }

@@ -10,6 +10,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.service.origem.InserirOrigemService;
+import br.com.guilherme.gastos.service.origem.ListarOrigemService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,8 @@ public class OrigemController {
 
     private BuscarOrigemService buscarOrigemService;
 
+    private ListarOrigemService listarOrigemService;
+
     @PostMapping
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
                     @Valid @RequestBody RequestInserirOrigemDTO request) {
@@ -47,7 +50,7 @@ public class OrigemController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseListarOrigemDTO(origemService.listar())
+                            new ResponseListarOrigemDTO(listarOrigemService.listarDTO())
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseListarOrigemDTO(e.getMessage()));
