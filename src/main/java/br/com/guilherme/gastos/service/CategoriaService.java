@@ -20,14 +20,6 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public Categoria inserir(RequestInserirCategoriaDTO request) {
-        Categoria categoria = new Categoria();
-        categoria.setDescricao(request.getDescricao());
-        categoria.setTipoMovimentacao(request.getTipoMovimentacao());
-
-        return categoriaRepository.save(categoria);
-    }
-
     public List<Categoria> listar() {
 
         return categoriaRepository.findAll();

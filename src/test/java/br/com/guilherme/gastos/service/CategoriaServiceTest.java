@@ -46,28 +46,6 @@ class CategoriaServiceTest {
         categoria = new Categoria();
     }
 
-    @DisplayName("Inserir Categoria")
-    @Test
-    void inserir() {
-
-        //given
-        given(repository.save(captor.capture())).willReturn(categoria);
-
-        //when
-        RequestInserirCategoriaDTO request = new RequestInserirCategoriaDTO();
-        request.setDescricao("Teste");
-        request.setTipoMovimentacao(TipoMovimentacao.GASTO);
-
-        Categoria categoriaSalva = service.inserir(request);
-
-        //then
-        then(repository).should().save(any(Categoria.class));
-        assertNotNull(categoriaSalva, "Categoria salva não deveria ser nula");
-        assertEquals("Teste", captor.getValue().getDescricao(), "Descrição está diferente do esperado");
-        assertEquals(TipoMovimentacao.GASTO, captor.getValue().getTipoMovimentacao(),
-                        "Tipo de movimentação diferente do esperado");
-    }
-
     @DisplayName("Listar Categorias")
     @Test
     void listar() {

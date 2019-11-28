@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
 import br.com.guilherme.gastos.service.CategoriaService;
+import br.com.guilherme.gastos.service.categoria.InserirCategoriaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 public class CategoriaController {
 
     private CategoriaService categoriaService;
+    private InserirCategoriaService inserirCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
@@ -29,7 +31,7 @@ public class CategoriaController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseInserirCategoriaDTO(categoriaService.inserir(request))
+                            new ResponseInserirCategoriaDTO(inserirCategoriaService.inserirDTO(request))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseInserirCategoriaDTO(e.getMessage()));
