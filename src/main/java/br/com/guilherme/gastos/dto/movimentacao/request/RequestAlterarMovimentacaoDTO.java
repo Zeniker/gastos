@@ -21,4 +21,7 @@ public class RequestAlterarMovimentacaoDTO {
     @NotNull
     private Integer categoria;
 
+    @NotNull
+    private Integer origem;
+
 }
