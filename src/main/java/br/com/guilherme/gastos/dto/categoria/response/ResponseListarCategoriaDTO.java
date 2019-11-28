@@ -1,12 +1,10 @@
 package br.com.guilherme.gastos.dto.categoria.response;
 
-import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,9 +18,8 @@ public class ResponseListarCategoriaDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseListarCategoriaDTO(List<Categoria> categorias) {
-        this.categorias = new ArrayList<>();
+    public ResponseListarCategoriaDTO(List<CategoriaDTO> categorias) {
 
-        categorias.forEach(c -> this.categorias.add(new CategoriaDTO(c)));
+        this.categorias = categorias;
     }
 }

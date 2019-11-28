@@ -17,8 +17,8 @@ public class ResponseInserirCategoriaDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseInserirCategoriaDTO(Categoria categoria) {
+    public ResponseInserirCategoriaDTO(CategoriaDTO categoria) {
 
-        this.categoria = new CategoriaDTO(categoria);
+        this.categoria = categoria;
     }
 }

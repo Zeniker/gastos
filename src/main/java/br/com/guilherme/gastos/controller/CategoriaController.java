@@ -7,7 +7,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseAlterarCategoriaDT
 import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
-import br.com.guilherme.gastos.service.CategoriaService;
+import br.com.guilherme.gastos.service.categoria.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,11 @@ import javax.validation.Valid;
 @Slf4j
 public class CategoriaController {
 
-    private CategoriaService categoriaService;
+    private InserirCategoriaService inserirCategoriaService;
+    private ListarCategoriaService listarCategoriaService;
+    private BuscarCategoriaService buscarCategoriaService;
+    private AlterarCategoriaService alterarCategoriaService;
+    private DeletarCategoriaService deletarCategoriaService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
@@ -29,7 +33,7 @@ public class CategoriaController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseInserirCategoriaDTO(categoriaService.inserir(request))
+                            new ResponseInserirCategoriaDTO(inserirCategoriaService.inserirDTO(request))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseInserirCategoriaDTO(e.getMessage()));
@@ -41,7 +45,7 @@ public class CategoriaController {
     public ResponseEntity<ResponseListarCategoriaDTO> listarCategoria(){
 
         try{
-            return ResponseEntity.ok(new ResponseListarCategoriaDTO(categoriaService.listar()));
+            return ResponseEntity.ok(new ResponseListarCategoriaDTO(listarCategoriaService.listarDTO()));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseListarCategoriaDTO(e.getMessage()));
         }
@@ -52,7 +56,7 @@ public class CategoriaController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseBuscarCategoriaDTO(categoriaService.buscar(id))
+                            new ResponseBuscarCategoriaDTO(buscarCategoriaService.buscarDTO(id))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseBuscarCategoriaDTO(e.getMessage()));
@@ -66,7 +70,7 @@ public class CategoriaController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseAlterarCategoriaDTO(categoriaService.alterar(id, request))
+                            new ResponseAlterarCategoriaDTO(alterarCategoriaService.alterarDTO(id, request))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseAlterarCategoriaDTO(e.getMessage()));
@@ -76,8 +80,7 @@ public class CategoriaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deletarCategoria(@PathVariable Integer id){
         try{
-            categoriaService.deletar(id);
-            return ResponseEntity.ok(new ResponseDTO());
+            return ResponseEntity.ok(deletarCategoriaService.deletarDTO(id));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
         }

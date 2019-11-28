@@ -12,6 +12,7 @@ import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
+import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Service;
@@ -29,23 +30,24 @@ public class MovimentacaoService {
 
     private MovimentacaoRepository movimentacaoRepository;
 
-    private CategoriaService categoriaService;
+    private BuscarCategoriaService buscarCategoriaService;
 
     private OrigemService origemService;
 
     private IterableToCollection<Movimentacao> iterableToCollection;
 
-    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository, CategoriaService categoriaService,
-                    OrigemService origemService) {
+    public MovimentacaoService(MovimentacaoRepository movimentacaoRepository,
+                               BuscarCategoriaService buscarCategoriaService,
+                               OrigemService origemService) {
 
         this.movimentacaoRepository = movimentacaoRepository;
-        this.categoriaService = categoriaService;
+        this.buscarCategoriaService = buscarCategoriaService;
         this.origemService = origemService;
         this.iterableToCollection = new IterableToCollection<>();
     }
 
     private Categoria getCategoriaMovimentacao(Integer idCategoria, TipoMovimentacao tipoMovimentacao){
-        Categoria categoria = categoriaService.buscar(idCategoria);
+        Categoria categoria = buscarCategoriaService.buscar(idCategoria);
 
         if(categoria.getTipoMovimentacao() != tipoMovimentacao)
             throw new CategoriaNaoCompativelException();
