@@ -72,57 +72,6 @@ class MovimentacaoServiceTest {
         movimentacao.setCategoria(categoria);
     }
 
-    @DisplayName("Consultar Movimentacao por ano/mes por LocalDate")
-    @Test
-    void consultarMovimentacaoAnoMesPorLocalDate() {
-        //given
-        Iterable movimentacoes = Arrays.asList(movimentacao, movimentacao);
-
-        given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
-
-        //when
-        List<Movimentacao> movimentacoesEncontradas = service.consultarMovimentacaoAnoMes(LocalDate.now(),
-                        TipoMovimentacao.GASTO);
-
-        //then
-        then(repository).should().findAll(any(Predicate.class));
-        assertNotNull(movimentacoesEncontradas, "Lista não deveria ser nula");
-        assertEquals(2, movimentacoesEncontradas.size(), "Tamanho da lista diferente do esperado");
-    }
-
-    @DisplayName("Consultar Movimentação no ano/mes por inteiros")
-    @Test
-    void consultarMovimentacaoAnoMesPorValoresInteiros() {
-        //given
-        Iterable movimentacoes = Arrays.asList(movimentacao, movimentacao);
-
-        given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
-
-        //when
-        ResponseConsultarMovimentacaoAnoMesDTO response = service.consultarMovimentacaoAnoMes(2019, 11,
-                        TipoMovimentacao.GASTO);
-
-        //then
-        then(repository).should().findAll(any(Predicate.class));
-        assertNotNull(response, "Response não deveria ser nulo");
-        assertNotNull(response.getMovimentacoes(), "Lista não deveria ser nula");
-        assertEquals(2, response.getMovimentacoes().size(), "Tamanho da lista diferente do esperado");
-    }
-
-    @DisplayName("Consultar Movimentação no ano/mes por inteiros -  Excecao Conversao Mês")
-    @Test
-    void consultarMovimentacaoAnoMesPorValoresInteiros_excecaoConversaoDataMes() {
-        assertThrows(DateTimeException.class, () -> service.consultarMovimentacaoAnoMes(2019, 23,
-                        TipoMovimentacao.GASTO));
-    }
-
-    @DisplayName("Consultar Movimentação no ano/mes por inteiros -  Excecao Conversao Ano")
-    @Test
-    void consultarMovimentacaoAnoMesPorValoresInteiros_excecaoConversaoDataAno() {
-        assertThrows(DateTimeException.class, () -> service.consultarMovimentacaoAnoMes(1231231231, 11,
-                        TipoMovimentacao.GASTO));
-    }
-
     @DisplayName("Buscar Movimentação")
     @Test
     void buscarMovimentacao() {

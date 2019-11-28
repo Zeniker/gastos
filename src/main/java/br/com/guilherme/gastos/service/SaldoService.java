@@ -3,6 +3,7 @@ package br.com.guilherme.gastos.service;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import br.com.guilherme.gastos.service.movimentacao.ConsultarMovimentacaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 public class SaldoService {
 
-    private MovimentacaoService movimentacaoService;
+    private ConsultarMovimentacaoService consultarMovimentacaoService;
 
     @Transactional(readOnly = true)
     public ResponseConsultarSaldoAnoMes consultarSaldoAnoMes(Integer ano, Integer mes){
 
         LocalDate dataConsulta = LocalDate.of(ano, mes, 1);
 
-        List<Movimentacao> movimentacoes = movimentacaoService.consultarMovimentacaoAnoMes(dataConsulta);
+        List<Movimentacao> movimentacoes = consultarMovimentacaoService.consultarMovimentacaoAnoMes(dataConsulta);
 
         BigDecimal totalGanhosMes = movimentacoes.stream()
                         .filter(m -> m.getTipoMovimentacao() == TipoMovimentacao.GANHO)

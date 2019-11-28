@@ -65,38 +65,6 @@ public class MovimentacaoService {
         return origem;
     }
 
-    @SuppressWarnings("unchecked")
-    List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
-
-        BooleanExpression booleanExpression = byDataEntradaMes(localDate)
-                        .and(byDataEntradaAno(localDate))
-                        .and(byTipoMovimentacao(tipoMovimentacao));
-
-        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
-    }
-
-    List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate){
-
-        return this.consultarMovimentacaoAnoMes(localDate, null);
-    }
-
-    ResponseConsultarMovimentacaoAnoMesDTO consultarMovimentacaoAnoMes(Integer ano, Integer mes,
-                    TipoMovimentacao tipoMovimentacao){
-
-        LocalDate dataConsulta = LocalDate.of(ano, mes, 1);
-
-        List<Movimentacao> listMovimentacao = this.consultarMovimentacaoAnoMes(dataConsulta, tipoMovimentacao);
-
-        List<MovimentacaoDTO> listMovimentacaoDTO = listMovimentacao.stream().map(MovimentacaoDTO::new)
-                        .collect(Collectors.toList());
-
-        return new ResponseConsultarMovimentacaoAnoMesDTO(listMovimentacaoDTO);
-    }
-
-    public ResponseConsultarMovimentacaoAnoMesDTO consultarMovimentacaoAnoMes(Integer ano, Integer mes){
-        return this.consultarMovimentacaoAnoMes(ano, mes, null);
-    }
-
     public Movimentacao buscarMovimentacao(Integer id){
 
         Optional<Movimentacao> gasto = movimentacaoRepository.findById(id);

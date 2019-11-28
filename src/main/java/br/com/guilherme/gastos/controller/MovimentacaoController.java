@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseBuscarMovimenta
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.service.MovimentacaoService;
+import br.com.guilherme.gastos.service.movimentacao.ConsultarMovimentacaoService;
 import br.com.guilherme.gastos.service.movimentacao.InserirMovimentacaoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ import javax.validation.Valid;
 public class MovimentacaoController {
 
     private final MovimentacaoService movimentacaoService;
-
     private final InserirMovimentacaoService inserirMovimentacaoService;
+    private final ConsultarMovimentacaoService consultarMovimentacaoService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
@@ -45,8 +46,7 @@ public class MovimentacaoController {
     public ResponseEntity<ResponseConsultarMovimentacaoAnoMesDTO> consultarMovimentacaoAnoMes(@RequestParam Integer ano,
                     @RequestParam Integer mes){
         try{
-            ResponseConsultarMovimentacaoAnoMesDTO responseDTO = movimentacaoService.consultarMovimentacaoAnoMes(ano, mes);
-            return ResponseEntity.ok().body(responseDTO);
+            return ResponseEntity.ok().body(consultarMovimentacaoService.consultarMovimentacaoAnoMes(ano, mes));
         }catch (Exception e){
             log.error("Erro ao consultar movimentacao no ano/mês", e);
             return ResponseEntity.badRequest().body(new ResponseConsultarMovimentacaoAnoMesDTO(e.getMessage()));
