@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AlterarCategoriaService {
 
-    private BuscarCategoriaService buscarCategoriaService;
-    private CategoriaRepository categoriaRepository;
+    private final BuscarCategoriaService buscarCategoriaService;
+    private final CategoriaRepository categoriaRepository;
 
     private Categoria alterar(Categoria categoria) {
         if(categoria.getId() == null){

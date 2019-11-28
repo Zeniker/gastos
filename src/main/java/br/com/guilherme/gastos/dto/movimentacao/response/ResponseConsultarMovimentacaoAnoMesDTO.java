@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+@SuppressWarnings("DefaultAnnotationParam")
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)

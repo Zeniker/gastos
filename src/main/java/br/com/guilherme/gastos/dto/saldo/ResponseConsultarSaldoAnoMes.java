@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("DefaultAnnotationParam")
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)

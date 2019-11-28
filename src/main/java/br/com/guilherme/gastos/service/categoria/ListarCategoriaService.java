@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ListarCategoriaService {
 
-    private CategoriaRepository categoriaRepository;
+    private final CategoriaRepository categoriaRepository;
 
     private List<Categoria> listar() {
 
@@ -21,8 +21,7 @@ public class ListarCategoriaService {
     }
 
     public List<CategoriaDTO> listarDTO() {
-        List<Categoria> listaCategoria = listar();
 
-        return listaCategoria.stream().map(CategoriaDTO::new).collect(Collectors.toList());
+        return listar().stream().map(CategoriaDTO::new).collect(Collectors.toList());
     }
 }

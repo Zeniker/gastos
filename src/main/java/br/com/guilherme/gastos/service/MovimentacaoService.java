@@ -13,6 +13,7 @@ import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
+import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Service;
@@ -28,21 +29,21 @@ import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.*;
 @Service
 public class MovimentacaoService {
 
-    private MovimentacaoRepository movimentacaoRepository;
+    private final MovimentacaoRepository movimentacaoRepository;
 
-    private BuscarCategoriaService buscarCategoriaService;
+    private final BuscarCategoriaService buscarCategoriaService;
 
-    private OrigemService origemService;
+    private final BuscarOrigemService buscarOrigemService;
 
-    private IterableToCollection<Movimentacao> iterableToCollection;
+    private final IterableToCollection<Movimentacao> iterableToCollection;
 
     public MovimentacaoService(MovimentacaoRepository movimentacaoRepository,
                                BuscarCategoriaService buscarCategoriaService,
-                               OrigemService origemService) {
+                               BuscarOrigemService buscarOrigemService) {
 
         this.movimentacaoRepository = movimentacaoRepository;
         this.buscarCategoriaService = buscarCategoriaService;
-        this.origemService = origemService;
+        this.buscarOrigemService = buscarOrigemService;
         this.iterableToCollection = new IterableToCollection<>();
     }
 
@@ -56,7 +57,7 @@ public class MovimentacaoService {
     }
 
     private Origem getOrigemMovimentacao(Integer idOrigem, TipoMovimentacao tipoMovimentacao){
-        Origem origem = origemService.buscar(idOrigem);
+        Origem origem = buscarOrigemService.buscar(idOrigem);
 
         if(origem.getTipoMovimentacao() != tipoMovimentacao)
             throw new OrigemNaoCompativelException();
@@ -78,6 +79,7 @@ public class MovimentacaoService {
         return movimentacaoRepository.save(movimentacao);
     }
 
+    @SuppressWarnings("unchecked")
     List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)

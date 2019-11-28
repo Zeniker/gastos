@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DeletarCategoriaService {
 
-    private BuscarCategoriaService buscarCategoriaService;
-    private CategoriaRepository categoriaRepository;
+    private final BuscarCategoriaService buscarCategoriaService;
+    private final CategoriaRepository categoriaRepository;
 
     private void deletar(Integer id) {
 

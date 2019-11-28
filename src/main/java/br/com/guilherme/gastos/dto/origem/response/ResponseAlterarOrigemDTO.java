@@ -1,11 +1,11 @@
 package br.com.guilherme.gastos.dto.origem.response;
 
-import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@SuppressWarnings("DefaultAnnotationParam")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ResponseAlterarOrigemDTO extends ResponseDTO {
@@ -17,8 +17,8 @@ public class ResponseAlterarOrigemDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseAlterarOrigemDTO(Origem origem) {
+    public ResponseAlterarOrigemDTO(OrigemDTO origem) {
 
-        this.origem = new OrigemDTO(origem);
+        this.origem = origem;
     }
 }

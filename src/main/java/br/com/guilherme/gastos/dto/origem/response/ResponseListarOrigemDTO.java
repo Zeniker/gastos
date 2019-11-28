@@ -1,14 +1,13 @@
 package br.com.guilherme.gastos.dto.origem.response;
 
-import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("DefaultAnnotationParam")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ResponseListarOrigemDTO extends ResponseDTO {
@@ -20,11 +19,9 @@ public class ResponseListarOrigemDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseListarOrigemDTO(List<Origem> origens) {
+    public ResponseListarOrigemDTO(List<OrigemDTO> origens) {
 
-        this.origens = new ArrayList<>();
-
-        origens.forEach(o -> this.origens.add(new OrigemDTO(o)));
+        this.origens = origens;
 
     }
 }
