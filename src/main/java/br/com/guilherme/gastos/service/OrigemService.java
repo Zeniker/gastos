@@ -23,16 +23,6 @@ public class OrigemService {
     }
 
     @Transactional
-    public Origem alterar(Integer id, RequestAlterarOrigemDTO request) {
-
-        Origem origem = buscarOrigemService.buscar(id);
-
-        origem.setNome(request.getNome());
-
-        return origemRepository.save(origem);
-    }
-
-    @Transactional
     public void deletar(Integer id) {
 
         Origem origem = buscarOrigemService.buscar(id);

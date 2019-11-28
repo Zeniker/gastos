@@ -50,27 +50,7 @@ class OrigemServiceTest {
 
     }
 
-    @DisplayName("Alterar Origem")
-    @Test
-    void alterar() {
 
-        //given
-        given(repository.save(captor.capture())).willReturn(origem);
-        given(buscarOrigemService.buscar(anyInt())).willReturn(origem);
-
-        //when
-        RequestAlterarOrigemDTO request = new RequestAlterarOrigemDTO();
-        request.setNome("TesteAlterado");
-
-        Origem origem = service.alterar(1, request);
-
-        //then
-        then(repository).should().save(any(Origem.class));
-        then(buscarOrigemService).should().buscar(anyInt());
-        assertNotNull(origem, "Objeto não deveria ser nulo");
-        assertEquals("TesteAlterado", origem.getNome(), "Nome diferente do esperado");
-
-    }
 
     @DisplayName("Deletar Origem")
     @Test

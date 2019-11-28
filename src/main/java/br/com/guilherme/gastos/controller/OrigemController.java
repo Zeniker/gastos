@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
+import br.com.guilherme.gastos.service.origem.AlterarOrigemService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.service.origem.InserirOrigemService;
 import br.com.guilherme.gastos.service.origem.ListarOrigemService;
@@ -31,6 +32,8 @@ public class OrigemController {
     private BuscarOrigemService buscarOrigemService;
 
     private ListarOrigemService listarOrigemService;
+
+    private AlterarOrigemService alterarOrigemService;
 
     @PostMapping
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
@@ -76,7 +79,7 @@ public class OrigemController {
 
         try{
             return ResponseEntity.ok(
-                            new ResponseAlterarOrigemDTO(origemService.alterar(id, request))
+                            new ResponseAlterarOrigemDTO(alterarOrigemService.alterarDTO(id, request))
             );
         }catch (Exception e){
             return ResponseEntity.badRequest().body(new ResponseAlterarOrigemDTO(e.getMessage()));

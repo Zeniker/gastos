@@ -17,8 +17,8 @@ public class ResponseAlterarOrigemDTO extends ResponseDTO {
         super(mensagemErro);
     }
 
-    public ResponseAlterarOrigemDTO(Origem origem) {
+    public ResponseAlterarOrigemDTO(OrigemDTO origem) {
 
-        this.origem = new OrigemDTO(origem);
+        this.origem = origem;
     }
 }
