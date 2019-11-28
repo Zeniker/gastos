@@ -46,29 +46,6 @@ class OrigemServiceTest {
 
     }
 
-    @DisplayName("Inserir Origem")
-    @Test
-    void inserir() {
-
-        //given
-        given(repository.save(captor.capture())).willReturn(origem);
-
-        //when
-        RequestInserirOrigemDTO request = new RequestInserirOrigemDTO();
-        request.setNome("Teste");
-        request.setTipoMovimentacao(TipoMovimentacao.GASTO);
-
-        Origem origem = service.inserir(request);
-
-        //then
-        then(repository).should().save(any(Origem.class));
-        assertNotNull(origem, "Objeto não deveria ser nulo");
-        assertEquals("Teste", captor.getValue().getNome(), "Nome diferente do esperado");
-        assertEquals(TipoMovimentacao.GASTO, captor.getValue().getTipoMovimentacao(), "Tipo de movimentação " +
-                "diferente do esperado");
-
-    }
-
     @DisplayName("Listar Origem")
     @Test
     void listar() {

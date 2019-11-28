@@ -21,16 +21,6 @@ public class OrigemService {
         this.origemRepository = origemRepository;
     }
 
-    @Transactional
-    public Origem inserir(RequestInserirOrigemDTO request) {
-
-        Origem origem = new Origem();
-        origem.setNome(request.getNome());
-        origem.setTipoMovimentacao(request.getTipoMovimentacao());
-
-        return origemRepository.save(origem);
-    }
-
     public Origem buscar(Integer id) {
 
         Optional<Origem> optionalOrigem = origemRepository.findById(id);

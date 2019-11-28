@@ -2,6 +2,7 @@ package br.com.guilherme.gastos.controller;
 
 import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.ResponseDTO;
+import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.dto.origem.request.RequestAlterarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.request.RequestInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseAlterarOrigemDTO;
@@ -9,6 +10,8 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
+import br.com.guilherme.gastos.service.origem.InserirOrigemService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,22 +34,32 @@ class OrigemControllerTest {
     @Mock
     private OrigemService service;
 
+    @Mock
+    private InserirOrigemService inserirOrigemService;
+
     @InjectMocks
     private OrigemController controller;
+
+    private OrigemDTO origemDTO;
+
+    @BeforeEach
+    void setUp() {
+        origemDTO = new OrigemDTO(new Origem());
+    }
 
     @DisplayName("Inserir Origem")
     @Test
     void inserirOrigem() {
 
         //given
-        given(service.inserir(any(RequestInserirOrigemDTO.class))).willReturn(new Origem());
+        given(inserirOrigemService.inserirDTO(any(RequestInserirOrigemDTO.class))).willReturn(origemDTO);
 
         //when
         ResponseEntity<ResponseInserirOrigemDTO> responseEntity =
                         controller.inserirOrigem(new RequestInserirOrigemDTO());
 
         //then
-        then(service).should().inserir(any(RequestInserirOrigemDTO.class));
+        then(inserirOrigemService).should().inserirDTO(any(RequestInserirOrigemDTO.class));
         ControllerTestUtils<ResponseInserirOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityOk(responseEntity);
 
@@ -57,14 +70,14 @@ class OrigemControllerTest {
     void inserirOrigem_badRequest() {
 
         //given
-        given(service.inserir(any(RequestInserirOrigemDTO.class))).willThrow(new RuntimeException("Mensagem erro"));
+        given(inserirOrigemService.inserirDTO(any(RequestInserirOrigemDTO.class))).willThrow(new RuntimeException("Mensagem erro"));
 
         //when
         ResponseEntity<ResponseInserirOrigemDTO> responseEntity =
                         controller.inserirOrigem(new RequestInserirOrigemDTO());
 
         //then
-        then(service).should().inserir(any(RequestInserirOrigemDTO.class));
+        then(inserirOrigemService).should().inserirDTO(any(RequestInserirOrigemDTO.class));
         ControllerTestUtils<ResponseInserirOrigemDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
 

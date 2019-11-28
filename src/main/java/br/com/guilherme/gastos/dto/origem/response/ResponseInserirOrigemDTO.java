@@ -12,8 +12,8 @@ public class ResponseInserirOrigemDTO extends ResponseDTO {
 
     private OrigemDTO origem;
 
-    public ResponseInserirOrigemDTO(Origem origem){
-        this.origem = new OrigemDTO(origem);
+    public ResponseInserirOrigemDTO(OrigemDTO origem){
+        this.origem = origem;
     }
 
     public ResponseInserirOrigemDTO(String mensagemErro) {
