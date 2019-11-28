@@ -26,6 +26,7 @@ public class OrigemService {
 
         Origem origem = new Origem();
         origem.setNome(request.getNome());
+        origem.setTipoMovimentacao(request.getTipoMovimentacao());
 
         return origemRepository.save(origem);
     }
@@ -42,6 +43,7 @@ public class OrigemService {
         return origemRepository.findAll();
     }
 
+    @Transactional
     public Origem alterar(Integer id, RequestAlterarOrigemDTO request) {
 
         Origem origem = buscar(id);
@@ -51,6 +53,7 @@ public class OrigemService {
         return origemRepository.save(origem);
     }
 
+    @Transactional
     public void deletar(Integer id) {
 
         Origem origem = buscar(id);

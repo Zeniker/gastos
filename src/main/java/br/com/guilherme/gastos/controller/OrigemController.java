@@ -10,7 +10,6 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
 import br.com.guilherme.gastos.service.OrigemService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
