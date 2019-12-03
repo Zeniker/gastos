@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableEncryptableProperties
-//@EnableSwagger2
+@EnableSwagger2
 public class GastosApplication {
 
     public static void main(String[] args) {
@@ -20,13 +20,13 @@ public class GastosApplication {
         SpringApplication.run(GastosApplication.class, args);
     }
 
-//    @Bean
-//    public Docket api(){
-//        return new Docket(DocumentationType.SPRING_WEB)
-//                        .select()
-//                        .apis(RequestHandlerSelectors.basePackage("br.com.guilherme.gastos.controller"))
-//                        .paths(PathSelectors.any())
-//                        .build();
-//    }
+    @Bean
+    public Docket api(){
+        return new Docket(DocumentationType.SPRING_WEB)
+                        .select()
+                        .apis(RequestHandlerSelectors.basePackage("br.com.guilherme.gastos.controller"))
+                        .paths(PathSelectors.any())
+                        .build();
+    }
 
 }
