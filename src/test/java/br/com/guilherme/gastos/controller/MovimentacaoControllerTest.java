@@ -6,10 +6,7 @@ import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseAlterarMovimentacaoDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseBuscarMovimentacaoDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseInserirMovimentacaoDTO;
+import br.com.guilherme.gastos.dto.movimentacao.response.*;
 import br.com.guilherme.gastos.service.movimentacao.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -124,6 +122,44 @@ class MovimentacaoControllerTest {
         //then
         then(consultarMovimentacaoService).should().consultarMovimentacaoAnoMes(anyInt(), anyInt());
         ControllerTestUtils<ResponseConsultarMovimentacaoAnoMesDTO> testUtils = new ControllerTestUtils<>();
+        testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
+    }
+
+    @DisplayName("Consultar movimentação por categoria")
+    @Test
+    void consultarMovimentacaoCategoria() {
+
+        //given
+        given(consultarMovimentacaoService.consultarMovimentacaoCategoria(anyInt(), anyInt(), anyInt()))
+                .willReturn(
+                        new ResponseConsultarMovimentacaoCategoriaDTO(new ArrayList<>(), new BigDecimal("200"))
+                );
+
+        //when
+        ResponseEntity<ResponseConsultarMovimentacaoCategoriaDTO> responseEntity =
+                controller.consultarMovimentacaoCategoria(1, 1, 1);
+
+        //then
+        then(consultarMovimentacaoService).should().consultarMovimentacaoCategoria(anyInt(), anyInt(), anyInt());
+        ControllerTestUtils<ResponseConsultarMovimentacaoCategoriaDTO> testUtils = new ControllerTestUtils<>();
+        testUtils.testaResponseEntityOk(responseEntity);
+    }
+
+    @DisplayName("Consultar movimentação por categoria - BadRequest")
+    @Test
+    void consultarMovimentacaoCategoria_badRequest() {
+
+        //given
+        given(consultarMovimentacaoService.consultarMovimentacaoCategoria(anyInt(), anyInt(), anyInt()))
+                .willThrow(new RuntimeException("Mensagem erro"));
+
+        //when
+        ResponseEntity<ResponseConsultarMovimentacaoCategoriaDTO> responseEntity =
+                controller.consultarMovimentacaoCategoria(1, 1, 1);
+
+        //then
+        then(consultarMovimentacaoService).should().consultarMovimentacaoCategoria(anyInt(), anyInt(), anyInt());
+        ControllerTestUtils<ResponseConsultarMovimentacaoCategoriaDTO> testUtils = new ControllerTestUtils<>();
         testUtils.testaResponseEntityBadRequest(responseEntity, "Mensagem erro");
     }
 
