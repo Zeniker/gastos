@@ -31,36 +31,23 @@ public class CategoriaController {
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
                     @Valid @RequestBody RequestInserirCategoriaDTO request){
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseInserirCategoriaDTO(inserirCategoriaService.inserirDTO(request))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseInserirCategoriaDTO(e.getMessage()));
-        }
-
+        return ResponseEntity.ok(
+                        new ResponseInserirCategoriaDTO(inserirCategoriaService.inserirDTO(request))
+        );
     }
 
     @GetMapping
     public ResponseEntity<ResponseListarCategoriaDTO> listarCategoria(){
 
-        try{
-            return ResponseEntity.ok(new ResponseListarCategoriaDTO(listarCategoriaService.listarDTO()));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseListarCategoriaDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(new ResponseListarCategoriaDTO(listarCategoriaService.listarDTO()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseBuscarCategoriaDTO> buscarCategoria(@PathVariable Integer id){
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseBuscarCategoriaDTO(buscarCategoriaService.buscarDTO(id))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseBuscarCategoriaDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(
+                        new ResponseBuscarCategoriaDTO(buscarCategoriaService.buscarDTO(id))
+        );
 
     }
 
@@ -68,22 +55,16 @@ public class CategoriaController {
     public ResponseEntity<ResponseAlterarCategoriaDTO> alterarCategoria(@PathVariable Integer id,
                     @Valid @RequestBody RequestAlterarCategoriaDTO request){
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseAlterarCategoriaDTO(alterarCategoriaService.alterarDTO(id, request))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseAlterarCategoriaDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(
+                        new ResponseAlterarCategoriaDTO(alterarCategoriaService.alterarDTO(id, request))
+        );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deletarCategoria(@PathVariable Integer id){
-        try{
-            return ResponseEntity.ok(deletarCategoriaService.deletarDTO(id));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(deletarCategoriaService.deletarDTO(id));
+
     }
 
 }
