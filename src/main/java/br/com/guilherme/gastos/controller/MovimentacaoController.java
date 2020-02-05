@@ -27,27 +27,19 @@ public class MovimentacaoController {
     @PostMapping
     public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
                     @RequestBody @Valid RequestInserirMovimentacaoDTO requestInserirMovimentacaoDTO){
-        try{
-            ResponseInserirMovimentacaoDTO responseDTO = new ResponseInserirMovimentacaoDTO(
-                    inserirMovimentacaoService.inserirDTO(requestInserirMovimentacaoDTO)
-            );
 
-            return ResponseEntity.ok(responseDTO);
-        }catch (Exception e){
-            log.error("Erro ao inserir movimentacao", e);
-            return ResponseEntity.badRequest().body(new ResponseInserirMovimentacaoDTO(e.getMessage()));
-        }
+        ResponseInserirMovimentacaoDTO responseDTO = new ResponseInserirMovimentacaoDTO(
+                inserirMovimentacaoService.inserirDTO(requestInserirMovimentacaoDTO)
+        );
+
+        return ResponseEntity.ok(responseDTO);
+
     }
 
     @GetMapping
     public ResponseEntity<ResponseConsultarMovimentacaoAnoMesDTO> consultarMovimentacaoAnoMes(@RequestParam Integer ano,
                     @RequestParam Integer mes){
-        try{
-            return ResponseEntity.ok(consultarMovimentacaoService.consultarMovimentacaoAnoMes(ano, mes));
-        }catch (Exception e){
-            log.error("Erro ao consultar movimentacao no ano/mês", e);
-            return ResponseEntity.badRequest().body(new ResponseConsultarMovimentacaoAnoMesDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(consultarMovimentacaoService.consultarMovimentacaoAnoMes(ano, mes));
     }
 
     @GetMapping("/categoria/{id}")
@@ -66,40 +58,28 @@ public class MovimentacaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseBuscarMovimentacaoDTO> buscarMovimentacao(@PathVariable Integer id){
-        try{
-            ResponseBuscarMovimentacaoDTO responseDTO = new ResponseBuscarMovimentacaoDTO(
-                    buscarMovimentacaoService.buscarMovimentacaoDTO(id)
-            );
-            return ResponseEntity.ok(responseDTO);
-        } catch (Exception e){
-            log.error("Erro ao consultar movimentacao", e);
-            return ResponseEntity.badRequest().body(new ResponseBuscarMovimentacaoDTO(e.getMessage()));
-        }
+        ResponseBuscarMovimentacaoDTO responseDTO = new ResponseBuscarMovimentacaoDTO(
+                buscarMovimentacaoService.buscarMovimentacaoDTO(id)
+        );
+        return ResponseEntity.ok(responseDTO);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseAlterarMovimentacaoDTO> alterarMovimentacao(@PathVariable Integer id,
                     @RequestBody @Valid RequestAlterarMovimentacaoDTO requestAlterarMovimentacaoDTO){
-        try{
-            ResponseAlterarMovimentacaoDTO responseDTO = new ResponseAlterarMovimentacaoDTO(
-                    alterarMovimentacaoService.alterarMovimentacaoDTO(id, requestAlterarMovimentacaoDTO)
-            );
 
-            return ResponseEntity.ok(responseDTO);
-        } catch (Exception e){
-            log.error("Erro ao alterar movimentacao", e);
-            return ResponseEntity.badRequest().body(new ResponseAlterarMovimentacaoDTO(e.getMessage()));
-        }
+        ResponseAlterarMovimentacaoDTO responseDTO = new ResponseAlterarMovimentacaoDTO(
+                alterarMovimentacaoService.alterarMovimentacaoDTO(id, requestAlterarMovimentacaoDTO)
+        );
+
+        return ResponseEntity.ok(responseDTO);
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deletarMovimentacao(@PathVariable Integer id){
-        try{
-            return ResponseEntity.ok(deletarMovimentacaoService.deletarMovimentacaoDTO(id));
-        } catch (Exception e){
-            log.error("Erro ao deletar movimentacao", e);
-            return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(deletarMovimentacaoService.deletarMovimentacaoDTO(id));
     }
 
 }

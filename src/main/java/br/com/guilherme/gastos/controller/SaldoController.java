@@ -21,12 +21,8 @@ public class SaldoController {
     @GetMapping
     public ResponseEntity<ResponseConsultarSaldoAnoMes> consultarSaldoAnoMes(@RequestParam Integer ano,
                     @RequestParam Integer mes){
-        try{
-            return ResponseEntity.ok().body(saldoService.consultarSaldoAnoMes(ano, mes));
-        }catch (Exception e){
-            log.error("Erro ao consultar saldo ano/mes", e);
-            return ResponseEntity.badRequest().body(new ResponseConsultarSaldoAnoMes(e.getMessage()));
-        }
+
+        return ResponseEntity.ok().body(saldoService.consultarSaldoAnoMes(ano, mes));
 
     }
 

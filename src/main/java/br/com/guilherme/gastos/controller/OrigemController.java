@@ -31,37 +31,30 @@ public class OrigemController {
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
                     @Valid @RequestBody RequestInserirOrigemDTO request) {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseInserirOrigemDTO(inserirOrigemService.inserirDTO(request))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseInserirOrigemDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(
+                        new ResponseInserirOrigemDTO(inserirOrigemService.inserirDTO(request))
+        );
+
     }
 
     @GetMapping
     public ResponseEntity<ResponseListarOrigemDTO> listarOrigens() {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseListarOrigemDTO(listarOrigemService.listarDTO())
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseListarOrigemDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(
+                        new ResponseListarOrigemDTO(listarOrigemService.listarDTO())
+        );
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseBuscarOrigemDTO> buscarOrigem(@PathVariable Integer id) {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseBuscarOrigemDTO(buscarOrigemService.buscarDTO(id))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseBuscarOrigemDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(
+                        new ResponseBuscarOrigemDTO(buscarOrigemService.buscarDTO(id))
+        );
+
     }
 
     @PutMapping("/{id}")
@@ -69,22 +62,17 @@ public class OrigemController {
     public ResponseEntity<ResponseAlterarOrigemDTO> alterarOrigem(@PathVariable Integer id,
                     @Valid @RequestBody RequestAlterarOrigemDTO request) {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseAlterarOrigemDTO(alterarOrigemService.alterarDTO(id, request))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseAlterarOrigemDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(
+                        new ResponseAlterarOrigemDTO(alterarOrigemService.alterarDTO(id, request))
+        );
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deletarOrigem(@PathVariable Integer id) {
 
-        try{
-            return ResponseEntity.ok(deletarOrigemService.deletarDTO(id));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(deletarOrigemService.deletarDTO(id));
+
     }
 }
