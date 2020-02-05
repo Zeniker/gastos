@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        var signingKey = SecurityConstants.JWT_SECRET.getBytes();
+        var signingKey = jwtSecret.getBytes();
 
         var token = Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
