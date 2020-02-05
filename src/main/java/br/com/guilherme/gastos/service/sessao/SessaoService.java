@@ -1,53 +1,46 @@
-package br.com.guilherme.gastos.filters;
+package br.com.guilherme.gastos.service.sessao;
 
 import br.com.guilherme.gastos.config.SecurityConstants;
+import br.com.guilherme.gastos.dto.sessao.RequestLoginDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Service;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+@Service
+@Slf4j
+public class SessaoService {
 
     private final AuthenticationManager authenticationManager;
-    private final String jwtSecret;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
-                                   String jwtSecret) {
+    @Value("${aplicacao.token.key}")
+    private String jwtSecret;
+
+    public SessaoService(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.jwtSecret = jwtSecret;
-
-        setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
     }
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException {
+    private Authentication validaCredenciais(RequestLoginDto requestDto) throws BadCredentialsException {
 
-        var username = request.getParameter("username");
-        var password = request.getParameter("password");
-        var authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(requestDto.getUsuario(),
+                requestDto.getSenha());
 
         return authenticationManager.authenticate(authenticationToken);
     }
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication authentication)
-            throws IOException, ServletException {
+    private void injetaJwtNoResponse(HttpServletResponse httpServletResponse, Authentication authentication){
 
         var user = ((User) authentication.getPrincipal());
         var roles = user.getAuthorities().stream()
@@ -66,7 +59,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .claim("rol", roles)
                 .compact();
 
-        response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
+        httpServletResponse.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
 
     }
+
+    public void login(RequestLoginDto requestDto, HttpServletResponse httpServletResponse){
+
+        Authentication authentication = validaCredenciais(requestDto);
+
+        injetaJwtNoResponse(httpServletResponse, authentication);
+
+    }
+
+
 }

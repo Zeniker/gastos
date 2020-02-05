@@ -37,6 +37,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
+        String path = request.getRequestURI();
+        if ("/sessao/login".equals(path)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         var authentication = getAuthentication(request);
 
         if(authentication == null){

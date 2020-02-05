@@ -2,6 +2,7 @@ package br.com.guilherme.gastos.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,12 @@ public class GlobalExceptionHandler  {
     @ExceptionHandler(value = {ServiceException.class})
     public ResponseEntity<ApiError> handleRequiredFieldsException(ServiceException exception, HttpServletRequest request) {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage(), getRequestUri(request)));
+    }
+
+    @ExceptionHandler(value = {BadCredentialsException.class})
+    public ResponseEntity<ApiError> handleBadCredentaislException(HttpServletRequest request) {
+        return buildResponseEntity(new ApiError(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos",
+                getRequestUri(request)));
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
