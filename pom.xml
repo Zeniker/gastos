@@ -15,7 +15,7 @@
     <description>Controle de Gastos mensais simples</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <swagger.version>2.9.2</swagger.version>
     </properties>
 
@@ -127,6 +127,28 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!--  Autenticação    -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.10.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.10.7</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.10.7</version>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

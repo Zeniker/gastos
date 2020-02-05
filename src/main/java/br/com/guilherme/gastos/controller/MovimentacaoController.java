@@ -3,10 +3,7 @@ package br.com.guilherme.gastos.controller;
 import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseAlterarMovimentacaoDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseBuscarMovimentacaoDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
-import br.com.guilherme.gastos.dto.movimentacao.response.ResponseInserirMovimentacaoDTO;
+import br.com.guilherme.gastos.dto.movimentacao.response.*;
 import br.com.guilherme.gastos.service.movimentacao.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +40,20 @@ public class MovimentacaoController {
     public ResponseEntity<ResponseConsultarMovimentacaoAnoMesDTO> consultarMovimentacaoAnoMes(@RequestParam Integer ano,
                     @RequestParam Integer mes){
         return ResponseEntity.ok(consultarMovimentacaoService.consultarMovimentacaoAnoMes(ano, mes));
+    }
+
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<ResponseConsultarMovimentacaoCategoriaDTO> consultarMovimentacaoCategoria(
+            @PathVariable("id") Integer categoria,
+            @RequestParam Integer ano,
+            @RequestParam Integer mes){
+
+        try{
+            return ResponseEntity.ok(consultarMovimentacaoService.consultarMovimentacaoCategoria(categoria, ano, mes));
+        }catch (Exception e){
+            log.error("Erro ao consultar movimentacao por categoria", e);
+            return ResponseEntity.badRequest().body(new ResponseConsultarMovimentacaoCategoriaDTO(e.getMessage()));
+        }
     }
 
     @GetMapping("/{id}")

@@ -23,7 +23,6 @@ public class Movimentacao {
     private Integer id;
 
     @NotNull
-    @Min(1)
     private BigDecimal valor;
 
     @NotNull
