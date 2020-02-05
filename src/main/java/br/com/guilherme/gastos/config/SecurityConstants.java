@@ -2,8 +2,6 @@ package br.com.guilherme.gastos.config;
 
 public abstract class SecurityConstants {
 
-    public static final String AUTH_LOGIN_URL = "/api/authenticate";
-
     // JWT token defaults
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
