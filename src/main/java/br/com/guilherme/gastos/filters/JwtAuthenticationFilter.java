@@ -23,9 +23,12 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final String jwtSecret;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   String jwtSecret) {
         this.authenticationManager = authenticationManager;
+        this.jwtSecret = jwtSecret;
 
         setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
     }

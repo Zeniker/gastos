@@ -24,8 +24,13 @@ import java.util.stream.Collectors;
 @Log
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    private final String jwtSecret;
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
+                                  String jwtSecret) {
         super(authenticationManager);
+
+        this.jwtSecret = jwtSecret;
     }
 
     @Override

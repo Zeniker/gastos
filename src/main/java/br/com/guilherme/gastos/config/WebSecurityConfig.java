@@ -28,6 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${aplicacao.senha}")
     private String senha;
 
+    @Value("${aplicacao.token.key}")
+    private String jwtSecret;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -36,8 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtSecret))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
