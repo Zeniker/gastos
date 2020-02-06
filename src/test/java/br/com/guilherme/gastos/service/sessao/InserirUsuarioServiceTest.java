@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.dto.sessao.request.RequestRegistrarDTO;
 import br.com.guilherme.gastos.exception.EmailJaCadastradoException;
 import br.com.guilherme.gastos.repository.UsuarioRepository;
+import br.com.guilherme.gastos.service.usuario.InserirUsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,14 +25,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class RegistrarServiceTest {
+class InserirUsuarioServiceTest {
 
     @Mock
     private UsuarioRepository repository;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    private RegistrarService service;
+    private InserirUsuarioService service;
 
     @Captor
     private ArgumentCaptor<Usuario> captor;
@@ -40,7 +41,7 @@ class RegistrarServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RegistrarService(repository, passwordEncoder);
+        service = new InserirUsuarioService(repository, passwordEncoder);
 
         request = new RequestRegistrarDTO();
         request.setEmail("email");

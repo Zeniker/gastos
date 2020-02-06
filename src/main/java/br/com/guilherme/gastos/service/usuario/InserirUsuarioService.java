@@ -1,4 +1,4 @@
-package br.com.guilherme.gastos.service.sessao;
+package br.com.guilherme.gastos.service.usuario;
 
 import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.dto.sessao.request.RequestRegistrarDTO;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class RegistrarService {
+public class InserirUsuarioService {
 
     private UsuarioRepository usuarioRepository;
     private PasswordEncoder passwordEncoder;
 
-    public RegistrarService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public InserirUsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
