@@ -41,7 +41,7 @@ class BuscarMovimentacaoServiceTest {
 
     @DisplayName("Buscar Movimentação")
     @Test
-    void buscarMovimentacao() {
+    void buscarMovimentacao() throws Exception {
         //given
         given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
 
@@ -70,7 +70,7 @@ class BuscarMovimentacaoServiceTest {
 
     @DisplayName("Buscar Movimentação DTO")
     @Test
-    void buscarMovimentacaoDTO() {
+    void buscarMovimentacaoDTO() throws Exception {
         //given
         given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
 

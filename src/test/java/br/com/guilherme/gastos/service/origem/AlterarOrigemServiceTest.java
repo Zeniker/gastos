@@ -32,7 +32,7 @@ class AlterarOrigemServiceTest {
 
     @DisplayName("Alterar Origem DTO")
     @Test
-    void alterarDTO() {
+    void alterarDTO() throws Exception {
 
         //given
         Origem origem = new Origem();

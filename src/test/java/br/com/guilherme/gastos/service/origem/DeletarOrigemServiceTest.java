@@ -28,7 +28,7 @@ class DeletarOrigemServiceTest {
 
     @DisplayName("Deletar Origem DTO")
     @Test
-    void deletarDTO() {
+    void deletarDTO() throws Exception {
 
         //given
         given(buscarOrigemService.buscar(anyInt())).willReturn(new Origem());

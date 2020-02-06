@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
+import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,7 @@ class BuscarOrigemServiceTest {
 
     @DisplayName("Buscar Origem")
     @Test
-    void buscar() {
+    void buscar() throws Exception {
 
         //given
         given(repository.findById(anyInt())).willReturn(Optional.of(origem));
@@ -76,7 +77,7 @@ class BuscarOrigemServiceTest {
 
     @DisplayName("Buscar Origem DTO")
     @Test
-    void buscarDTO() {
+    void buscarDTO() throws Exception {
 
         //given
         given(repository.findById(anyInt())).willReturn(Optional.of(origem));

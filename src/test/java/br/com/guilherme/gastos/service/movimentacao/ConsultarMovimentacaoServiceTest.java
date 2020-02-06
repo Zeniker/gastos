@@ -101,7 +101,7 @@ class ConsultarMovimentacaoServiceTest {
 
     @DisplayName("Consultar Movimentações por categoria")
     @Test
-    void consultarMovimentacaoCategoria() {
+    void consultarMovimentacaoCategoria() throws Exception {
         //given
         given(buscarCategoriaService.buscar(anyInt())).willReturn(new Categoria());
         given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
@@ -122,7 +122,7 @@ class ConsultarMovimentacaoServiceTest {
 
     @DisplayName("Consultar Movimentações por categoria - Movimentacao Vazia")
     @Test
-    void consultarMovimentacaoCategoria_movimentacaoVazia() {
+    void consultarMovimentacaoCategoria_movimentacaoVazia() throws Exception {
         //given
         given(buscarCategoriaService.buscar(anyInt())).willReturn(new Categoria());
         given(repository.findAll(any(Predicate.class))).willReturn(new ArrayList());

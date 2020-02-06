@@ -67,7 +67,7 @@ class InserirMovimentacaoServiceTest {
 
     @DisplayName("Inserir movimentação")
     @Test
-    void inserirMovimentacao() {
+    void inserirMovimentacao() throws Exception {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
         origem.setTipoMovimentacao(TipoMovimentacao.GASTO);
@@ -105,7 +105,7 @@ class InserirMovimentacaoServiceTest {
 
     @DisplayName("Inserir movimentação - Categoria Não Compatível")
     @Test
-    void inserirMovimentacao_erroCategoriaNaoCompativel() {
+    void inserirMovimentacao_erroCategoriaNaoCompativel() throws Exception {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GANHO);
 
@@ -125,7 +125,7 @@ class InserirMovimentacaoServiceTest {
 
     @DisplayName("Inserir movimentação - Origem Não Compatível")
     @Test
-    void inserirMovimentacao_erroOrigemNaoCompativel() {
+    void inserirMovimentacao_erroOrigemNaoCompativel() throws Exception {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
         origem.setTipoMovimentacao(TipoMovimentacao.GANHO);
