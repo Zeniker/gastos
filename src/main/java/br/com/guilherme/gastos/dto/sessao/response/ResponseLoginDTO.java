@@ -1,4 +1,4 @@
-package br.com.guilherme.gastos.dto.sessao;
+package br.com.guilherme.gastos.dto.sessao.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

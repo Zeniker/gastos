@@ -20,12 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${aplicacao.usuario}")
-    private String usuario;
-
-    @Value("${aplicacao.senha}")
-    private String senha;
-
     @Value("${aplicacao.token.key}")
     private String jwtSecret;
 
@@ -34,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/sessao/login").permitAll()
+                .antMatchers("/sessao/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret))

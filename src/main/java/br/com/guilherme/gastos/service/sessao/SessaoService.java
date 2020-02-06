@@ -1,7 +1,7 @@
 package br.com.guilherme.gastos.service.sessao;
 
-import br.com.guilherme.gastos.dto.sessao.RequestLoginDTO;
-import br.com.guilherme.gastos.dto.sessao.ResponseLoginDTO;
+import br.com.guilherme.gastos.dto.sessao.request.RequestLoginDTO;
+import br.com.guilherme.gastos.dto.sessao.response.ResponseLoginDTO;
 import br.com.guilherme.gastos.security.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
