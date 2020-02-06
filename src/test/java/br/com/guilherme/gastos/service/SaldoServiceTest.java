@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.service.movimentacao.ConsultarMovimentacaoService;
+import br.com.guilherme.gastos.service.saldo.SaldoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
