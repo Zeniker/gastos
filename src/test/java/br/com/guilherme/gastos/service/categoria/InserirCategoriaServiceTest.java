@@ -5,6 +5,8 @@ import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
+import br.com.guilherme.gastos.service.ServiceTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class InserirCategoriaServiceTest {
+class InserirCategoriaServiceTest extends ServiceTest {
 
     @Mock
     private CategoriaRepository repository;
@@ -30,6 +32,12 @@ class InserirCategoriaServiceTest {
 
     @Captor
     private ArgumentCaptor<Categoria> captor;
+
+    @Override
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
+    }
 
     @DisplayName("Inserir Categoria a partir de DTO")
     @Test

@@ -7,6 +7,8 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseAlterarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
+import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
+import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.origem.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,60 +33,48 @@ public class OrigemController {
     public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
                     @Valid @RequestBody RequestInserirOrigemDTO request) {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseInserirOrigemDTO(inserirOrigemService.inserirDTO(request))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseInserirOrigemDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(
+                        new ResponseInserirOrigemDTO(inserirOrigemService.inserirDTO(request))
+        );
+
     }
 
     @GetMapping
     public ResponseEntity<ResponseListarOrigemDTO> listarOrigens() {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseListarOrigemDTO(listarOrigemService.listarDTO())
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseListarOrigemDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(
+                        new ResponseListarOrigemDTO(listarOrigemService.listarDTO())
+        );
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseBuscarOrigemDTO> buscarOrigem(@PathVariable Integer id) {
+    public ResponseEntity<ResponseBuscarOrigemDTO> buscarOrigem(@PathVariable Integer id) throws ServiceException {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseBuscarOrigemDTO(buscarOrigemService.buscarDTO(id))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseBuscarOrigemDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(
+                        new ResponseBuscarOrigemDTO(buscarOrigemService.buscarDTO(id))
+        );
+
     }
 
     @PutMapping("/{id}")
 
     public ResponseEntity<ResponseAlterarOrigemDTO> alterarOrigem(@PathVariable Integer id,
-                    @Valid @RequestBody RequestAlterarOrigemDTO request) {
+                    @Valid @RequestBody RequestAlterarOrigemDTO request) throws ServiceException {
 
-        try{
-            return ResponseEntity.ok(
-                            new ResponseAlterarOrigemDTO(alterarOrigemService.alterarDTO(id, request))
-            );
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseAlterarOrigemDTO(e.getMessage()));
-        }
+
+        return ResponseEntity.ok(
+                        new ResponseAlterarOrigemDTO(alterarOrigemService.alterarDTO(id, request))
+        );
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deletarOrigem(@PathVariable Integer id) {
+    public ResponseEntity<ResponseDTO> deletarOrigem(@PathVariable Integer id) throws ServiceException {
 
-        try{
-            return ResponseEntity.ok(deletarOrigemService.deletarDTO(id));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ResponseDTO(e.getMessage()));
-        }
+        return ResponseEntity.ok(deletarOrigemService.deletarDTO(id));
+
     }
 }

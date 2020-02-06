@@ -67,7 +67,7 @@ class AlterarMovimentacaoServiceTest {
 
     @DisplayName("Alterar movimentação")
     @Test
-    void alterarMovimentacao() {
+    void alterarMovimentacao() throws Exception {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
         origem.setTipoMovimentacao(TipoMovimentacao.GASTO);
@@ -98,13 +98,13 @@ class AlterarMovimentacaoServiceTest {
         assertEquals("Alterada", movimentacaoAlterada.getDescricao(), "Descrição diferente do esperado");
         assertEquals(new BigDecimal("200"), movimentacaoAlterada.getValor(), "Valor diferente do esperado");
         assertEquals(data, movimentacaoAlterada.getDataEntrada(), "Data diferente do esperado");
-        assertEquals(new Integer(1), movimentacaoAlterada.getCategoria(), "Categoria diferente do esperado");
-        assertEquals(new Integer(2), movimentacaoAlterada.getOrigem(), "Origem diferente do esperado");
+        assertEquals(1, movimentacaoAlterada.getCategoria().intValue(), "Categoria diferente do esperado");
+        assertEquals(2, movimentacaoAlterada.getOrigem().intValue(), "Origem diferente do esperado");
     }
 
     @DisplayName("Alterar movimentação - Categoria Não Compatível")
     @Test
-    void alterarMovimentacao_erroCategoriaNaoCompativel() {
+    void alterarMovimentacao_erroCategoriaNaoCompativel() throws Exception {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
         movimentacao.setTipoMovimentacao(TipoMovimentacao.GANHO);
@@ -125,7 +125,7 @@ class AlterarMovimentacaoServiceTest {
 
     @DisplayName("Alterar movimentação - Origem Não Compatível")
     @Test
-    void alterarMovimentacao_erroOrigemNaoCompativel() {
+    void alterarMovimentacao_erroOrigemNaoCompativel() throws Exception {
         //given
         categoria.setTipoMovimentacao(TipoMovimentacao.GANHO);
         origem.setTipoMovimentacao(TipoMovimentacao.GASTO);

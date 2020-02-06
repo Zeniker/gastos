@@ -2,9 +2,11 @@ package br.com.guilherme.gastos.service.movimentacao;
 
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.Movimentacao;
+import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
+import br.com.guilherme.gastos.service.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,12 +18,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class BuscarMovimentacaoServiceTest {
+class BuscarMovimentacaoServiceTest extends ServiceTest {
 
     @Mock
     private MovimentacaoRepository repository;
@@ -32,7 +35,8 @@ class BuscarMovimentacaoServiceTest {
     private Movimentacao movimentacao;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
+        super.setUp();
         movimentacao = new Movimentacao();
         movimentacao.setId(1);
         movimentacao.setDescricao("Teste");
@@ -41,15 +45,15 @@ class BuscarMovimentacaoServiceTest {
 
     @DisplayName("Buscar Movimentação")
     @Test
-    void buscarMovimentacao() {
+    void buscarMovimentacao() throws Exception {
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+        given(repository.findByIdAndUsuario(anyInt(), any(Usuario.class))).willReturn(Optional.of(movimentacao));
 
         //when
         Movimentacao movimentacaoEncontrada = service.buscarMovimentacao(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(repository).should().findByIdAndUsuario(anyInt(), any(Usuario.class));
         assertNotNull(movimentacaoEncontrada, "Movimentação não deveria ser nulo");
         assertEquals(Integer.valueOf(1), movimentacaoEncontrada.getId(), "ID diferente do esperado");
         assertEquals("Teste", movimentacaoEncontrada.getDescricao(), "Descrição diferente do esperado");
@@ -59,26 +63,26 @@ class BuscarMovimentacaoServiceTest {
     @Test
     void buscarMovimentacao_ExcecaoMovimentacaoNaoEncontrada() {
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.empty());
+        given(repository.findByIdAndUsuario(anyInt(), any(Usuario.class))).willReturn(Optional.empty());
 
         //when
         assertThrows(MovimentacaoNaoEncontradaException.class, () -> service.buscarMovimentacao(1));
 
         //then
-        then(repository).should().findById(anyInt());
+        then(repository).should().findByIdAndUsuario(anyInt(), any(Usuario.class));
     }
 
     @DisplayName("Buscar Movimentação DTO")
     @Test
-    void buscarMovimentacaoDTO() {
+    void buscarMovimentacaoDTO() throws Exception {
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(movimentacao));
+        given(repository.findByIdAndUsuario(anyInt(), any(Usuario.class))).willReturn(Optional.of(movimentacao));
 
         //when
         MovimentacaoDTO movimentacaoEncontrada = service.buscarMovimentacaoDTO(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(repository).should().findByIdAndUsuario(anyInt(), any(Usuario.class));
         assertNotNull(movimentacaoEncontrada, "Movimentação não deveria ser nulo");
         assertEquals(Integer.valueOf(1), movimentacaoEncontrada.getId(), "ID diferente do esperado");
         assertEquals("Teste", movimentacaoEncontrada.getDescricao(), "Descrição diferente do esperado");

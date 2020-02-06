@@ -29,7 +29,7 @@ class DeletarMovimentacaoServiceTest {
 
     @DisplayName("Deletar movimentação")
     @Test
-    void deletarMovimentacao() {
+    void deletarMovimentacao() throws Exception {
         //given
         Movimentacao movimentacao = new Movimentacao();
         given(buscarMovimentacaoService.buscarMovimentacao(anyInt())).willReturn(movimentacao);

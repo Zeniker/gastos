@@ -32,7 +32,7 @@ class AlterarCategoriaServiceTest {
 
     @DisplayName("Alterar Categoria DTO")
     @Test
-    void alterarDTO() {
+    void alterarDTO() throws Exception {
         Categoria categoria = new Categoria();
         categoria.setId(1);
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
@@ -53,14 +53,14 @@ class AlterarCategoriaServiceTest {
         then(repository).should().save(categoria);
         assertNotNull(categoriaAlterada, "Categoria não deveria ser nula");
         assertEquals("Teste", categoriaAlterada.getDescricao(), "Descrição diferente do esperado");
-        assertEquals(new Integer(1), categoriaAlterada.getId(), "Id não deveria ter sido modificado");
+        assertEquals(1, categoriaAlterada.getId().intValue(), "Id não deveria ter sido modificado");
         assertEquals(TipoMovimentacao.GASTO, categoriaAlterada.getTipoMovimentacao(), "Tipo movimentação não " +
                 "deveria ter sido alterado");
     }
 
     @DisplayName("Alterar Categoria DTO - Erro id nulo")
     @Test
-    void alterarDTO_erroIdNulo() {
+    void alterarDTO_erroIdNulo() throws Exception {
         Categoria categoria = new Categoria();
         categoria.setId(null);
 

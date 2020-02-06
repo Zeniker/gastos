@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -23,5 +24,8 @@ public class Categoria {
 
     @NotNull
     private TipoMovimentacao tipoMovimentacao;
+
+    @ManyToOne
+    private Usuario usuario;
 
 }

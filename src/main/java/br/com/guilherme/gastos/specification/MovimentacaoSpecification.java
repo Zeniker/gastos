@@ -1,6 +1,8 @@
 package br.com.guilherme.gastos.specification;
 
+import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.QMovimentacao;
+import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
@@ -24,6 +26,16 @@ public class MovimentacaoSpecification {
 
         QMovimentacao movimentacao = QMovimentacao.movimentacao;
         return movimentacao.tipoMovimentacao.eq(tipoMovimentacao);
+    }
+
+    public static BooleanExpression byCategoria(Categoria categoria){
+
+        return QMovimentacao.movimentacao.categoria.eq(categoria);
+    }
+
+    public static BooleanExpression byUsuario(Usuario usuario){
+
+        return QMovimentacao.movimentacao.usuario.eq(usuario);
     }
 
 }

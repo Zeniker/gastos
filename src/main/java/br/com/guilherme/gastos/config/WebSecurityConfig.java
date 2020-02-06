@@ -1,45 +1,60 @@
 package br.com.guilherme.gastos.config;
 
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.context.annotation.Configuration;
-
-//public class WebSecurityConfig{
-//
-//}
-
+import br.com.guilherme.gastos.filters.JwtAuthorizationFilter;
+import br.com.guilherme.gastos.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Value("${auth.password}")
-//    private String passwordBasic;
-//
-//    public String getPasswordBasic() {
-//        return passwordBasic;
-//    }
+    @Value("${aplicacao.token.key}")
+    private String jwtSecret;
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//            .withUser("usuario")
-//            .password(getPasswordBasic())
-//            .roles("USER");
-//    }
+    private final UsuarioRepository usuarioRepository;
+
+    public WebSecurityConfig(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                        .antMatchers("/", "/swagger-ui.html").permitAll()
-                        .antMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyRequest().authenticated().and().httpBasic()
-                        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors().and()
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/sessao/**").permitAll()
+                .antMatchers("/usuario").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret, usuarioRepository))
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+
+        return source;
     }
 
     @Override
@@ -52,5 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**");
     }
 
-
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }

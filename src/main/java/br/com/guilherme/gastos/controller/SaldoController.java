@@ -1,7 +1,7 @@
 package br.com.guilherme.gastos.controller;
 
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
-import br.com.guilherme.gastos.service.SaldoService;
+import br.com.guilherme.gastos.service.saldo.SaldoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +21,8 @@ public class SaldoController {
     @GetMapping
     public ResponseEntity<ResponseConsultarSaldoAnoMes> consultarSaldoAnoMes(@RequestParam Integer ano,
                     @RequestParam Integer mes){
-        try{
-            return ResponseEntity.ok().body(saldoService.consultarSaldoAnoMes(ano, mes));
-        }catch (Exception e){
-            log.error("Erro ao consultar saldo ano/mes", e);
-            return ResponseEntity.badRequest().body(new ResponseConsultarSaldoAnoMes(e.getMessage()));
-        }
+
+        return ResponseEntity.ok().body(saldoService.consultarSaldoAnoMes(ano, mes));
 
     }
 
