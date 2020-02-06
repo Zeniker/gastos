@@ -4,7 +4,6 @@ import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
-import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,7 +52,7 @@ class BuscarOrigemServiceTest {
         //then
         then(repository).should().findById(anyInt());
         assertNotNull(origemEncontrada, "Objeto não deveria ser nulo");
-        assertEquals(new Integer(1), origemEncontrada.getId(), "Id diferente do esperado");
+        assertEquals(1, origemEncontrada.getId().intValue(), "Id diferente do esperado");
         assertEquals("Teste", origemEncontrada.getNome(), "Nome diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, origemEncontrada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");
@@ -88,7 +87,7 @@ class BuscarOrigemServiceTest {
         //then
         then(repository).should().findById(anyInt());
         assertNotNull(origemEncontrada, "Objeto não deveria ser nulo");
-        assertEquals(new Integer(1), origemEncontrada.getId(), "Id diferente do esperado");
+        assertEquals(1, origemEncontrada.getId().intValue(), "Id diferente do esperado");
         assertEquals("Teste", origemEncontrada.getNome(), "Nome diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, origemEncontrada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");

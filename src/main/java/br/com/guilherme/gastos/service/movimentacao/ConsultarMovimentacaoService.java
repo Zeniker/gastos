@@ -47,6 +47,7 @@ public class ConsultarMovimentacaoService {
         return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
     }
 
+    @SuppressWarnings("unchecked")
     List<Movimentacao> consultarMovimentacaoCategoria(Categoria categoria, LocalDate localDate){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)

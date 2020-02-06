@@ -53,7 +53,7 @@ class AlterarCategoriaServiceTest {
         then(repository).should().save(categoria);
         assertNotNull(categoriaAlterada, "Categoria não deveria ser nula");
         assertEquals("Teste", categoriaAlterada.getDescricao(), "Descrição diferente do esperado");
-        assertEquals(new Integer(1), categoriaAlterada.getId(), "Id não deveria ter sido modificado");
+        assertEquals(1, categoriaAlterada.getId().intValue(), "Id não deveria ter sido modificado");
         assertEquals(TipoMovimentacao.GASTO, categoriaAlterada.getTipoMovimentacao(), "Tipo movimentação não " +
                 "deveria ter sido alterado");
     }

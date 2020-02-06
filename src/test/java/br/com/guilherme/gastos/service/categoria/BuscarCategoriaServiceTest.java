@@ -52,7 +52,7 @@ class BuscarCategoriaServiceTest {
         //then
         then(repository).should().findById(anyInt());
         assertNotNull(categoriaEncontrada, "Categoria não deveria ser nula");
-        assertEquals(new Integer(1), categoriaEncontrada.getId(), "Id diferente do esperado");
+        assertEquals(1, categoriaEncontrada.getId().intValue(), "Id diferente do esperado");
         assertEquals("Teste", categoriaEncontrada.getDescricao(), "Descrição diferente do esperado");
         assertEquals(TipoMovimentacao.GANHO, categoriaEncontrada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");
@@ -81,7 +81,7 @@ class BuscarCategoriaServiceTest {
         //then
         then(repository).should().findById(anyInt());
         assertNotNull(categoriaEncontrada, "Categoria não deveria ser nula");
-        assertEquals(new Integer(1), categoriaEncontrada.getId(), "Id diferente do esperado");
+        assertEquals(1, categoriaEncontrada.getId().intValue(), "Id diferente do esperado");
         assertEquals("Teste", categoriaEncontrada.getDescricao(), "Descrição diferente do esperado");
         assertEquals(TipoMovimentacao.GANHO, categoriaEncontrada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");

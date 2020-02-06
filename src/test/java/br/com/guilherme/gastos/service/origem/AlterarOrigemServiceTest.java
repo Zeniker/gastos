@@ -12,7 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
@@ -53,7 +54,7 @@ class AlterarOrigemServiceTest {
         then(repository).should().save(any(Origem.class));
         then(buscarOrigemService).should().buscar(anyInt());
         assertNotNull(origemAlterada, "Objeto não deveria ser nulo");
-        assertEquals(new Integer(1), origemAlterada.getId(), "Id diferente do esperado");
+        assertEquals(1, origemAlterada.getId().intValue(), "Id diferente do esperado");
         assertEquals("TesteAlterado", origemAlterada.getNome(), "Nome diferente do esperado");
         assertEquals(TipoMovimentacao.GANHO, origemAlterada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");
