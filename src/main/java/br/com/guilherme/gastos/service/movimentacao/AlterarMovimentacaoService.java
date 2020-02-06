@@ -3,6 +3,10 @@ package br.com.guilherme.gastos.service.movimentacao;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
+import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
+import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
+import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
+import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
@@ -35,7 +39,8 @@ public class AlterarMovimentacaoService extends ManutencaoMovimentacao {
         return movimentacaoRepository.save(movimentacao);
     }
 
-    public MovimentacaoDTO alterarMovimentacaoDTO(Integer id, RequestAlterarMovimentacaoDTO request){
+    public MovimentacaoDTO alterarMovimentacaoDTO(Integer id, RequestAlterarMovimentacaoDTO request)
+            throws ServiceException {
 
         Movimentacao movimentacao = buscarMovimentacaoService.buscarMovimentacao(id);
 

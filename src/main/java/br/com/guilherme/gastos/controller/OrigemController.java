@@ -7,6 +7,8 @@ import br.com.guilherme.gastos.dto.origem.response.ResponseAlterarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseBuscarOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseInserirOrigemDTO;
 import br.com.guilherme.gastos.dto.origem.response.ResponseListarOrigemDTO;
+import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
+import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.origem.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +50,7 @@ public class OrigemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseBuscarOrigemDTO> buscarOrigem(@PathVariable Integer id) {
+    public ResponseEntity<ResponseBuscarOrigemDTO> buscarOrigem(@PathVariable Integer id) throws ServiceException {
 
 
         return ResponseEntity.ok(
@@ -60,7 +62,7 @@ public class OrigemController {
     @PutMapping("/{id}")
 
     public ResponseEntity<ResponseAlterarOrigemDTO> alterarOrigem(@PathVariable Integer id,
-                    @Valid @RequestBody RequestAlterarOrigemDTO request) {
+                    @Valid @RequestBody RequestAlterarOrigemDTO request) throws ServiceException {
 
 
         return ResponseEntity.ok(
@@ -70,7 +72,7 @@ public class OrigemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deletarOrigem(@PathVariable Integer id) {
+    public ResponseEntity<ResponseDTO> deletarOrigem(@PathVariable Integer id) throws ServiceException {
 
         return ResponseEntity.ok(deletarOrigemService.deletarDTO(id));
 

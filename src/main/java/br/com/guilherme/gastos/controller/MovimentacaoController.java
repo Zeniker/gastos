@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestAlterarMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.request.RequestInserirMovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.*;
+import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.movimentacao.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class MovimentacaoController {
 
     @PostMapping
     public ResponseEntity<ResponseInserirMovimentacaoDTO> inserirMovimentacao(
-                    @RequestBody @Valid RequestInserirMovimentacaoDTO requestInserirMovimentacaoDTO){
+                    @RequestBody @Valid RequestInserirMovimentacaoDTO requestInserirMovimentacaoDTO) throws ServiceException{
 
         ResponseInserirMovimentacaoDTO responseDTO = new ResponseInserirMovimentacaoDTO(
                 inserirMovimentacaoService.inserirDTO(requestInserirMovimentacaoDTO)
@@ -57,7 +58,7 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseBuscarMovimentacaoDTO> buscarMovimentacao(@PathVariable Integer id){
+    public ResponseEntity<ResponseBuscarMovimentacaoDTO> buscarMovimentacao(@PathVariable Integer id) throws ServiceException {
         ResponseBuscarMovimentacaoDTO responseDTO = new ResponseBuscarMovimentacaoDTO(
                 buscarMovimentacaoService.buscarMovimentacaoDTO(id)
         );
@@ -66,7 +67,7 @@ public class MovimentacaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseAlterarMovimentacaoDTO> alterarMovimentacao(@PathVariable Integer id,
-                    @RequestBody @Valid RequestAlterarMovimentacaoDTO requestAlterarMovimentacaoDTO){
+                    @RequestBody @Valid RequestAlterarMovimentacaoDTO requestAlterarMovimentacaoDTO) throws ServiceException{
 
         ResponseAlterarMovimentacaoDTO responseDTO = new ResponseAlterarMovimentacaoDTO(
                 alterarMovimentacaoService.alterarMovimentacaoDTO(id, requestAlterarMovimentacaoDTO)
@@ -77,7 +78,7 @@ public class MovimentacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deletarMovimentacao(@PathVariable Integer id){
+    public ResponseEntity<ResponseDTO> deletarMovimentacao(@PathVariable Integer id) throws ServiceException {
 
         return ResponseEntity.ok(deletarMovimentacaoService.deletarMovimentacaoDTO(id));
     }

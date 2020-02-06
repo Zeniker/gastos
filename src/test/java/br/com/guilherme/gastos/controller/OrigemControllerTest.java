@@ -130,7 +130,7 @@ class OrigemControllerTest {
 
     @DisplayName("Buscar origem")
     @Test
-    void buscarOrigem() {
+    void buscarOrigem() throws Exception {
 
         //given
         given(buscarOrigemService.buscarDTO(anyInt())).willReturn(origemDTO);
@@ -147,7 +147,7 @@ class OrigemControllerTest {
 
     @DisplayName("Buscar origem - BadRequest")
     @Test
-    void buscarOrigem_badRequest() {
+    void buscarOrigem_badRequest() throws Exception {
 
         //given
         given(buscarOrigemService.buscarDTO(anyInt())).willThrow(new RuntimeException("Mensagem erro"));
@@ -164,7 +164,7 @@ class OrigemControllerTest {
 
     @DisplayName("Alterar origem")
     @Test
-    void alterarOrigem() {
+    void alterarOrigem() throws Exception {
 
         //given
         given(alterarOrigemService.alterarDTO(anyInt(), any(RequestAlterarOrigemDTO.class))).willReturn(origemDTO);
@@ -182,7 +182,7 @@ class OrigemControllerTest {
 
     @DisplayName("Alterar origem - BadRequest")
     @Test
-    void alterarOrigem_badRequest() {
+    void alterarOrigem_badRequest() throws Exception {
 
         //given
         given(alterarOrigemService.alterarDTO(anyInt(), any(RequestAlterarOrigemDTO.class)))
@@ -201,7 +201,7 @@ class OrigemControllerTest {
 
     @DisplayName("Deletar origem")
     @Test
-    void deletarOrigem() {
+    void deletarOrigem() throws Exception {
 
         //given
         given(deletarOrigemService.deletarDTO(anyInt())).willReturn(new ResponseDTO());
@@ -218,7 +218,7 @@ class OrigemControllerTest {
 
     @DisplayName("Deletar origem - BadRequest")
     @Test
-    void deletarOrigem_badRequest() {
+    void deletarOrigem_badRequest() throws Exception {
 
         //given
         doThrow(new RuntimeException("Mensagem erro")).when(deletarOrigemService).deletarDTO(anyInt());

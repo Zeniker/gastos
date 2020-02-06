@@ -42,7 +42,7 @@ class BuscarCategoriaServiceTest {
 
     @DisplayName("Buscar Categoria")
     @Test
-    void buscar() {
+    void buscar() throws Exception {
         //given
         given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
 
@@ -71,7 +71,7 @@ class BuscarCategoriaServiceTest {
 
     @DisplayName("Buscar Categoria DTO")
     @Test
-    void buscarDTO() {
+    void buscarDTO() throws Exception {
         //given
         given(repository.findById(anyInt())).willReturn(Optional.of(categoria));
 

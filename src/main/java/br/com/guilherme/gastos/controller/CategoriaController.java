@@ -7,6 +7,7 @@ import br.com.guilherme.gastos.dto.categoria.response.ResponseAlterarCategoriaDT
 import br.com.guilherme.gastos.dto.categoria.response.ResponseBuscarCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseInserirCategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.response.ResponseListarCategoriaDTO;
+import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.categoria.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseBuscarCategoriaDTO> buscarCategoria(@PathVariable Integer id){
+    public ResponseEntity<ResponseBuscarCategoriaDTO> buscarCategoria(@PathVariable Integer id) throws ServiceException {
 
         return ResponseEntity.ok(
                         new ResponseBuscarCategoriaDTO(buscarCategoriaService.buscarDTO(id))
@@ -53,7 +54,7 @@ public class CategoriaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseAlterarCategoriaDTO> alterarCategoria(@PathVariable Integer id,
-                    @Valid @RequestBody RequestAlterarCategoriaDTO request){
+                    @Valid @RequestBody RequestAlterarCategoriaDTO request) throws ServiceException {
 
         return ResponseEntity.ok(
                         new ResponseAlterarCategoriaDTO(alterarCategoriaService.alterarDTO(id, request))
@@ -61,7 +62,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deletarCategoria(@PathVariable Integer id){
+    public ResponseEntity<ResponseDTO> deletarCategoria(@PathVariable Integer id) throws ServiceException {
 
         return ResponseEntity.ok(deletarCategoriaService.deletarDTO(id));
 

@@ -32,7 +32,7 @@ class AlterarCategoriaServiceTest {
 
     @DisplayName("Alterar Categoria DTO")
     @Test
-    void alterarDTO() {
+    void alterarDTO() throws Exception {
         Categoria categoria = new Categoria();
         categoria.setId(1);
         categoria.setTipoMovimentacao(TipoMovimentacao.GASTO);
@@ -60,7 +60,7 @@ class AlterarCategoriaServiceTest {
 
     @DisplayName("Alterar Categoria DTO - Erro id nulo")
     @Test
-    void alterarDTO_erroIdNulo() {
+    void alterarDTO_erroIdNulo() throws Exception {
         Categoria categoria = new Categoria();
         categoria.setId(null);
 

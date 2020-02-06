@@ -29,7 +29,7 @@ class DeletarCategoriaServiceTest {
 
     @DisplayName("Deletar Categoria DTO")
     @Test
-    void deletarDTO() {
+    void deletarDTO() throws Exception {
         Categoria categoria = new Categoria();
 
         //given

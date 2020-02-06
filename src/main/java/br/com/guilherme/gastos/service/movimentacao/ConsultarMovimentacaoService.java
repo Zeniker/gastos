@@ -6,6 +6,7 @@ import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
@@ -91,7 +92,9 @@ public class ConsultarMovimentacaoService {
      * @return ResponseConsultarMovimentacaoCategoriaDTO com valor total e lista de movimentações
      */
     public ResponseConsultarMovimentacaoCategoriaDTO consultarMovimentacaoCategoria(Integer idCategoria, Integer ano,
-                                                                                    Integer mes) {
+                                                                                    Integer mes)
+            throws CategoriaNaoEncontradaException {
+
         LocalDate dataConsulta = LocalDate.of(ano, mes, 1);
 
         Categoria categoria = buscarCategoriaService.buscar(idCategoria);

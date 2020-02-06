@@ -57,7 +57,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Inserir Movimentacao")
     @Test
-    void inserirMovimentacao() {
+    void inserirMovimentacao() throws Exception {
         //given
         given(inserirMovimentacaoService.inserirDTO(any(RequestInserirMovimentacaoDTO.class)))
                 .willReturn(movimentacaoDTO);
@@ -74,7 +74,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Inserir Movimentacao - BadRequest")
     @Test
-    void inserirMovimentacao_badRequest() {
+    void inserirMovimentacao_badRequest() throws Exception {
         //given
         given(inserirMovimentacaoService.inserirDTO(any(RequestInserirMovimentacaoDTO.class)))
                 .willThrow(new RuntimeException("Mensagem erro"));
@@ -91,7 +91,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Consultar movimentação ano/mês")
     @Test
-    void consultarMovimentacaoAnoMes() {
+    void consultarMovimentacaoAnoMes() throws Exception {
 
         //given
         given(consultarMovimentacaoService.consultarMovimentacaoAnoMes(anyInt(), anyInt()))
@@ -109,7 +109,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Consultar movimentação ano/mês - BadRequest")
     @Test
-    void consultarMovimentacaoAnoMes_badRequest() {
+    void consultarMovimentacaoAnoMes_badRequest() throws Exception {
 
         //given
         given(consultarMovimentacaoService.consultarMovimentacaoAnoMes(anyInt(), anyInt()))
@@ -127,7 +127,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Consultar movimentação por categoria")
     @Test
-    void consultarMovimentacaoCategoria() {
+    void consultarMovimentacaoCategoria() throws Exception {
 
         //given
         given(consultarMovimentacaoService.consultarMovimentacaoCategoria(anyInt(), anyInt(), anyInt()))
@@ -147,7 +147,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Consultar movimentação por categoria - BadRequest")
     @Test
-    void consultarMovimentacaoCategoria_badRequest() {
+    void consultarMovimentacaoCategoria_badRequest() throws Exception {
 
         //given
         given(consultarMovimentacaoService.consultarMovimentacaoCategoria(anyInt(), anyInt(), anyInt()))
@@ -165,7 +165,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Buscar Movimentação")
     @Test
-    void buscarMovimentacao() {
+    void buscarMovimentacao() throws Exception {
 
         //given
         given(buscarMovimentacaoService.buscarMovimentacaoDTO(anyInt())).willReturn(movimentacaoDTO);
@@ -181,7 +181,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Buscar Movimentação - BadRequest")
     @Test
-    void buscarMovimentacao_badRequest() {
+    void buscarMovimentacao_badRequest() throws Exception {
 
         //given
         given(buscarMovimentacaoService.buscarMovimentacaoDTO(anyInt()))
@@ -198,7 +198,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Alterar Movimentação")
     @Test
-    void alterarMovimentacao() {
+    void alterarMovimentacao() throws Exception {
 
         //given
         given(alterarMovimentacaoService.alterarMovimentacaoDTO(anyInt(), any(RequestAlterarMovimentacaoDTO.class)))
@@ -219,7 +219,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Alterar Movimentação - BadRequest")
     @Test
-    void alterarMovimentacao_badRequest() {
+    void alterarMovimentacao_badRequest() throws Exception {
 
         //given
         given(alterarMovimentacaoService.alterarMovimentacaoDTO(anyInt(), any(RequestAlterarMovimentacaoDTO.class)))
@@ -240,7 +240,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Deletar Movimentação")
     @Test
-    void deletarMovimentacao() {
+    void deletarMovimentacao() throws Exception {
 
         //given
         given(deletarMovimentacaoService.deletarMovimentacaoDTO(anyInt()))
@@ -257,7 +257,7 @@ class MovimentacaoControllerTest {
 
     @DisplayName("Deletar Movimentação - BadRequest")
     @Test
-    void deletarMovimentacao_badRequest() {
+    void deletarMovimentacao_badRequest() throws Exception {
 
         //given
         given(deletarMovimentacaoService.deletarMovimentacaoDTO(anyInt()))
