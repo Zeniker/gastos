@@ -5,6 +5,8 @@ import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.dto.origem.request.RequestInserirOrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.repository.OrigemRepository;
+import br.com.guilherme.gastos.service.ServiceTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class InserirOrigemServiceTest {
+class InserirOrigemServiceTest extends ServiceTest {
 
     @Mock
     private OrigemRepository repository;
@@ -30,6 +32,12 @@ class InserirOrigemServiceTest {
 
     @Captor
     private ArgumentCaptor<Origem> captor;
+
+    @Override
+    @BeforeEach
+    protected void setUp() {
+        super.setUp();
+    }
 
     @DisplayName("Inserir Origem DTO")
     @Test
