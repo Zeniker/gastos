@@ -1,11 +1,12 @@
 package br.com.guilherme.gastos.filters;
 
-import br.com.guilherme.gastos.config.SecurityConstants;
+import br.com.guilherme.gastos.exception.UsuarioNaoEncontradoException;
+import br.com.guilherme.gastos.repository.UsuarioRepository;
+import br.com.guilherme.gastos.security.SecurityConstants;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.extern.java.Log;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,15 +22,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Log
+
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final String jwtSecret;
+    private final UsuarioRepository usuarioRepository;
+
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  String jwtSecret) {
+                                  String jwtSecret,
+                                  UsuarioRepository usuarioRepository) {
         super(authenticationManager);
 
+        this.usuarioRepository = usuarioRepository;
         this.jwtSecret = jwtSecret;
     }
 
@@ -69,6 +74,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 var username = parsedToken
                         .getBody()
                         .getSubject();
+
+                if(usuarioRepository.findByEmail(username).isEmpty()) throw new UsuarioNaoEncontradoException();
 
                 var authorities = ((List<?>) parsedToken.getBody().get("rol")).stream()
                         .map(authority -> new SimpleGrantedAuthority((String) authority))

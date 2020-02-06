@@ -1,7 +1,7 @@
 package br.com.guilherme.gastos.controller;
 
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
-import br.com.guilherme.gastos.service.SaldoService;
+import br.com.guilherme.gastos.service.saldo.SaldoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

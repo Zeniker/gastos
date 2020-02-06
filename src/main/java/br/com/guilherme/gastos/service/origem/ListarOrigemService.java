@@ -3,6 +3,7 @@ package br.com.guilherme.gastos.service.origem;
 import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.repository.OrigemRepository;
+import br.com.guilherme.gastos.service.sessao.SessaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,11 @@ import java.util.stream.Collectors;
 public class ListarOrigemService {
 
     private final OrigemRepository origemRepository;
+    private final SessaoService sessaoService;
 
     private List<Origem> listar() {
 
-        return origemRepository.findAll();
+        return origemRepository.findByUsuario(sessaoService.getUsuarioAtual());
     }
 
     public List<OrigemDTO> listarDTO(){

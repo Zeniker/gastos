@@ -9,6 +9,7 @@ import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoCompativelException;
 import br.com.guilherme.gastos.exception.OrigemNaoCompativelException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
+import br.com.guilherme.gastos.service.ServiceTest;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class InserirMovimentacaoServiceTest {
+class InserirMovimentacaoServiceTest extends ServiceTest {
 
     @Mock
     private MovimentacaoRepository repository;
@@ -55,7 +56,8 @@ class InserirMovimentacaoServiceTest {
     private Origem origem;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
+        super.setUp();
 
         categoria = new Categoria();
 

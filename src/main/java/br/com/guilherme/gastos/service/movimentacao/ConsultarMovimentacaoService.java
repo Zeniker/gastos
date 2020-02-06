@@ -7,8 +7,10 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovime
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
+import br.com.guilherme.gastos.exception.UsuarioNaoEncontradoException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
+import br.com.guilherme.gastos.service.sessao.SessaoService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Service;
@@ -29,12 +31,21 @@ public class ConsultarMovimentacaoService {
 
     private final BuscarCategoriaService buscarCategoriaService;
 
+    private final SessaoService sessaoService;
+
     public ConsultarMovimentacaoService(MovimentacaoRepository movimentacaoRepository,
-                                        BuscarCategoriaService buscarCategoriaService) {
+                                        BuscarCategoriaService buscarCategoriaService,
+                                        SessaoService sessaoService) {
 
         this.movimentacaoRepository = movimentacaoRepository;
         this.buscarCategoriaService = buscarCategoriaService;
+        this.sessaoService = sessaoService;
         this.iterableToCollection = new IterableToCollection<>();
+    }
+
+    private List<MovimentacaoDTO> converteMovimentacaoParaDto(List<Movimentacao> movimentacoes){
+        return movimentacoes.stream().map(MovimentacaoDTO::new)
+                .collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")
@@ -42,16 +53,8 @@ public class ConsultarMovimentacaoService {
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)
                 .and(byDataEntradaAno(localDate))
-                .and(byTipoMovimentacao(tipoMovimentacao));
-
-        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
-    }
-
-    List<Movimentacao> consultarMovimentacaoCategoria(Categoria categoria, LocalDate localDate){
-
-        BooleanExpression booleanExpression = byDataEntradaMes(localDate)
-                .and(byDataEntradaAno(localDate))
-                .and(byCategoria(categoria));
+                .and(byTipoMovimentacao(tipoMovimentacao))
+                .and(byUsuario(sessaoService.getUsuarioAtual()));
 
         return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
     }
@@ -59,11 +62,6 @@ public class ConsultarMovimentacaoService {
     public List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate){
 
         return this.consultarMovimentacaoAnoMes(localDate, null);
-    }
-
-    private List<MovimentacaoDTO> converteMovimentacaoParaDto(List<Movimentacao> movimentacoes){
-        return movimentacoes.stream().map(MovimentacaoDTO::new)
-                .collect(Collectors.toList());
     }
 
     ResponseConsultarMovimentacaoAnoMesDTO consultarMovimentacaoAnoMes(Integer ano, Integer mes,
@@ -82,6 +80,17 @@ public class ConsultarMovimentacaoService {
         return this.consultarMovimentacaoAnoMes(ano, mes, null);
     }
 
+    @SuppressWarnings("unchecked")
+    List<Movimentacao> consultarMovimentacaoCategoria(Categoria categoria, LocalDate localDate){
+
+        BooleanExpression booleanExpression = byDataEntradaMes(localDate)
+                .and(byDataEntradaAno(localDate))
+                .and(byCategoria(categoria))
+                .and(byUsuario(sessaoService.getUsuarioAtual()));
+
+        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
+    }
+
     /**
      * Consulta e retorna um dto com a lista de movimentações de uma determinada categoria
      * e com a soma do valor de todas as movimentações listadas
@@ -93,7 +102,7 @@ public class ConsultarMovimentacaoService {
      */
     public ResponseConsultarMovimentacaoCategoriaDTO consultarMovimentacaoCategoria(Integer idCategoria, Integer ano,
                                                                                     Integer mes)
-            throws CategoriaNaoEncontradaException {
+            throws CategoriaNaoEncontradaException, UsuarioNaoEncontradoException {
 
         LocalDate dataConsulta = LocalDate.of(ano, mes, 1);
 

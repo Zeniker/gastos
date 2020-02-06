@@ -1,11 +1,11 @@
 package br.com.guilherme.gastos.config;
 
 import br.com.guilherme.gastos.filters.JwtAuthorizationFilter;
+import br.com.guilherme.gastos.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,38 +21,31 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${aplicacao.usuario}")
-    private String usuario;
-
-    @Value("${aplicacao.senha}")
-    private String senha;
-
     @Value("${aplicacao.token.key}")
     private String jwtSecret;
+
+    private final UsuarioRepository usuarioRepository;
+
+    public WebSecurityConfig(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/sessao/login").permitAll()
+                .antMatchers("/sessao/**").permitAll()
+                .antMatchers("/usuario").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret, usuarioRepository))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser(usuario)
-                .password(passwordEncoder().encode(senha))
-                .authorities("ROLE_USER");
-    }
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

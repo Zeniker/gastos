@@ -1,11 +1,12 @@
 package br.com.guilherme.gastos.service.origem;
 
 import br.com.guilherme.gastos.domain.Origem;
+import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
-import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.repository.OrigemRepository;
+import br.com.guilherme.gastos.service.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class BuscarOrigemServiceTest {
+class BuscarOrigemServiceTest extends ServiceTest {
 
     @Mock
     private OrigemRepository repository;
@@ -33,7 +35,9 @@ class BuscarOrigemServiceTest {
     private Origem origem;
 
     @BeforeEach
-    void setUp() {
+    @Override
+    protected void setUp() {
+        super.setUp();
         origem = new Origem();
         origem.setId(1);
         origem.setNome("Teste");
@@ -45,15 +49,15 @@ class BuscarOrigemServiceTest {
     void buscar() throws Exception {
 
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(origem));
+        given(repository.findByIdAndUsuario(anyInt(), any(Usuario.class))).willReturn(Optional.of(origem));
 
         //when
         Origem origemEncontrada = service.buscar(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(repository).should().findByIdAndUsuario(anyInt(), any(Usuario.class));
         assertNotNull(origemEncontrada, "Objeto não deveria ser nulo");
-        assertEquals(new Integer(1), origemEncontrada.getId(), "Id diferente do esperado");
+        assertEquals(1, origemEncontrada.getId().intValue(), "Id diferente do esperado");
         assertEquals("Teste", origemEncontrada.getNome(), "Nome diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, origemEncontrada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");
@@ -65,13 +69,13 @@ class BuscarOrigemServiceTest {
     void buscar_excecaoOrigemNaoEncontrada() {
 
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.empty());
+        given(repository.findByIdAndUsuario(anyInt(), any(Usuario.class))).willReturn(Optional.empty());
 
         //when
         assertThrows(OrigemNaoEncontradaException.class, () -> service.buscar(1));
 
         //then
-        then(repository).should().findById(anyInt());
+        then(repository).should().findByIdAndUsuario(anyInt(), any(Usuario.class));
 
     }
 
@@ -80,15 +84,15 @@ class BuscarOrigemServiceTest {
     void buscarDTO() throws Exception {
 
         //given
-        given(repository.findById(anyInt())).willReturn(Optional.of(origem));
+        given(repository.findByIdAndUsuario(anyInt(), any(Usuario.class))).willReturn(Optional.of(origem));
 
         //when
         OrigemDTO origemEncontrada = service.buscarDTO(1);
 
         //then
-        then(repository).should().findById(anyInt());
+        then(repository).should().findByIdAndUsuario(anyInt(), any(Usuario.class));
         assertNotNull(origemEncontrada, "Objeto não deveria ser nulo");
-        assertEquals(new Integer(1), origemEncontrada.getId(), "Id diferente do esperado");
+        assertEquals(1, origemEncontrada.getId().intValue(), "Id diferente do esperado");
         assertEquals("Teste", origemEncontrada.getNome(), "Nome diferente do esperado");
         assertEquals(TipoMovimentacao.GASTO, origemEncontrada.getTipoMovimentacao(),
                 "Tipo de movimentação diferente do esperado");

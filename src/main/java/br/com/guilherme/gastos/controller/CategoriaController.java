@@ -30,7 +30,7 @@ public class CategoriaController {
 
     @PostMapping
     public ResponseEntity<ResponseInserirCategoriaDTO> inserirCategoria(
-                    @Valid @RequestBody RequestInserirCategoriaDTO request){
+            @Valid @RequestBody RequestInserirCategoriaDTO request) throws ServiceException {
 
         return ResponseEntity.ok(
                         new ResponseInserirCategoriaDTO(inserirCategoriaService.inserirDTO(request))

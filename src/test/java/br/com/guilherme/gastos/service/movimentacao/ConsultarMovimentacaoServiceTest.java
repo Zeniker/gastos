@@ -6,6 +6,7 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovime
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
+import br.com.guilherme.gastos.service.ServiceTest;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class ConsultarMovimentacaoServiceTest {
+class ConsultarMovimentacaoServiceTest extends ServiceTest {
 
     @Mock
     private MovimentacaoRepository repository;
@@ -44,7 +45,7 @@ class ConsultarMovimentacaoServiceTest {
     private Iterable movimentacoes;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         Movimentacao movimentacao = new Movimentacao();
         movimentacao.setCategoria(new Categoria());
         movimentacao.setValor(new BigDecimal("200"));
@@ -56,6 +57,7 @@ class ConsultarMovimentacaoServiceTest {
     @Test
     void consultarMovimentacaoAnoMesPorLocalDate() {
         //given
+        super.setUp();
         given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
 
         //when
@@ -72,6 +74,7 @@ class ConsultarMovimentacaoServiceTest {
     @Test
     void consultarMovimentacaoAnoMesPorValoresInteiros() {
         //given
+        super.setUp();
         given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
 
         //when
@@ -103,6 +106,7 @@ class ConsultarMovimentacaoServiceTest {
     @Test
     void consultarMovimentacaoCategoria() throws Exception {
         //given
+        super.setUp();
         given(buscarCategoriaService.buscar(anyInt())).willReturn(new Categoria());
         given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
 
@@ -124,8 +128,9 @@ class ConsultarMovimentacaoServiceTest {
     @Test
     void consultarMovimentacaoCategoria_movimentacaoVazia() throws Exception {
         //given
+        super.setUp();
         given(buscarCategoriaService.buscar(anyInt())).willReturn(new Categoria());
-        given(repository.findAll(any(Predicate.class))).willReturn(new ArrayList());
+        given(repository.findAll(any(Predicate.class))).willReturn(new ArrayList<>());
 
         //when
         ResponseConsultarMovimentacaoCategoriaDTO response = service.consultarMovimentacaoCategoria(1,

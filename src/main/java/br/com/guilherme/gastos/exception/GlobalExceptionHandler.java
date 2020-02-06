@@ -26,7 +26,12 @@ public class GlobalExceptionHandler  {
     }
 
     @ExceptionHandler(value = {ServiceException.class})
-    public ResponseEntity<ApiError> handleRequiredFieldsException(ServiceException exception, HttpServletRequest request) {
+    public ResponseEntity<ApiError> handleServiceException(ServiceException exception, HttpServletRequest request) {
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage(), getRequestUri(request)));
+    }
+
+    @ExceptionHandler(value = {ServiceRuntimeException.class})
+    public ResponseEntity<ApiError> handleServiceRuntimeException(ServiceRuntimeException exception, HttpServletRequest request) {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage(), getRequestUri(request)));
     }
 

@@ -7,6 +7,7 @@ import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
+import br.com.guilherme.gastos.service.sessao.SessaoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class InserirMovimentacaoService extends ManutencaoMovimentacao {
 
     private final MovimentacaoRepository movimentacaoRepository;
+    private final SessaoService sessaoService;
 
     public InserirMovimentacaoService(BuscarOrigemService buscarOrigemService,
                                       BuscarCategoriaService buscarCategoriaService,
-                                      MovimentacaoRepository movimentacaoRepository) {
+                                      MovimentacaoRepository movimentacaoRepository,
+                                      SessaoService sessaoService) {
 
         super(buscarOrigemService, buscarCategoriaService);
         this.movimentacaoRepository = movimentacaoRepository;
+        this.sessaoService = sessaoService;
     }
 
     private Movimentacao inserir(Movimentacao movimentacao){
@@ -34,6 +38,7 @@ public class InserirMovimentacaoService extends ManutencaoMovimentacao {
     public MovimentacaoDTO inserirDTO(RequestInserirMovimentacaoDTO request) throws ServiceException {
 
         Movimentacao movimentacao = new Movimentacao();
+        movimentacao.setUsuario(sessaoService.getUsuarioAtual());
         movimentacao.setDataEntrada(request.getDataEntrada());
         movimentacao.setValor(request.getValor());
         movimentacao.setDescricao(request.getDescricao());

@@ -1,4 +1,4 @@
-package br.com.guilherme.gastos.config;
+package br.com.guilherme.gastos.security;
 
 public abstract class SecurityConstants {
 

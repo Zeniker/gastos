@@ -1,4 +1,4 @@
-package br.com.guilherme.gastos.service;
+package br.com.guilherme.gastos.service.saldo;
 
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
