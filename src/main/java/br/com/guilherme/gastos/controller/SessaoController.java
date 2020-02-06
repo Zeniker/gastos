@@ -28,9 +28,9 @@ public class SessaoController {
     }
 
     @PostMapping("/autenticar")
-    public ResponseLoginDTO login(@RequestBody @Valid RequestLoginDTO requestDto){
+    public ResponseLoginDTO autenticar(@RequestBody @Valid RequestLoginDTO requestDto){
 
-        return sessaoService.login(requestDto);
+        return sessaoService.autenticar(requestDto);
 
     }
 

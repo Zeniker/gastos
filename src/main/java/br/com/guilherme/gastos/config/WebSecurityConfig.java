@@ -1,6 +1,7 @@
 package br.com.guilherme.gastos.config;
 
 import br.com.guilherme.gastos.filters.JwtAuthorizationFilter;
+import br.com.guilherme.gastos.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${aplicacao.token.key}")
     private String jwtSecret;
 
+    private final UsuarioRepository usuarioRepository;
+
+    public WebSecurityConfig(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -31,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sessao/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtSecret, usuarioRepository))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

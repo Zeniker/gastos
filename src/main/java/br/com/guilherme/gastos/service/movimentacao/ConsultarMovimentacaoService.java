@@ -7,6 +7,7 @@ import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovime
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
+import br.com.guilherme.gastos.exception.UsuarioNaoEncontradoException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
@@ -94,7 +95,7 @@ public class ConsultarMovimentacaoService {
      */
     public ResponseConsultarMovimentacaoCategoriaDTO consultarMovimentacaoCategoria(Integer idCategoria, Integer ano,
                                                                                     Integer mes)
-            throws CategoriaNaoEncontradaException {
+            throws CategoriaNaoEncontradaException, UsuarioNaoEncontradoException {
 
         LocalDate dataConsulta = LocalDate.of(ano, mes, 1);
 

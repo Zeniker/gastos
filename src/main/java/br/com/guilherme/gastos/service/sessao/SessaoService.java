@@ -1,7 +1,10 @@
 package br.com.guilherme.gastos.service.sessao;
 
+import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.dto.sessao.request.RequestLoginDTO;
 import br.com.guilherme.gastos.dto.sessao.response.ResponseLoginDTO;
+import br.com.guilherme.gastos.exception.UsuarioNaoEncontradoException;
+import br.com.guilherme.gastos.repository.UsuarioRepository;
 import br.com.guilherme.gastos.security.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +29,14 @@ public class SessaoService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final UsuarioRepository usuarioRepository;
+
     @Value("${aplicacao.token.key}")
     private String jwtSecret;
 
-    public SessaoService(AuthenticationManager authenticationManager) {
+    public SessaoService(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository) {
         this.authenticationManager = authenticationManager;
+        this.usuarioRepository = usuarioRepository;
     }
 
     private Authentication validaCredenciais(RequestLoginDTO requestDto) throws BadCredentialsException {
@@ -60,11 +67,27 @@ public class SessaoService {
                 .compact();
     }
 
-    public ResponseLoginDTO login(RequestLoginDTO requestDto){
+    /**
+     * Realiza autenticação a partir das credenciais enviadas
+     *
+     * @param requestDto Credenciais
+     * @return Objeto contendo o token de autenticação
+     */
+    public ResponseLoginDTO autenticar(RequestLoginDTO requestDto){
 
         var authentication = validaCredenciais(requestDto);
 
         return new ResponseLoginDTO(montaToken(authentication));
+    }
+
+    public Usuario getUsuarioAtual() throws UsuarioNaoEncontradoException {
+
+        String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        var optionalUsuario = usuarioRepository.findByEmail(email);
+
+        return optionalUsuario.orElseThrow(UsuarioNaoEncontradoException::new);
+
     }
 
 

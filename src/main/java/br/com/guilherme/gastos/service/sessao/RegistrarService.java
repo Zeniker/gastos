@@ -20,6 +20,12 @@ public class RegistrarService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Registra um novo usuário no sistema
+     *
+     * @param requestDTO Dados do novo usuário
+     * @throws EmailJaCadastradoException Exceção lançada quando o e-mail enviado já existir no sistema
+     */
     public void registrar(RequestRegistrarDTO requestDTO) throws EmailJaCadastradoException {
 
         var optionalUsuario = usuarioRepository.findByEmail(requestDTO.getEmail());
