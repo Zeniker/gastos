@@ -34,6 +34,9 @@ public class SessaoService {
     @Value("${aplicacao.token.key}")
     private String jwtSecret;
 
+    @Value("${aplicacao.token.expiration}")
+    private Integer jwtExpiration;
+
     public SessaoService(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository) {
         this.authenticationManager = authenticationManager;
         this.usuarioRepository = usuarioRepository;
@@ -62,7 +65,7 @@ public class SessaoService {
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject(user.getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + 864000000))
+                .setExpiration(new Date(System.currentTimeMillis() + (jwtExpiration * 1000)))
                 .claim("rol", roles)
                 .compact();
     }
