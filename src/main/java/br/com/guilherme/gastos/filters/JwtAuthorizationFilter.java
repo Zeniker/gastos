@@ -1,6 +1,6 @@
 package br.com.guilherme.gastos.filters;
 
-import br.com.guilherme.gastos.config.SecurityConstants;
+import br.com.guilherme.gastos.security.SecurityConstants;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

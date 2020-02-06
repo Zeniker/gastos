@@ -1,7 +1,8 @@
 package br.com.guilherme.gastos.service.sessao;
 
-import br.com.guilherme.gastos.config.SecurityConstants;
-import br.com.guilherme.gastos.dto.sessao.RequestLoginDto;
+import br.com.guilherme.gastos.dto.sessao.RequestLoginDTO;
+import br.com.guilherme.gastos.dto.sessao.ResponseLoginDTO;
+import br.com.guilherme.gastos.security.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -12,10 +13,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -32,24 +32,24 @@ public class SessaoService {
         this.authenticationManager = authenticationManager;
     }
 
-    private Authentication validaCredenciais(RequestLoginDto requestDto) throws BadCredentialsException {
+    private Authentication validaCredenciais(RequestLoginDTO requestDto) throws BadCredentialsException {
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(requestDto.getUsuario(),
                 requestDto.getSenha());
 
         return authenticationManager.authenticate(authenticationToken);
+
     }
 
-    private void injetaJwtNoResponse(HttpServletResponse httpServletResponse, Authentication authentication){
-
-        var user = ((User) authentication.getPrincipal());
+    private String montaToken(Authentication authentication){
+        var user = ((UserDetails) authentication.getPrincipal());
         var roles = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
         var signingKey = jwtSecret.getBytes();
 
-        var token = Jwts.builder()
+        return Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
                 .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
@@ -58,17 +58,13 @@ public class SessaoService {
                 .setExpiration(new Date(System.currentTimeMillis() + 864000000))
                 .claim("rol", roles)
                 .compact();
-
-        httpServletResponse.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + token);
-
     }
 
-    public void login(RequestLoginDto requestDto, HttpServletResponse httpServletResponse){
+    public ResponseLoginDTO login(RequestLoginDTO requestDto){
 
-        Authentication authentication = validaCredenciais(requestDto);
+        var authentication = validaCredenciais(requestDto);
 
-        injetaJwtNoResponse(httpServletResponse, authentication);
-
+        return new ResponseLoginDTO(montaToken(authentication));
     }
 
 
