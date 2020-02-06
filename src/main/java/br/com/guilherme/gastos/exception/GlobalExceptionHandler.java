@@ -31,7 +31,7 @@ public class GlobalExceptionHandler  {
     }
 
     @ExceptionHandler(value = {ServiceRuntimeException.class})
-    public ResponseEntity<ApiError> handleServiceRuntimeException(ServiceException exception, HttpServletRequest request) {
+    public ResponseEntity<ApiError> handleServiceRuntimeException(ServiceRuntimeException exception, HttpServletRequest request) {
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage(), getRequestUri(request)));
     }
 
