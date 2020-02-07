@@ -1,28 +1,21 @@
 package br.com.guilherme.gastos.service.categoria;
 
-import br.com.guilherme.gastos.GastosApplicationTest;
 import br.com.guilherme.gastos.TesteIntegracaoService;
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { GastosApplicationTest.class })
-@ActiveProfiles("test")
-class InserirCategoriaServiceIT implements TesteIntegracaoService {
+class InserirCategoriaServiceIT extends TesteIntegracaoService {
 
     @Autowired
     private InserirCategoriaService inserirCategoriaService;
@@ -30,9 +23,15 @@ class InserirCategoriaServiceIT implements TesteIntegracaoService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @BeforeEach
+    void setUp() {
+        super.realizarAutenticacao();
+    }
+
     @DisplayName("IT Inserir Categoria")
     @Test
     void inserirCategoriaDTO() {
+
         RequestInserirCategoriaDTO request = new RequestInserirCategoriaDTO();
         request.setDescricao("Teste");
         request.setTipoMovimentacao(TipoMovimentacao.GANHO);

@@ -2,40 +2,41 @@ package br.com.guilherme.gastos.service.categoria;
 
 import br.com.guilherme.gastos.TesteIntegracaoService;
 import br.com.guilherme.gastos.domain.Categoria;
-import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
-import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class BuscarCategoriaServiceIT implements TesteIntegracaoService {
+class BuscarCategoriaServiceIT extends TesteIntegracaoService {
 
     @Autowired
     private BuscarCategoriaService buscarCategoriaService;
 
+    @BeforeEach
+    void setUp() {
+        super.realizarAutenticacao();
+    }
+
     @DisplayName("IT Buscar Categoria")
     @Test
-    void buscar() {
+    void buscar() throws Exception {
 
         Categoria categoria = buscarCategoriaService.buscar(1);
 
-        assertEquals(new Integer(1), categoria.getId(), "Id diferente do esperado");
-        assertEquals("Comida", categoria.getDescricao(), "Descrição diferente do esperado");
-        assertEquals(TipoMovimentacao.GASTO, categoria.getTipoMovimentacao(),
-                "Tipo de movimentação diferente do esperado");
+        assertEquals(1, categoria.getId().intValue(), "Id diferente do esperado");
+
     }
 
-    @DisplayName("IT Buscar Categoria DTO")
+    @DisplayName("IT Buscar Categoria - Usuario diferente")
     @Test
-    void buscarDTO() {
+    void buscar_usuarioDiferente() {
 
-        CategoriaDTO categoria = buscarCategoriaService.buscarDTO(1);
+        super.realizarAutenticacao("usuario_2");
+        assertThrows(CategoriaNaoEncontradaException.class, () -> buscarCategoriaService.buscar(1));
 
-        assertEquals(new Integer(1), categoria.getId(), "Id diferente do esperado");
-        assertEquals("Comida", categoria.getDescricao(), "Descrição diferente do esperado");
-        assertEquals(TipoMovimentacao.GASTO, categoria.getTipoMovimentacao(),
-                "Tipo de movimentação diferente do esperado");
     }
 }
