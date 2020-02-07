@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<Usuario> optionalUsuario = this.usuarioRepository.findByEmail(email);
 
         if(optionalUsuario.isEmpty()){
-            throw new UsernameNotFoundException("AAA");
+            throw new UsernameNotFoundException(email);
         }
 
         return new UserDetailsImpl(optionalUsuario.get());
