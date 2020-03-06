@@ -98,8 +98,8 @@ class AlterarMovimentacaoServiceTest {
         assertEquals("Alterada", movimentacaoAlterada.getDescricao(), "Descrição diferente do esperado");
         assertEquals(new BigDecimal("200"), movimentacaoAlterada.getValor(), "Valor diferente do esperado");
         assertEquals(data, movimentacaoAlterada.getDataEntrada(), "Data diferente do esperado");
-        assertEquals(1, movimentacaoAlterada.getCategoria().intValue(), "Categoria diferente do esperado");
-        assertEquals(2, movimentacaoAlterada.getOrigem().intValue(), "Origem diferente do esperado");
+        assertEquals(1, movimentacaoAlterada.getCategoria().getId().intValue(), "Categoria diferente do esperado");
+        assertEquals(2, movimentacaoAlterada.getOrigem().getId().intValue(), "Origem diferente do esperado");
     }
 
     @DisplayName("Alterar movimentação - Categoria Não Compatível")
