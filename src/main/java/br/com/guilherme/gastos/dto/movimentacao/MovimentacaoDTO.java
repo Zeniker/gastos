@@ -1,6 +1,9 @@
 package br.com.guilherme.gastos.dto.movimentacao;
 
 import br.com.guilherme.gastos.domain.Movimentacao;
+import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
+import br.com.guilherme.gastos.dto.origem.OrigemDTO;
+import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,15 +18,17 @@ public class MovimentacaoDTO {
     private BigDecimal valor;
     private LocalDate dataEntrada;
     private String descricao;
-    private Integer categoria;
-    private Integer origem;
+    private CategoriaDTO categoria;
+    private OrigemDTO origem;
+    private TipoMovimentacao tipoMovimentacao;
 
     public MovimentacaoDTO(Movimentacao movimentacao) {
         this(movimentacao.getId(),
                 movimentacao.getValor(),
                 movimentacao.getDataEntrada(),
                 movimentacao.getDescricao(),
-                movimentacao.getCategoria().getId(),
-                movimentacao.getOrigem() != null ? movimentacao.getOrigem().getId() : null);
+                new CategoriaDTO(movimentacao.getCategoria()),
+                new OrigemDTO(movimentacao.getOrigem()),
+                movimentacao.getTipoMovimentacao());
     }
 }
