@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.service.origem;
 
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.dto.origem.request.RequestAlterarOrigemDTO;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class AlterarOrigemServiceTest {
+class AlterarOrigemServiceTest implements TesteUnitario {
 
     @Mock
     private OrigemRepository repository;

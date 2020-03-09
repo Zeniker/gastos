@@ -1,14 +1,14 @@
 package br.com.guilherme.gastos.specification;
 
+import java.time.LocalDate;
+
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class MovimentacaoSpecificationTest {
+class MovimentacaoSpecificationTest implements TesteUnitario {
 
     @Test
     void byDataEntradaMes() {

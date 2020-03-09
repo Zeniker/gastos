@@ -1,5 +1,8 @@
 package br.com.guilherme.gastos.service.sessao;
 
+import java.util.Optional;
+
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.dto.sessao.request.RequestRegistrarDTO;
 import br.com.guilherme.gastos.exception.EmailJaCadastradoException;
@@ -15,17 +18,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class InserirUsuarioServiceTest {
+class InserirUsuarioServiceTest implements TesteUnitario {
 
     @Mock
     private UsuarioRepository repository;
@@ -73,7 +75,7 @@ class InserirUsuarioServiceTest {
 
     @DisplayName("Registrar novo usuário - email já existente")
     @Test
-    void registrar_emailJaExistente() throws Exception {
+    void registrar_emailJaExistente() {
 
         //given
         given(repository.findByEmail(anyString())).willReturn(Optional.of(new Usuario()));

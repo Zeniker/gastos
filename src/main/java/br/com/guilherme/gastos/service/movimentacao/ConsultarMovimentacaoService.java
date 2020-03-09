@@ -1,5 +1,10 @@
 package br.com.guilherme.gastos.service.movimentacao;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
@@ -14,13 +19,12 @@ import br.com.guilherme.gastos.service.sessao.SessaoService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.*;
+import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.byCategoria;
+import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.byDataEntradaAno;
+import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.byDataEntradaMes;
+import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.byTipoMovimentacao;
+import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.byUsuario;
+import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.orderByDataEntrada;
 
 @Service
 public class ConsultarMovimentacaoService {
@@ -48,7 +52,6 @@ public class ConsultarMovimentacaoService {
                 .collect(Collectors.toList());
     }
 
-    @SuppressWarnings("unchecked")
     List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate, TipoMovimentacao tipoMovimentacao){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)
@@ -56,7 +59,7 @@ public class ConsultarMovimentacaoService {
                 .and(byTipoMovimentacao(tipoMovimentacao))
                 .and(byUsuario(sessaoService.getUsuarioAtual()));
 
-        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
+        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression, orderByDataEntrada()));
     }
 
     public List<Movimentacao> consultarMovimentacaoAnoMes(LocalDate localDate){
@@ -80,7 +83,6 @@ public class ConsultarMovimentacaoService {
         return this.consultarMovimentacaoAnoMes(ano, mes, null);
     }
 
-    @SuppressWarnings("unchecked")
     List<Movimentacao> consultarMovimentacaoCategoria(Categoria categoria, LocalDate localDate){
 
         BooleanExpression booleanExpression = byDataEntradaMes(localDate)
@@ -88,7 +90,7 @@ public class ConsultarMovimentacaoService {
                 .and(byCategoria(categoria))
                 .and(byUsuario(sessaoService.getUsuarioAtual()));
 
-        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression));
+        return iterableToCollection.toList(movimentacaoRepository.findAll(booleanExpression, orderByDataEntrada()));
     }
 
     /**

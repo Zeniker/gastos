@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.service.origem;
 
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -8,14 +9,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class DeletarOrigemServiceTest {
+class DeletarOrigemServiceTest implements TesteUnitario {
 
     @Mock
     private BuscarOrigemService buscarOrigemService;

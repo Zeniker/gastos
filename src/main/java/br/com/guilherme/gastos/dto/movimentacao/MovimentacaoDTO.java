@@ -1,14 +1,14 @@
 package br.com.guilherme.gastos.dto.movimentacao;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -27,8 +27,8 @@ public class MovimentacaoDTO {
                 movimentacao.getValor(),
                 movimentacao.getDataEntrada(),
                 movimentacao.getDescricao(),
-                new CategoriaDTO(movimentacao.getCategoria()),
-                new OrigemDTO(movimentacao.getOrigem()),
+                movimentacao.getCategoria() != null ? new CategoriaDTO(movimentacao.getCategoria()) : null,
+                movimentacao.getOrigem() != null ? new OrigemDTO(movimentacao.getOrigem()) : null,
                 movimentacao.getTipoMovimentacao());
     }
 }

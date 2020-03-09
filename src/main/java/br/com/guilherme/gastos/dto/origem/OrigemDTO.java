@@ -14,7 +14,6 @@ public class OrigemDTO {
     private TipoMovimentacao tipoMovimentacao;
 
     public OrigemDTO(Origem origem) {
-
         this(origem.getId(), origem.getNome(), origem.getTipoMovimentacao());
     }
 }

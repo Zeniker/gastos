@@ -1,12 +1,13 @@
 package br.com.guilherme.gastos.specification;
 
+import java.time.LocalDate;
+
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.QMovimentacao;
 import br.com.guilherme.gastos.domain.Usuario;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
-import java.time.LocalDate;
 
 public class MovimentacaoSpecification {
 
@@ -36,6 +37,10 @@ public class MovimentacaoSpecification {
     public static BooleanExpression byUsuario(Usuario usuario){
 
         return QMovimentacao.movimentacao.usuario.eq(usuario);
+    }
+
+    public static OrderSpecifier<LocalDate> orderByDataEntrada(){
+        return QMovimentacao.movimentacao.dataEntrada.asc();
     }
 
 }
