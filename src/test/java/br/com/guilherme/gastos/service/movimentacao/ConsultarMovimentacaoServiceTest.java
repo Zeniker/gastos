@@ -1,5 +1,12 @@
 package br.com.guilherme.gastos.service.movimentacao;
 
+import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.movimentacao.response.ResponseConsultarMovimentacaoAnoMesDTO;
@@ -8,6 +15,7 @@ import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.ServiceTest;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,15 +24,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
@@ -42,7 +44,7 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
     @InjectMocks
     private ConsultarMovimentacaoService service;
 
-    private Iterable movimentacoes;
+    private Iterable<Movimentacao> movimentacoes;
 
     @BeforeEach
     protected void setUp() {
@@ -58,14 +60,14 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
     void consultarMovimentacaoAnoMesPorLocalDate() {
         //given
         super.setUp();
-        given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
+        given(repository.findAll(any(Predicate.class), any(OrderSpecifier.class))).willReturn(movimentacoes);
 
         //when
         List<Movimentacao> movimentacoesEncontradas = service.consultarMovimentacaoAnoMes(LocalDate.now(),
                 TipoMovimentacao.GASTO);
 
         //then
-        then(repository).should().findAll(any(Predicate.class));
+        then(repository).should().findAll(any(Predicate.class), any(OrderSpecifier.class));
         assertNotNull(movimentacoesEncontradas, "Lista não deveria ser nula");
         assertEquals(2, movimentacoesEncontradas.size(), "Tamanho da lista diferente do esperado");
     }
@@ -75,14 +77,14 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
     void consultarMovimentacaoAnoMesPorValoresInteiros() {
         //given
         super.setUp();
-        given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
+        given(repository.findAll(any(Predicate.class), any(OrderSpecifier.class))).willReturn(movimentacoes);
 
         //when
         ResponseConsultarMovimentacaoAnoMesDTO response = service.consultarMovimentacaoAnoMes(2019, 11,
                 TipoMovimentacao.GASTO);
 
         //then
-        then(repository).should().findAll(any(Predicate.class));
+        then(repository).should().findAll(any(Predicate.class), any(OrderSpecifier.class));
         assertNotNull(response, "Response não deveria ser nulo");
         assertNotNull(response.getMovimentacoes(), "Lista não deveria ser nula");
         assertEquals(2, response.getMovimentacoes().size(), "Tamanho da lista diferente do esperado");
@@ -108,7 +110,7 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
         //given
         super.setUp();
         given(buscarCategoriaService.buscar(anyInt())).willReturn(new Categoria());
-        given(repository.findAll(any(Predicate.class))).willReturn(movimentacoes);
+        given(repository.findAll(any(Predicate.class), any(OrderSpecifier.class))).willReturn(movimentacoes);
 
         //when
         ResponseConsultarMovimentacaoCategoriaDTO response = service.consultarMovimentacaoCategoria(1,
@@ -117,7 +119,7 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
 
         //then
         then(buscarCategoriaService).should().buscar(anyInt());
-        then(repository).should().findAll(any(Predicate.class));
+        then(repository).should().findAll(any(Predicate.class), any(OrderSpecifier.class));
         assertNotNull(response, "Response não deveria ser nulo");
         assertNotNull(response.getMovimentacoes(), "Lista não deveria ser nula");
         assertEquals(2, response.getMovimentacoes().size(), "Tamanho da lista diferente do esperado");
@@ -130,7 +132,7 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
         //given
         super.setUp();
         given(buscarCategoriaService.buscar(anyInt())).willReturn(new Categoria());
-        given(repository.findAll(any(Predicate.class))).willReturn(new ArrayList<>());
+        given(repository.findAll(any(Predicate.class), any(OrderSpecifier.class))).willReturn(new ArrayList<>());
 
         //when
         ResponseConsultarMovimentacaoCategoriaDTO response = service.consultarMovimentacaoCategoria(1,
@@ -139,7 +141,7 @@ class ConsultarMovimentacaoServiceTest extends ServiceTest {
 
         //then
         then(buscarCategoriaService).should().buscar(anyInt());
-        then(repository).should().findAll(any(Predicate.class));
+        then(repository).should().findAll(any(Predicate.class), any(OrderSpecifier.class));
         assertNotNull(response, "Response não deveria ser nulo");
         assertNotNull(response.getMovimentacoes(), "Lista não deveria ser nula");
         assertEquals(0, response.getMovimentacoes().size(), "Tamanho da lista diferente do esperado");

@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.service.movimentacao;
 
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.ResponseDTO;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
@@ -9,14 +10,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class DeletarMovimentacaoServiceTest {
+class DeletarMovimentacaoServiceTest implements TesteUnitario {
 
     @Mock
     private BuscarMovimentacaoService buscarMovimentacaoService;

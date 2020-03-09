@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.service.categoria;
 
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.request.RequestAlterarCategoriaDTO;
@@ -11,15 +12,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class AlterarCategoriaServiceTest {
+class AlterarCategoriaServiceTest implements TesteUnitario {
 
     @Mock
     private BuscarCategoriaService buscarCategoriaService;

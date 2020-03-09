@@ -1,5 +1,12 @@
 package br.com.guilherme.gastos.service;
 
+import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+import br.com.guilherme.gastos.TesteUnitario;
 import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.saldo.ResponseConsultarSaldoAnoMes;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
@@ -11,20 +18,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class SaldoServiceTest {
+class SaldoServiceTest implements TesteUnitario {
 
     @Mock
     private ConsultarMovimentacaoService consultarMovimentacaoService;
