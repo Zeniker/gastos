@@ -30,7 +30,7 @@ public class OrigemController {
     private final DeletarOrigemService deletarOrigemService;
 
     @PostMapping
-    public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem(
+    public ResponseEntity<ResponseInserirOrigemDTO> inserirOrigem
                     @Valid @RequestBody RequestInserirOrigemDTO request) {
 
         return ResponseEntity.ok(
