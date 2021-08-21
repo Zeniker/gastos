@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.dto.origem.request;
 
+import com.github.dozermapper.core.Mapping;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 public class RequestAlterarOrigemDTO {
 
     @NotNull
+    @Mapping("nome")
     private String nome;
 
 }

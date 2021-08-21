@@ -2,6 +2,7 @@ package br.com.guilherme.gastos.dto.origem;
 
 import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import com.github.dozermapper.core.Mapping;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrigemDTO {
 
+    @Mapping("id")
     private Integer id;
-    private String nome;
-    private TipoMovimentacao tipoMovimentacao;
 
-    public OrigemDTO(Origem origem) {
-        this(origem.getId(), origem.getNome(), origem.getTipoMovimentacao());
-    }
+    @Mapping("nome")
+    private String nome;
+
+    @Mapping("tipoMovimentacao")
+    private TipoMovimentacao tipoMovimentacao;
 }

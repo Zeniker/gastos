@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class ListarOrigemService {
 
     public List<OrigemDTO> listarDTO(){
 
-        return listar().stream().map(OrigemDTO::new).collect(Collectors.toList());
+        return listar().stream()
+                .map(origem -> ModelMapper.getMapper().map(origem, OrigemDTO.class))
+                .collect(Collectors.toList());
     }
 }

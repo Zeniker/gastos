@@ -5,6 +5,7 @@ import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.dto.origem.request.RequestInserirOrigemDTO;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +26,11 @@ public class InserirOrigemService {
 
     public OrigemDTO inserirDTO(RequestInserirOrigemDTO request) {
 
-        Origem origem = new Origem();
+        Origem origem = ModelMapper.getMapper().map(request, Origem.class);
         origem.setNome(request.getNome());
         origem.setTipoMovimentacao(request.getTipoMovimentacao());
         origem.setUsuario(sessaoService.getUsuarioAtual());
 
-        return new OrigemDTO(this.inserir(origem));
+        return ModelMapper.getMapper().map(this.inserir(origem), OrigemDTO.class);
     }
 }
