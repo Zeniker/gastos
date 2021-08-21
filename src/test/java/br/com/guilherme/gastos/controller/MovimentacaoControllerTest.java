@@ -11,6 +11,7 @@ import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.service.movimentacao.*;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,7 @@ class MovimentacaoControllerTest {
     void setUp() {
         Movimentacao movimentacao = new Movimentacao();
         movimentacao.setCategoria(new Categoria());
-        movimentacaoDTO = new MovimentacaoDTO(movimentacao);
+        movimentacaoDTO = ModelMapper.getMapper().map(movimentacao, MovimentacaoDTO.class);
     }
 
     @DisplayName("Inserir Movimentacao")

@@ -4,9 +4,11 @@ import br.com.guilherme.gastos.domain.Origem;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class OrigemDTO {
 
     private Integer id;

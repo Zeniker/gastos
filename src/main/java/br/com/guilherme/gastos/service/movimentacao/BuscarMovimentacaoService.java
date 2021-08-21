@@ -5,6 +5,7 @@ import br.com.guilherme.gastos.dto.movimentacao.MovimentacaoDTO;
 import br.com.guilherme.gastos.exception.MovimentacaoNaoEncontradaException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,6 @@ public class BuscarMovimentacaoService {
 
     public MovimentacaoDTO buscarMovimentacaoDTO(Integer id) throws MovimentacaoNaoEncontradaException {
 
-        return new MovimentacaoDTO(buscarMovimentacao(id));
+        return ModelMapper.getMapper().map(this.buscarMovimentacao(id), MovimentacaoDTO.class);
     }
 }

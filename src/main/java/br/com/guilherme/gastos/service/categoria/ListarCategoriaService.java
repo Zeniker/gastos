@@ -4,6 +4,7 @@ import br.com.guilherme.gastos.domain.Categoria;
 import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class ListarCategoriaService {
 
     public List<CategoriaDTO> listarDTO() {
 
-        return listar().stream().map(CategoriaDTO::new).collect(Collectors.toList());
+        return listar().stream()
+                .map(categoria -> ModelMapper.getMapper().map(categoria, CategoriaDTO.class))
+                .collect(Collectors.toList());
     }
 }
