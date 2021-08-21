@@ -54,7 +54,7 @@ class OrigemControllerTest {
 
     @BeforeEach
     void setUp() {
-        origemDTO = new OrigemDTO(new Origem());
+        origemDTO = new OrigemDTO();
     }
 
     @DisplayName("Inserir Origem")

@@ -1,5 +1,6 @@
 package br.com.guilherme.gastos.dto.sessao.request;
 
+import com.github.dozermapper.core.Mapping;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -8,11 +9,14 @@ import javax.validation.constraints.NotNull;
 public class RequestRegistrarDTO {
 
     @NotNull
+    @Mapping("nome")
     private String nome;
 
     @NotNull
+    @Mapping("email")
     private String email;
 
     @NotNull
+    @Mapping("senha")
     private String senha;
 }

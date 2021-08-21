@@ -15,12 +15,11 @@ public class DeletarOrigemService {
 
     private final BuscarOrigemService buscarOrigemService;
 
-    private OrigemRepository origemRepository;
+    private final OrigemRepository origemRepository;
 
     private void deletar(Integer id) throws OrigemNaoEncontradaException {
 
         Origem origem = buscarOrigemService.buscar(id);
-
         origemRepository.delete(origem);
 
     }

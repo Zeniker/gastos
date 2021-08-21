@@ -5,6 +5,7 @@ import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.exception.OrigemNaoEncontradaException;
 import br.com.guilherme.gastos.repository.OrigemRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,6 @@ public class BuscarOrigemService {
 
     public OrigemDTO buscarDTO(Integer id) throws OrigemNaoEncontradaException {
 
-        return new OrigemDTO(this.buscar(id));
+        return ModelMapper.getMapper().map(this.buscar(id), OrigemDTO.class);
     }
 }
