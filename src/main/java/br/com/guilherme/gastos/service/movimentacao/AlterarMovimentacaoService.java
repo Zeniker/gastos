@@ -10,6 +10,7 @@ import br.com.guilherme.gastos.exception.ServiceException;
 import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,13 +45,11 @@ public class AlterarMovimentacaoService extends ManutencaoMovimentacao {
 
         Movimentacao movimentacao = buscarMovimentacaoService.buscarMovimentacao(id);
 
-        movimentacao.setValor(request.getValor());
-        movimentacao.setDataEntrada(request.getDataEntrada());
-        movimentacao.setDescricao(request.getDescricao());
+        ModelMapper.getMapper().map(request, movimentacao);
+
         movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), movimentacao.getTipoMovimentacao()));
         movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), movimentacao.getTipoMovimentacao()));
 
-
-        return new MovimentacaoDTO(alterarMovimentacao(movimentacao));
+        return ModelMapper.getMapper().map(alterarMovimentacao(movimentacao), MovimentacaoDTO.class);
     }
 }

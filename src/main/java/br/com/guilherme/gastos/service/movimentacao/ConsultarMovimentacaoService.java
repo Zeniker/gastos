@@ -17,6 +17,7 @@ import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
 import br.com.guilherme.gastos.utils.IterableToCollection;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.stereotype.Service;
 import static br.com.guilherme.gastos.specification.MovimentacaoSpecification.byCategoria;
@@ -48,7 +49,8 @@ public class ConsultarMovimentacaoService {
     }
 
     private List<MovimentacaoDTO> converteMovimentacaoParaDto(List<Movimentacao> movimentacoes){
-        return movimentacoes.stream().map(MovimentacaoDTO::new)
+        return movimentacoes.stream()
+                .map(movimentacao -> ModelMapper.getMapper().map(movimentacao, MovimentacaoDTO.class))
                 .collect(Collectors.toList());
     }
 

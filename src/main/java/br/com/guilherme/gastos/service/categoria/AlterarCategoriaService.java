@@ -5,6 +5,7 @@ import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.request.RequestAlterarCategoriaDTO;
 import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +29,8 @@ public class AlterarCategoriaService {
     public CategoriaDTO alterarDTO(Integer id, RequestAlterarCategoriaDTO request) throws CategoriaNaoEncontradaException {
 
         Categoria categoria = buscarCategoriaService.buscar(id);
-        categoria.setDescricao(request.getDescricao());
+        ModelMapper.getMapper().map(request, categoria);
 
-        return new CategoriaDTO(this.alterar(categoria));
+        return ModelMapper.getMapper().map(this.alterar(categoria), CategoriaDTO.class);
     }
 }

@@ -5,6 +5,7 @@ import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.exception.CategoriaNaoEncontradaException;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,8 @@ public class BuscarCategoriaService {
         return optionalCategoria.orElseThrow(CategoriaNaoEncontradaException::new);
     }
 
-    public CategoriaDTO buscarDTO(Integer id)
-            throws CategoriaNaoEncontradaException {
+    public CategoriaDTO buscarDTO(Integer id) throws CategoriaNaoEncontradaException {
 
-        return new CategoriaDTO(this.buscar(id));
+        return ModelMapper.getMapper().map(this.buscar(id), CategoriaDTO.class);
     }
 }

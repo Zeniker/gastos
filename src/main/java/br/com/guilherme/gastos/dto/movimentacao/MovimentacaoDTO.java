@@ -7,28 +7,34 @@ import br.com.guilherme.gastos.domain.Movimentacao;
 import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.origem.OrigemDTO;
 import br.com.guilherme.gastos.enums.TipoMovimentacao;
+import com.github.dozermapper.core.Mapping;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MovimentacaoDTO {
 
+    @Mapping("id")
     private Integer id;
-    private BigDecimal valor;
-    private LocalDate dataEntrada;
-    private String descricao;
-    private CategoriaDTO categoria;
-    private OrigemDTO origem;
-    private TipoMovimentacao tipoMovimentacao;
 
-    public MovimentacaoDTO(Movimentacao movimentacao) {
-        this(movimentacao.getId(),
-                movimentacao.getValor(),
-                movimentacao.getDataEntrada(),
-                movimentacao.getDescricao(),
-                movimentacao.getCategoria() != null ? new CategoriaDTO(movimentacao.getCategoria()) : null,
-                movimentacao.getOrigem() != null ? new OrigemDTO(movimentacao.getOrigem()) : null,
-                movimentacao.getTipoMovimentacao());
-    }
+    @Mapping("valor")
+    private BigDecimal valor;
+
+    @Mapping("dataEntrada")
+    private LocalDate dataEntrada;
+
+    @Mapping("descricao")
+    private String descricao;
+
+    @Mapping("categoria")
+    private CategoriaDTO categoria;
+
+    @Mapping("origem")
+    private OrigemDTO origem;
+
+    @Mapping("tipoMovimentacao")
+    private TipoMovimentacao tipoMovimentacao;
 }

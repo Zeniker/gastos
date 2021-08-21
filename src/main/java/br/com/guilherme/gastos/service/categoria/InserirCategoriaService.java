@@ -5,6 +5,7 @@ import br.com.guilherme.gastos.dto.categoria.CategoriaDTO;
 import br.com.guilherme.gastos.dto.categoria.request.RequestInserirCategoriaDTO;
 import br.com.guilherme.gastos.repository.CategoriaRepository;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +26,10 @@ public class InserirCategoriaService {
 
     public CategoriaDTO inserirDTO(RequestInserirCategoriaDTO request) {
 
-        Categoria categoria = new Categoria();
-        categoria.setDescricao(request.getDescricao());
-        categoria.setTipoMovimentacao(request.getTipoMovimentacao());
+        Categoria categoria = ModelMapper.getMapper().map(request, Categoria.class);
         categoria.setUsuario(sessaoService.getUsuarioAtual());
 
-        return new CategoriaDTO(this.inserir(categoria));
+        return ModelMapper.getMapper().map(this.inserir(categoria), CategoriaDTO.class);
     }
 
 

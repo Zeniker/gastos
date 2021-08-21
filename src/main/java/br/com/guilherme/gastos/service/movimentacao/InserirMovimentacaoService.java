@@ -8,6 +8,7 @@ import br.com.guilherme.gastos.repository.MovimentacaoRepository;
 import br.com.guilherme.gastos.service.categoria.BuscarCategoriaService;
 import br.com.guilherme.gastos.service.origem.BuscarOrigemService;
 import br.com.guilherme.gastos.service.sessao.SessaoService;
+import br.com.guilherme.gastos.utils.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,15 +38,11 @@ public class InserirMovimentacaoService extends ManutencaoMovimentacao {
 
     public MovimentacaoDTO inserirDTO(RequestInserirMovimentacaoDTO request) throws ServiceException {
 
-        Movimentacao movimentacao = new Movimentacao();
+        Movimentacao movimentacao = ModelMapper.getMapper().map(request, Movimentacao.class);
         movimentacao.setUsuario(sessaoService.getUsuarioAtual());
-        movimentacao.setDataEntrada(request.getDataEntrada());
-        movimentacao.setValor(request.getValor());
-        movimentacao.setDescricao(request.getDescricao());
-        movimentacao.setTipoMovimentacao(request.getTipoMovimentacao());
         movimentacao.setCategoria(getCategoriaMovimentacao(request.getCategoria(), request.getTipoMovimentacao()));
         movimentacao.setOrigem(getOrigemMovimentacao(request.getOrigem(), request.getTipoMovimentacao()));
 
-        return new MovimentacaoDTO(this.inserir(movimentacao));
+        return ModelMapper.getMapper().map(this.inserir(movimentacao), MovimentacaoDTO.class);
     }
 }
